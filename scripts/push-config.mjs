@@ -87,6 +87,14 @@ const newConfig = {
           title: "Visibility that converts",
           description: "The content is designed to be useful across reports, web, and outreach.",
         },
+        {
+          title: "Partner-ready messaging",
+          description: "We shape communication so institutions, donors, and investors can read the value quickly.",
+        },
+        {
+          title: "Cross-border perspective",
+          description: "The team brings regional context to stories that need credibility beyond one market.",
+        },
       ],
     },
     heritage: {

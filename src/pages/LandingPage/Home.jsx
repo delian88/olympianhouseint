@@ -456,16 +456,6 @@ function Home() {
         </div>
       </section>
 
-      <section id="africa-story-banner" className="overflow-hidden p-0 mt-16 sm:mt-24">
-        <div className="container px-0">
-          <img
-            src="/section2.png"
-            alt="Telling Africa's Development Story"
-            className="w-full block object-cover"
-          />
-        </div>
-      </section>
-
       <section id="leadership-storytellers" className="py-14 sm:py-16 bg-white">
         <div className="container">
           <div className="grid items-center gap-8 lg:grid-cols-[0.95fr_1.05fr]">
@@ -495,6 +485,16 @@ function Home() {
               </Link>
             </Reveal>
           </div>
+        </div>
+      </section>
+
+      <section id="africa-story-banner" className="overflow-hidden p-0 mt-16 sm:mt-24">
+        <div className="container px-0">
+          <img
+            src="/section2.png"
+            alt="Telling Africa's Development Story"
+            className="w-full block object-cover"
+          />
         </div>
       </section>
 

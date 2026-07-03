@@ -948,6 +948,8 @@ export default function LandingPageManager() {
           <div className="space-y-4">
             <Field label="Title"><TextInput value={draftConfig.homePage?.about?.title || ""} onChange={(e) => updateHomePage("about", "title", e.target.value)} /></Field>
             <Field label="Description"><TextArea rows={4} value={draftConfig.homePage?.about?.description || ""} onChange={(e) => updateHomePage("about", "description", e.target.value)} /></Field>
+            <Field label="Founder quote"><TextArea rows={3} value={draftConfig.homePage?.about?.founderQuote || ""} onChange={(e) => updateHomePage("about", "founderQuote", e.target.value)} /></Field>
+            <Field label="Founder byline"><TextInput value={draftConfig.homePage?.about?.founderByline || ""} onChange={(e) => updateHomePage("about", "founderByline", e.target.value)} /></Field>
             <Field label="Button label"><TextInput value={draftConfig.homePage?.about?.ctaLabel || ""} onChange={(e) => updateHomePage("about", "ctaLabel", e.target.value)} /></Field>
             <Field label="Button link"><TextInput value={draftConfig.homePage?.about?.ctaHref || ""} onChange={(e) => updateHomePage("about", "ctaHref", e.target.value)} /></Field>
             <ImageField
