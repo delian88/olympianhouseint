@@ -653,22 +653,6 @@ export default function LandingPageManager() {
     });
   };
 
-  const updateHomePageNewsCard = (index, key, value) => {
-    setDraftConfig((current) => {
-      const cards = [...(current.homePage?.news?.cards ?? [])];
-      cards[index] = { ...cards[index], [key]: value };
-      return {
-        ...current,
-        homePage: {
-          ...current.homePage,
-          news: {
-            ...current.homePage?.news,
-            cards,
-          },
-        },
-      };
-    });
-  };
 
   const updateProfileValue = (index, key, value) => {
     setDraftConfig((current) => {
@@ -1080,41 +1064,6 @@ export default function LandingPageManager() {
           </div>
         </SectionCard>
 
-        <SectionCard id="home-news" title="News & Blog" description="Edit the homepage news block text and article cards." onSave={() => requestSave(async () => { setConfig((current) => ({ ...current, homePage: draftConfig.homePage })); toast.success("News section saved!"); }, "News & Blog")} saveLabel="Update Section">
-          <div className="space-y-4">
-            <Field label="Eyebrow"><TextInput value={draftConfig.homePage?.news?.eyebrow || ""} onChange={(e) => updateHomePage("news", "eyebrow", e.target.value)} /></Field>
-            <Field label="Title"><TextInput value={draftConfig.homePage?.news?.title || ""} onChange={(e) => updateHomePage("news", "title", e.target.value)} /></Field>
-            <Field label="Description"><TextArea rows={4} value={draftConfig.homePage?.news?.description || ""} onChange={(e) => updateHomePage("news", "description", e.target.value)} /></Field>
-            <div className="rounded-2xl border border-dashed border-border bg-background p-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">News card images</p>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                Card images come from the shared Gallery items (items 1–3). Edit the Gallery section below to replace them.
-              </p>
-            </div>
-            <div className="space-y-3">
-              <p className="text-sm font-semibold text-foreground">Article cards</p>
-              <div className="grid gap-4 lg:grid-cols-3">
-                {(draftConfig.homePage?.news?.cards ?? []).map((card, index) => (
-                  <div key={index} className="space-y-3 rounded-2xl border border-border bg-muted/40 p-4">
-                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Card {index + 1}</p>
-                    <Field label="Title">
-                      <TextArea rows={3} value={card.title || ""} onChange={(e) => updateHomePageNewsCard(index, "title", e.target.value)} />
-                    </Field>
-                    <Field label="Date">
-                      <TextInput value={card.date || ""} onChange={(e) => updateHomePageNewsCard(index, "date", e.target.value)} />
-                    </Field>
-                    <Field label="Description">
-                      <TextArea rows={3} value={card.description || ""} onChange={(e) => updateHomePageNewsCard(index, "description", e.target.value)} />
-                    </Field>
-                    <Field label="URL slug" hint="e.g. virtual-tour-heritage-sites">
-                      <TextInput value={card.slug || ""} onChange={(e) => updateHomePageNewsCard(index, "slug", e.target.value)} />
-                    </Field>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </SectionCard>
 
         <SectionCard id="home-supporters" title="OurPartners / Supporters" description="Edit the support strip on the homepage." onSave={() => requestSave(async () => { setConfig((current) => ({ ...current, homePage: draftConfig.homePage })); toast.success("Supporters saved!"); }, "OurPartners / Supporters")} saveLabel="Update Section">
           <div className="space-y-4">

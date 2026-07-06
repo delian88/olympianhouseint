@@ -488,16 +488,6 @@ function Home() {
         </div>
       </section>
 
-      <section id="africa-story-banner" className="overflow-hidden p-0 mt-16 sm:mt-24">
-        <div className="container px-0">
-          <img
-            src="/section2.png"
-            alt="Telling Africa's Development Story"
-            className="w-full block object-cover"
-          />
-        </div>
-      </section>
-
       <section className="py-10 sm:py-14 bg-white">
         <div className="container">
           <div className="text-center">
@@ -539,6 +529,16 @@ function Home() {
               </motion.article>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      <section id="africa-story-banner" className="overflow-hidden p-0 mt-16 mb-16 sm:mt-24 sm:mb-24">
+        <div className="container px-0">
+          <img
+            src="/section2.png"
+            alt="Telling Africa's Development Story"
+            className="w-full block object-cover"
+          />
         </div>
       </section>
 
