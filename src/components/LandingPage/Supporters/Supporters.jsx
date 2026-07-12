@@ -19,12 +19,12 @@ const getLogoSrc = (name = "") => {
 };
 
 const LogoCard = ({ name, src }) => (
-  <div className="mx-1 flex h-[80px] w-28 shrink-0 items-center justify-center rounded-xl border border-[#e5e7eb] bg-[#f8fafc] p-3 transition duration-300 hover:bg-[#eef2f7] sm:mx-2 sm:h-[120px] sm:w-40 sm:p-5">
+  <div className="mx-1 flex h-[80px] w-28 shrink-0 items-center justify-center border border-[#e5e7eb] bg-[#f8fafc] p-3 transition-all duration-300 hover:-translate-y-1 hover:bg-[#eef2f7] hover:shadow-sm sm:mx-2 sm:h-[120px] sm:w-40 sm:p-5">
     {src ? (
       <img
         src={src}
         alt={name}
-        className="max-h-8 w-full object-contain grayscale opacity-70 transition duration-300 hover:grayscale-0 hover:opacity-100 sm:max-h-12"
+        className="max-h-8 w-full object-contain opacity-90 transition duration-300 hover:opacity-100 sm:max-h-12"
       />
     ) : (
       <div className="text-center">
@@ -37,19 +37,10 @@ const LogoCard = ({ name, src }) => (
 );
 
 const LogoMarquee = ({ logos }) => {
-  const repeated = [...logos, ...logos, ...logos, ...logos, ...logos];
-
   return (
-    <div className="group flex overflow-hidden [--duration:40s] [--gap:0.5rem]">
-      {[0, 1].map((i) => (
-        <div
-          key={i}
-          className="flex shrink-0 animate-marquee [gap:var(--gap)] group-hover:[animation-play-state:paused]"
-        >
-          {repeated.map((logo, index) => (
-            <LogoCard key={`${i}-${logo.name}-${index}`} name={logo.name} src={getLogoSrc(logo.name)} />
-          ))}
-        </div>
+    <div className="flex flex-wrap justify-start gap-2 sm:gap-3">
+      {(logos || []).map((logo, index) => (
+        <LogoCard key={`${logo.name}-${index}`} name={logo.name} src={getLogoSrc(logo.name)} />
       ))}
     </div>
   );
@@ -78,8 +69,10 @@ const Supporters = () => {
   return (
     <section className="my-10 bg-white py-16">
       <div className="container">
-        {(categories || []).map((category) => (
-          <CategorySection key={category.title} label={category.title} logos={category.items || []} />
+        {(categories || []).map((category, index) => (
+          <div key={category.title} className="motion-safe-fade-in" style={{ animationDelay: `${index * 70}ms` }}>
+            <CategorySection label={category.title} logos={category.items || []} />
+          </div>
         ))}
       </div>
     </section>

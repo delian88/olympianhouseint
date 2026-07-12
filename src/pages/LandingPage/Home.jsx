@@ -207,21 +207,6 @@ function Home() {
 
   return (
     <div className="overflow-hidden bg-[linear-gradient(180deg,#fffaf0_0%,#fcf6ea_28%,#f7f0e2_100%)] text-[#173145]">
-      <div
-        aria-hidden="true"
-        className="fixed right-5 top-4 z-40 hidden h-[calc(100vh-2rem)] w-5 xl:block"
-      >
-        <div ref={railRef} className="relative mx-auto h-full w-4 rounded-full bg-black/10">
-          <div
-            className="absolute left-1/2 w-3 -translate-x-1/2 rounded-full bg-[#8a8a8a] shadow-[0_0_0_1px_rgba(255,255,255,0.35)] cursor-pointer"
-            style={{
-              height: thumbHeight,
-              top: `${Math.min(scrollProgress * 100, 100)}%`,
-              transform: "translate(-50%, -50%)",
-            }}
-          />
-        </div>
-      </div>
       <section className="relative min-h-[65vh] overflow-hidden bg-[#091826] py-0 text-white">
         <div className="absolute inset-0">
           <video
@@ -276,7 +261,7 @@ function Home() {
 
             <div className="mt-6 hidden sm:flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[11px] font-medium uppercase tracking-[0.2em] text-white/60">
               <span className="text-white/40">Trusted by:</span>
-              {["WFP", "EU", "IFRC", "Olam", "OFI", "Sun King", "API"].map((name) => (
+              {["Olam", "OFI", "COSMOS", "ECHO (European Union)", "DEFY HATE", "Africa Wildlife Foundation", "IRC", "AfriYAN", "API"].map((name) => (
                 <span key={name} className="text-white/75">{name}</span>
               ))}
             </div>

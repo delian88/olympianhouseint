@@ -287,6 +287,44 @@ export default function LandingPageManager() {
     });
   };
 
+  const removeSupportersCategory = (categoryIndex) => {
+    setDraftConfig((current) => {
+      const categories = [...(current.homePage?.supporters?.categories ?? landingPageDefaults.homePage.supporters.categories)];
+      categories.splice(categoryIndex, 1);
+
+      return {
+        ...current,
+        homePage: {
+          ...current.homePage,
+          supporters: {
+            ...current.homePage?.supporters,
+            categories,
+          },
+        },
+      };
+    });
+  };
+
+  const removeSupportersLogo = (categoryIndex, logoIndex) => {
+    setDraftConfig((current) => {
+      const categories = [...(current.homePage?.supporters?.categories ?? landingPageDefaults.homePage.supporters.categories)];
+      const items = [...(categories[categoryIndex]?.items ?? [])];
+      items.splice(logoIndex, 1);
+      categories[categoryIndex] = { ...categories[categoryIndex], items };
+
+      return {
+        ...current,
+        homePage: {
+          ...current.homePage,
+          supporters: {
+            ...current.homePage?.supporters,
+            categories,
+          },
+        },
+      };
+    });
+  };
+
   const updateHeroSlide = (index, key, value) => {
     setDraftConfig((current) => {
       const slides = [...(current.hero.slides ?? [])];
@@ -1170,12 +1208,17 @@ export default function LandingPageManager() {
               <div className="space-y-4">
                 {(draftConfig.homePage?.supporters?.categories || landingPageDefaults.homePage.supporters.categories).map((category, categoryIndex) => (
                   <div key={categoryIndex} className="space-y-3 rounded-2xl border border-border bg-background/70 p-4">
-                    <Field label={`Group ${categoryIndex + 1} title`}>
-                      <TextInput
-                        value={category.title || ""}
-                        onChange={(e) => updateSupportersCategory(categoryIndex, "title", e.target.value)}
-                      />
-                    </Field>
+                    <div className="flex items-start justify-between gap-3">
+                      <Field label={`Group ${categoryIndex + 1} title`} className="flex-1">
+                        <TextInput
+                          value={category.title || ""}
+                          onChange={(e) => updateSupportersCategory(categoryIndex, "title", e.target.value)}
+                        />
+                      </Field>
+                      <Button type="button" variant="outline" className="rounded-xl border-destructive/30 text-destructive hover:bg-destructive/10" onClick={() => removeSupportersCategory(categoryIndex)}>
+                        Delete group
+                      </Button>
+                    </div>
 
                     <div className="flex items-center justify-between gap-3">
                       <p className="text-sm font-semibold text-foreground">Partner names</p>
@@ -1186,12 +1229,17 @@ export default function LandingPageManager() {
 
                     <div className="space-y-3">
                       {(category.items || []).map((item, logoIndex) => (
-                        <Field key={`${categoryIndex}-${logoIndex}`} label={`Partner ${logoIndex + 1}`}>
-                          <TextInput
-                            value={item.name || ""}
-                            onChange={(e) => updateSupportersLogo(categoryIndex, logoIndex, e.target.value)}
-                          />
-                        </Field>
+                        <div key={`${categoryIndex}-${logoIndex}`} className="flex items-start gap-3">
+                          <Field className="flex-1" label={`Partner ${logoIndex + 1}`}>
+                            <TextInput
+                              value={item.name || ""}
+                              onChange={(e) => updateSupportersLogo(categoryIndex, logoIndex, e.target.value)}
+                            />
+                          </Field>
+                          <Button type="button" variant="outline" className="mt-7 rounded-xl border-destructive/30 text-destructive hover:bg-destructive/10" onClick={() => removeSupportersLogo(categoryIndex, logoIndex)}>
+                            Delete
+                          </Button>
+                        </div>
                       ))}
                     </div>
                   </div>
