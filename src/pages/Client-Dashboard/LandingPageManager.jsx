@@ -211,6 +211,82 @@ export default function LandingPageManager() {
     });
   };
 
+  const updateSupportersCategory = (index, key, value) => {
+    setDraftConfig((current) => {
+      const categories = [...(current.homePage?.supporters?.categories ?? landingPageDefaults.homePage.supporters.categories)];
+      categories[index] = { ...categories[index], [key]: value };
+
+      return {
+        ...current,
+        homePage: {
+          ...current.homePage,
+          supporters: {
+            ...current.homePage?.supporters,
+            categories,
+          },
+        },
+      };
+    });
+  };
+
+  const updateSupportersLogo = (categoryIndex, logoIndex, value) => {
+    setDraftConfig((current) => {
+      const categories = [...(current.homePage?.supporters?.categories ?? landingPageDefaults.homePage.supporters.categories)];
+      const items = [...(categories[categoryIndex]?.items ?? [])];
+      items[logoIndex] = { ...items[logoIndex], name: value };
+      categories[categoryIndex] = { ...categories[categoryIndex], items };
+
+      return {
+        ...current,
+        homePage: {
+          ...current.homePage,
+          supporters: {
+            ...current.homePage?.supporters,
+            categories,
+          },
+        },
+      };
+    });
+  };
+
+  const addSupportersCategory = () => {
+    setDraftConfig((current) => {
+      const categories = [...(current.homePage?.supporters?.categories ?? landingPageDefaults.homePage.supporters.categories)];
+      categories.push({ title: "New group", items: [{ name: "Partner name" }] });
+
+      return {
+        ...current,
+        homePage: {
+          ...current.homePage,
+          supporters: {
+            ...current.homePage?.supporters,
+            categories,
+          },
+        },
+      };
+    });
+  };
+
+  const addSupportersLogo = (categoryIndex) => {
+    setDraftConfig((current) => {
+      const categories = [...(current.homePage?.supporters?.categories ?? landingPageDefaults.homePage.supporters.categories)];
+      const items = [...(categories[categoryIndex]?.items ?? [])];
+      items.push({ name: "Partner name" });
+      categories[categoryIndex] = { ...categories[categoryIndex], items };
+
+      return {
+        ...current,
+        homePage: {
+          ...current.homePage,
+          supporters: {
+            ...current.homePage?.supporters,
+            categories,
+          },
+        },
+      };
+    });
+  };
+
   const updateHeroSlide = (index, key, value) => {
     setDraftConfig((current) => {
       const slides = [...(current.hero.slides ?? [])];
@@ -1054,8 +1130,19 @@ export default function LandingPageManager() {
                 {(draftConfig.homePage?.storytellers?.items || []).map((item, index) => (
                   <div key={index} className="space-y-3 rounded-2xl border border-border bg-muted/40 p-4">
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Storyteller {index + 1}</p>
-                    <Field label="Name"><TextInput value={item.name || ""} onChange={(e) => updateHomePageArrayItem("storytellers", "items", index, "name", e.target.value)} /></Field>
-                    <Field label="Role"><TextInput value={item.role || ""} onChange={(e) => updateHomePageArrayItem("storytellers", "items", index, "role", e.target.value)} /></Field>
+                    <Field label="Colored header">
+                      <TextInput
+                        value={item.header ?? item.name ?? ""}
+                        onChange={(e) => updateHomePageArrayItem("storytellers", "items", index, "header", e.target.value)}
+                      />
+                    </Field>
+                    <Field label="Content">
+                      <TextArea
+                        rows={4}
+                        value={item.content ?? item.role ?? ""}
+                        onChange={(e) => updateHomePageArrayItem("storytellers", "items", index, "content", e.target.value)}
+                      />
+                    </Field>
                     <ImageField label="Photo" value={item.image || ""} onChange={(e) => handleImageUpload(e, (value) => updateHomePageArrayItem("storytellers", "items", index, "image", value))} />
                   </div>
                 ))}
@@ -1071,6 +1158,46 @@ export default function LandingPageManager() {
             <Field label="Description"><TextArea rows={4} value={draftConfig.homePage?.supporters?.description || ""} onChange={(e) => updateHomePage("supporters", "description", e.target.value)} /></Field>
             <Field label="Button label"><TextInput value={draftConfig.homePage?.supporters?.ctaLabel || ""} onChange={(e) => updateHomePage("supporters", "ctaLabel", e.target.value)} /></Field>
             <Field label="Button link"><TextInput value={draftConfig.homePage?.supporters?.ctaHref || ""} onChange={(e) => updateHomePage("supporters", "ctaHref", e.target.value)} /></Field>
+
+            <div className="space-y-4 rounded-2xl border border-border/70 bg-muted/30 p-4">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-sm font-semibold text-foreground">Logo groups</p>
+                <Button type="button" variant="outline" className="rounded-xl" onClick={addSupportersCategory}>
+                  Add group
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                {(draftConfig.homePage?.supporters?.categories || landingPageDefaults.homePage.supporters.categories).map((category, categoryIndex) => (
+                  <div key={categoryIndex} className="space-y-3 rounded-2xl border border-border bg-background/70 p-4">
+                    <Field label={`Group ${categoryIndex + 1} title`}>
+                      <TextInput
+                        value={category.title || ""}
+                        onChange={(e) => updateSupportersCategory(categoryIndex, "title", e.target.value)}
+                      />
+                    </Field>
+
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-sm font-semibold text-foreground">Partner names</p>
+                      <Button type="button" variant="outline" className="rounded-xl" onClick={() => addSupportersLogo(categoryIndex)}>
+                        Add partner
+                      </Button>
+                    </div>
+
+                    <div className="space-y-3">
+                      {(category.items || []).map((item, logoIndex) => (
+                        <Field key={`${categoryIndex}-${logoIndex}`} label={`Partner ${logoIndex + 1}`}>
+                          <TextInput
+                            value={item.name || ""}
+                            onChange={(e) => updateSupportersLogo(categoryIndex, logoIndex, e.target.value)}
+                          />
+                        </Field>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </SectionCard>
 

@@ -1,35 +1,44 @@
 import React from "react";
+import { useLandingPageConfig } from "../../../context/LandingPageConfigContext";
+import { landingPageDefaults } from "../../../data/landingPageDefaults";
 import Reveal from "../../ui/reveal";
 import ifrcLogo from "../../../assets/img/International_Federation_of_Red_Cross_and_Red_Crescent_Societies_Logo.png";
 import corafLogo from "../../../assets/img/logo-coraf.png";
 import sunKingLogo from "../../../assets/img/Sun-King_New_Logo-02.png";
 import wfpLogo from "../../../assets/img/wfp-logo-extended-blue-en.png";
 
-const allLogos = [
-  { name: "IFRC", src: ifrcLogo },
-  { name: "CORAF", src: corafLogo },
-  { name: "Sun King", src: sunKingLogo },
-  { name: "WFP", src: wfpLogo },
-];
+const getLogoSrc = (name = "") => {
+  const normalized = name.toLowerCase();
 
-const categories = [
-  { label: "Consumer & Corporate Clients", logos: allLogos },
-  { label: "Social Impact / Sustainability Clients", logos: allLogos },
-  { label: "Public Sector Clients", logos: allLogos },
-];
+  if (normalized.includes("ifrc")) return ifrcLogo;
+  if (normalized.includes("coraf")) return corafLogo;
+  if (normalized.includes("sun")) return sunKingLogo;
+  if (normalized.includes("wfp")) return wfpLogo;
+
+  return null;
+};
 
 const LogoCard = ({ name, src }) => (
-  <div className="mx-1 flex h-[80px] w-28 shrink-0 items-center justify-center bg-[#f3f4f6] p-3 transition duration-300 hover:bg-[#e5e7eb] sm:mx-2 sm:h-[130px] sm:w-44 sm:p-5">
-    <img
-      src={src}
-      alt={name}
-      className="max-h-8 w-full object-contain grayscale opacity-70 transition duration-300 hover:grayscale-0 hover:opacity-100 sm:max-h-14"
-    />
+  <div className="mx-1 flex h-[80px] w-28 shrink-0 items-center justify-center rounded-xl border border-[#e5e7eb] bg-[#f8fafc] p-3 transition duration-300 hover:bg-[#eef2f7] sm:mx-2 sm:h-[120px] sm:w-40 sm:p-5">
+    {src ? (
+      <img
+        src={src}
+        alt={name}
+        className="max-h-8 w-full object-contain grayscale opacity-70 transition duration-300 hover:grayscale-0 hover:opacity-100 sm:max-h-12"
+      />
+    ) : (
+      <div className="text-center">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#0a1628] sm:text-[11px]">
+          {name}
+        </p>
+      </div>
+    )}
   </div>
 );
 
 const LogoMarquee = ({ logos }) => {
   const repeated = [...logos, ...logos, ...logos, ...logos, ...logos];
+
   return (
     <div className="group flex overflow-hidden [--duration:40s] [--gap:0.5rem]">
       {[0, 1].map((i) => (
@@ -38,7 +47,7 @@ const LogoMarquee = ({ logos }) => {
           className="flex shrink-0 animate-marquee [gap:var(--gap)] group-hover:[animation-play-state:paused]"
         >
           {repeated.map((logo, index) => (
-            <LogoCard key={`${i}-${logo.name}-${index}`} name={logo.name} src={logo.src} />
+            <LogoCard key={`${i}-${logo.name}-${index}`} name={logo.name} src={getLogoSrc(logo.name)} />
           ))}
         </div>
       ))}
@@ -62,11 +71,15 @@ const CategorySection = ({ label, logos }) => (
 );
 
 const Supporters = () => {
+  const { config } = useLandingPageConfig();
+  const supporters = config?.homePage?.supporters ?? landingPageDefaults.homePage.supporters;
+  const categories = supporters.categories ?? landingPageDefaults.homePage.supporters.categories;
+
   return (
-    <section className="my-10 py-16 bg-white">
+    <section className="my-10 bg-white py-16">
       <div className="container">
-        {categories.map((cat) => (
-          <CategorySection key={cat.label} label={cat.label} logos={cat.logos} />
+        {(categories || []).map((category) => (
+          <CategorySection key={category.title} label={category.title} logos={category.items || []} />
         ))}
       </div>
     </section>

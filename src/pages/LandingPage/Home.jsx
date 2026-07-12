@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ChevronDown, Play, CalendarDays } from "lucide-react";
 import { motion } from "framer-motion";
@@ -45,6 +45,80 @@ function Home() {
     ...(hero.images ?? {}),
   };
   const heroSlideFallbacks = landingPageDefaults.hero.slides.map((slide) => slide.image);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const railRef = useRef(null);
+  const thumbHeight = "clamp(80px, 24vh, 180px)";
+
+  useEffect(() => {
+    const updateScrollProgress = () => {
+      const doc = document.documentElement;
+      const scrollTop = window.scrollY || doc.scrollTop || 0;
+      const scrollable = Math.max(doc.scrollHeight - window.innerHeight, 1);
+      setScrollProgress(Math.min(scrollTop / scrollable, 1));
+    };
+
+    updateScrollProgress();
+    window.addEventListener("scroll", updateScrollProgress, { passive: true });
+    window.addEventListener("resize", updateScrollProgress);
+
+    return () => {
+      window.removeEventListener("scroll", updateScrollProgress);
+      window.removeEventListener("resize", updateScrollProgress);
+    };
+  }, []);
+
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return undefined;
+
+    let isDragging = false;
+
+    const setScrollFromClientY = (clientY) => {
+      const rect = rail.getBoundingClientRect();
+      const thumbSize = 120;
+      const available = Math.max(rect.height - thumbSize, 1);
+      const offset = Math.min(Math.max(clientY - rect.top - thumbSize / 2, 0), available);
+      const progress = offset / available;
+      const doc = document.documentElement;
+      const scrollable = Math.max(doc.scrollHeight - window.innerHeight, 1);
+      window.scrollTo({ top: progress * scrollable, behavior: "auto" });
+    };
+
+    const onMouseMove = (event) => {
+      if (!isDragging) return;
+      setScrollFromClientY(event.clientY);
+    };
+
+    const onMouseUp = () => {
+      isDragging = false;
+      document.body.style.userSelect = "";
+    };
+
+    const onMouseDown = (event) => {
+      isDragging = true;
+      document.body.style.userSelect = "none";
+      setScrollFromClientY(event.clientY);
+    };
+
+    const onClick = (event) => {
+      if (event.target === rail) {
+        setScrollFromClientY(event.clientY);
+      }
+    };
+
+    rail.addEventListener("mousedown", onMouseDown);
+    rail.addEventListener("click", onClick);
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
+
+    return () => {
+      rail.removeEventListener("mousedown", onMouseDown);
+      rail.removeEventListener("click", onClick);
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+      document.body.style.userSelect = "";
+    };
+  }, []);
 
   const currentSlide = heroSlides[0];
   const cardItems = [
@@ -80,6 +154,8 @@ function Home() {
   const storytellers = (homePage.storytellers.items ?? []).map((story, index) => ({
     ...story,
     image: story.image ?? [gallery.items?.[5]?.image, gallery.items?.[6]?.image, gallery.items?.[7]?.image, gallery.items?.[8]?.image][index] ?? heroImages.hero1,
+    header: story.header ?? story.name,
+    content: story.content ?? story.role,
   }));
   const defaultNewsCards = [
     {
@@ -131,6 +207,21 @@ function Home() {
 
   return (
     <div className="overflow-hidden bg-[linear-gradient(180deg,#fffaf0_0%,#fcf6ea_28%,#f7f0e2_100%)] text-[#173145]">
+      <div
+        aria-hidden="true"
+        className="fixed right-5 top-4 z-40 hidden h-[calc(100vh-2rem)] w-5 xl:block"
+      >
+        <div ref={railRef} className="relative mx-auto h-full w-4 rounded-full bg-black/10">
+          <div
+            className="absolute left-1/2 w-3 -translate-x-1/2 rounded-full bg-[#8a8a8a] shadow-[0_0_0_1px_rgba(255,255,255,0.35)] cursor-pointer"
+            style={{
+              height: thumbHeight,
+              top: `${Math.min(scrollProgress * 100, 100)}%`,
+              transform: "translate(-50%, -50%)",
+            }}
+          />
+        </div>
+      </div>
       <section className="relative min-h-[65vh] overflow-hidden bg-[#091826] py-0 text-white">
         <div className="absolute inset-0">
           <video
@@ -565,15 +656,16 @@ function Home() {
                   <FallbackImage
                     src={story.image}
                     fallback={heroSlideFallbacks[0]}
-                    alt={story.name}
+                    alt={story.header ?? story.name}
                     className="h-64 w-full object-cover sm:h-72 lg:h-80"
                   />
                   <div className="flex flex-1 flex-col p-4">
-                    <p className="text-[10px] uppercase tracking-[0.22em] text-[#b16a18]">
-                      {story.role}
+                    <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[#b16a18]">
+                      {story.header ?? story.name}
                     </p>
-                    <h3 className="mt-3 text-sm font-semibold text-[#2f3135]">{story.name}</h3>
-                    <p className="mt-2 text-[11px] text-[#7b7b7b]">{story.role}</p>
+                    <p className="mt-3 text-[10px] font-medium leading-5 text-[#2f3135]">
+                      {story.content ?? story.role}
+                    </p>
                   </div>
               </motion.article>
             ))}

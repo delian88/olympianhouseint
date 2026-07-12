@@ -241,6 +241,28 @@ export const landingPageDefaults = {
       description: "Support OHI and connect with the team for partnership or funding.",
       ctaLabel: "Donate Now",
       ctaHref: "/contact",
+      categories: [
+        {
+          title: "Consumer & Corporate",
+          items: [{ name: "Sun King" }, { name: "Olam" }, { name: "OFI" }, { name: "COSMOS" }],
+        },
+        {
+          title: "Social Impact / Sustainability",
+          items: [
+            { name: "WFP" },
+            { name: "ECHO (European Union)" },
+            { name: "IFRC" },
+            { name: "DEFY HATE" },
+            { name: "Africa Wildlife Foundation" },
+            { name: "IRC" },
+            { name: "AfriYAN" },
+          ],
+        },
+        {
+          title: "Public Sector",
+          items: [{ name: "API" }, { name: "CRTV" }],
+        },
+      ],
     },
     finalCta: {
       title: "Let's tell the story your impact deserves.",
