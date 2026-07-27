@@ -1,0 +1,51 @@
+// This is your Prisma schema file for OHI backend (MySQL / Namecheap)
+// Run: npx prisma migrate dev --name init
+// Docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Admin Users (authentication) ────────────────────────────────────────────
+model AdminUser {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique @db.VarChar(255)
+  passwordHash String   @map("password_hash") @db.VarChar(255)
+  role         String   @default("Editor") @db.VarChar(50)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  profile AdminProfile?
+
+  @@map("admin_users")
+}
+
+// ─── Admin Profiles (public-facing profile info) ─────────────────────────────
+model AdminProfile {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique @map("user_id")
+  fullName  String?  @map("full_name") @db.VarChar(255)
+  email     String?  @db.VarChar(255)
+  phone     String?  @db.VarChar(50)
+  role      String   @default("Editor") @db.VarChar(50)
+  avatarUrl String?  @map("avatar_url") @db.Text
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("admin_profiles")
+}
+
+// ─── Landing Page Configuration ───────────────────────────────────────────────
+model LandingPageConfig {
+  id        Int      @id @default(1)
+  config    Json
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("landing_page_config")
+}

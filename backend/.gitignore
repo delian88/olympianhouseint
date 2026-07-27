@@ -1,0 +1,9 @@
+# Backend .gitignore
+.env
+node_modules/
+vendor/
+prisma/migrations/
+*.log
+
+# PHP specific
+*.cache

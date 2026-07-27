@@ -1,0 +1,32 @@
+# OHI API — .htaccess for Namecheap Shared Hosting
+# Place this file inside the api/ folder on your server.
+# Requires mod_rewrite to be enabled (it is on all Namecheap cPanel plans).
+
+Options -Indexes
+Options -MultiViews
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /ohi-api/
+
+    # Pass Authorization header to PHP (required for mod_fcgid / CGI mode)
+    RewriteCond %{HTTP:Authorization} ^(.*)
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%1]
+
+    # Allow direct access to real files (e.g. index.php itself)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Route everything else through index.php
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+# Security: deny access to sensitive files
+<FilesMatch "\.(env|log|sql|json|yaml|yml|lock|md|gitignore)$">
+    Require all denied
+</FilesMatch>
+
+# Prevent PHP errors from leaking in production
+php_flag display_errors Off
+php_flag log_errors On
+php_value error_log /tmp/ohi-api-errors.log

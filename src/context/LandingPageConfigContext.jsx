@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { landingPageDefaults } from "../data/landingPageDefaults";
-import { supabase } from "../lib/supabase";
+import { api } from "../lib/api";
 import { useAdminAuth } from "./AdminAuthContext";
 
 const IS_PRODUCTION = import.meta.env.PROD;
@@ -226,18 +226,15 @@ export function LandingPageConfigProvider({ children }) {
   const isOnDashboard = pathname.startsWith("/dashboard");
 
   const loadConfigFromDb = async () => {
-    const { data, error } = await supabase
-      .from("landing_page_config")
-      .select("config")
-      .eq("id", 1)
-      .single();
-
-    if (error) {
-      throw error;
-    }
-
-    if (data?.config) {
-      setConfigState(buildLandingPageConfig(data.config));
+    try {
+      const res = await api.getLandingConfig();
+      if (res?.data?.config) {
+        setConfigState(buildLandingPageConfig(res.data.config));
+      } else if (res?.config) {
+        setConfigState(buildLandingPageConfig(res.config));
+      }
+    } catch (err) {
+      console.warn("Could not load landing config from PHP API, using defaults:", err);
     }
   };
 
@@ -250,7 +247,7 @@ export function LandingPageConfigProvider({ children }) {
         await loadConfigFromDb();
       } catch (err) {
         if (!isMounted) return;
-        console.error("Error loading CMS config from Supabase:", err);
+        console.error("Error loading CMS config from API:", err);
       } finally {
         if (isMounted) {
           setLoading(false);
@@ -283,17 +280,6 @@ export function LandingPageConfigProvider({ children }) {
       try {
         await loadConfigFromDb();
       } catch (error) {
-        if (error?.code === "PGRST303" || error?.status === 401) {
-          window.dispatchEvent(
-            new CustomEvent(ADMIN_SESSION_EXPIRED_EVENT, {
-              detail: {
-                message: "Your admin session expired. Please sign in again.",
-              },
-            }),
-          );
-          return;
-        }
-
         console.error("Failed to refresh landing page config:", error);
       }
     };
@@ -355,12 +341,10 @@ export function LandingPageConfigProvider({ children }) {
     setConfigState(newConfig);
 
     const cleaned = stripBundledAssetUrls(newConfig);
-    const { error } = await supabase
-      .from("landing_page_config")
-      .upsert({ id: 1, config: cleaned }, { onConflict: "id" });
-
-    if (error) {
-      console.error("Failed to save config to Supabase:", error);
+    try {
+      await api.updateLandingConfig(cleaned);
+    } catch (error) {
+      console.error("Failed to save config to backend API:", error);
       return;
     }
 
@@ -369,16 +353,15 @@ export function LandingPageConfigProvider({ children }) {
 
   const resetConfig = async () => {
     setConfigState(landingPageDefaults);
-    const { error } = await supabase
-      .from("landing_page_config")
-      .upsert({ id: 1, config: stripBundledAssetUrls(landingPageDefaults) }, { onConflict: "id" });
-
-    if (error) {
-      console.error("Failed to reset config in Supabase:", error);
+    const cleaned = stripBundledAssetUrls(landingPageDefaults);
+    try {
+      await api.updateLandingConfig(cleaned);
+    } catch (error) {
+      console.error("Failed to reset config in backend API:", error);
       return;
     }
 
-    publishConfigSnapshot(stripBundledAssetUrls(landingPageDefaults));
+    publishConfigSnapshot(cleaned);
   };
 
   // Provide a loading state so the app doesn't flash default content before DB loads

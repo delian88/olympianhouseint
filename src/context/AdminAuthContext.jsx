@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../lib/supabase";
+import { api } from "../lib/api";
 import { useNotifications } from "./NotificationContext";
 
 const AdminAuthContext = createContext(null);
@@ -15,33 +15,38 @@ export function AdminAuthProvider({ children }) {
   const navigate = useNavigate();
   const { addNotification } = useNotifications();
   const [session, setSession] = useState({
-    isAuthenticated: false,
+    isAuthenticated: api.isAuthenticated(),
     user: null,
     loading: true,
   });
 
   useEffect(() => {
     // Check active session on mount
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    if (api.isAuthenticated()) {
+      api
+        .getMe()
+        .then((res) => {
+          setSession({
+            isAuthenticated: true,
+            user: res.user || res.data || null,
+            loading: false,
+          });
+        })
+        .catch(() => {
+          api.logout();
+          setSession({
+            isAuthenticated: false,
+            user: null,
+            loading: false,
+          });
+        });
+    } else {
       setSession({
-        isAuthenticated: !!session,
-        user: session?.user ?? null,
+        isAuthenticated: false,
+        user: null,
         loading: false,
       });
-    });
-
-    // Listen for auth changes
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession({
-        isAuthenticated: !!session,
-        user: session?.user ?? null,
-        loading: false,
-      });
-    });
-
-    return () => subscription.unsubscribe();
+    }
   }, []);
 
   useEffect(() => {
@@ -55,7 +60,7 @@ export function AdminAuthProvider({ children }) {
         event?.detail?.message || "Your admin session expired. Please sign in again.";
 
       addNotification(message, "warning", "Session Expired");
-      await supabase.auth.signOut();
+      api.logout();
       setSession({
         isAuthenticated: false,
         user: null,
@@ -76,26 +81,27 @@ export function AdminAuthProvider({ children }) {
       const normalizedEmail = (email || "").trim().toLowerCase();
       const normalizedPassword = (password || "").trim();
 
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: normalizedEmail,
-        password: normalizedPassword,
-      });
-
-      if (error) {
+      try {
+        const res = await api.login(normalizedEmail, normalizedPassword);
+        setSession({
+          isAuthenticated: true,
+          user: res.user || null,
+          loading: false,
+        });
+        return {
+          ok: true,
+          message: "Signed in successfully.",
+        };
+      } catch (error) {
         return {
           ok: false,
           message: error.message || "Invalid admin email or password.",
         };
       }
-
-      return {
-        ok: true,
-        message: "Signed in successfully.",
-      };
     };
 
     const logout = async () => {
-      await supabase.auth.signOut();
+      api.logout();
       setSession({
         isAuthenticated: false,
         user: null,
