@@ -36,10 +36,10 @@ function hashPassword(password) {
 
 // ── Seed data — CHANGE THESE BEFORE RUNNING ──────────────────────────────────
 const SUPERADMIN = {
-  email: 'admin@olympianhouseintl.com',
-  password: 'ChangeMe@2025!',     // ← Change this!
+  email: 'contact@olympianhouseintl.com',
+  password: 'Olympianhouseintl$123',
   role: 'SuperAdmin',
-  full_name: 'OHI Super Admin',
+  full_name: 'Olympian House Admin',
 };
 // ─────────────────────────────────────────────────────────────────────────────
 
