@@ -151,6 +151,16 @@ async function deleteAdminUser(id) {
   return request(`/admin/users/${id}`, { method: 'DELETE' });
 }
 
+/**
+ * Send message to AI Chat assistant endpoint.
+ */
+async function askAiChat(message, history = []) {
+  return request('/chat', {
+    method: 'POST',
+    body: JSON.stringify({ message, history }),
+  });
+}
+
 // ─── Export ───────────────────────────────────────────────────────────────────
 
 export const api = {
@@ -169,4 +179,6 @@ export const api = {
   // Admin user management
   listAdminUsers,
   deleteAdminUser,
+  // AI Chat
+  askAiChat,
 };

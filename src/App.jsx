@@ -8,6 +8,7 @@ import { AdminAuthProvider } from "./context/AdminAuthContext";
 
 import { ProfileProvider } from "./context/ProfileContext";
 import { NotificationProvider } from "./context/NotificationContext";
+import AIChatAssistant from "./components/AIChatAssistant";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <LandingPageConfigProvider>
             <ProfileProvider>
               <Routers />
+              <AIChatAssistant />
               <div className="pointer-events-none fixed inset-0 z-[9999]">
                 <Toaster
                   position="bottom-right"

@@ -90,6 +90,11 @@ try {
         exit;
     }
 
+    if (str_starts_with($path, '/chat')) {
+        require __DIR__ . '/routes/chat.php';
+        exit;
+    }
+
     // ─── 404 Not Found ────────────────────────────────────────────────────────
     http_response_code(404);
     echo json_encode(['error' => "Route not found: {$path}"]);
