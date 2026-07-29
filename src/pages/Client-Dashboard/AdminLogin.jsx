@@ -15,6 +15,8 @@ import {
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 
+import { motion } from "framer-motion";
+
 export default function AdminLogin() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -50,8 +52,18 @@ export default function AdminLogin() {
 
   return (
     <div className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(17,138,178,0.18),_transparent_34%),radial-gradient(circle_at_bottom_right,_rgba(0,86,179,0.14),_transparent_32%),linear-gradient(135deg,_#f8fbff_0%,_#edf4fb_45%,_#dce9f8_100%)]">
-      <div className="mx-auto grid min-h-screen max-w-7xl items-center gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:px-8">
-        <Card className="relative order-2 overflow-hidden border-white/60 bg-[#0f4c81] text-white shadow-[0_30px_80px_rgba(15,76,129,0.25)] lg:order-1">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="mx-auto grid min-h-screen max-w-7xl items-center gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:px-8"
+      >
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          <Card className="relative order-2 overflow-hidden border-white/60 bg-[#0f4c81] text-white shadow-[0_30px_80px_rgba(15,76,129,0.25)] lg:order-1">
           <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),transparent_35%,rgba(255,255,255,0.05))]" />
           <CardContent className="relative z-10 flex h-full flex-col justify-between gap-10 px-6 py-8 sm:px-8 lg:px-10 lg:py-10">
             <div className="flex items-center gap-3">
@@ -185,7 +197,8 @@ export default function AdminLogin() {
             </div>
           </CardContent>
         </Card>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }
