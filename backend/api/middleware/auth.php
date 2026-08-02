@@ -51,7 +51,7 @@ class Auth {
         if (!str_starts_with($header, 'Bearer ')) return null;
 
         $token  = substr($header, 7);
-        $secret = getenv('JWT_SECRET');
+        $secret = $_ENV['JWT_SECRET'] ?? $_SERVER['JWT_SECRET'] ?? getenv('JWT_SECRET') ?: 'changeme';
         if (!$secret) return null;
 
         $parts = explode('.', $token);
@@ -79,7 +79,7 @@ class Auth {
      * Creates a signed JWT token for the given user data.
      */
     public static function createToken(array $data, int $expirySeconds = 86400): string {
-        $secret = getenv('JWT_SECRET') ?: 'changeme';
+        $secret = $_ENV['JWT_SECRET'] ?? $_SERVER['JWT_SECRET'] ?? getenv('JWT_SECRET') ?: 'changeme';
         $now    = time();
 
         $header  = self::base64UrlEncode(json_encode(['alg' => 'HS256', 'typ' => 'JWT']));
