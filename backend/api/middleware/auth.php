@@ -27,11 +27,27 @@ class Auth {
      * Returns the payload array on success, null on failure.
      */
     public static function getPayload(): ?array {
-        // mod_fcgid/CGI: Authorization header is passed via HTTP_AUTHORIZATION or REDIRECT_HTTP_AUTHORIZATION
-        $header = $_SERVER['HTTP_AUTHORIZATION']
-            ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
-            ?? (function_exists('apache_request_headers') ? (apache_request_headers()['Authorization'] ?? '') : '')
-            ?? '';
+        $header = '';
+        if (isset($_SERVER['Authorization'])) {
+            $header = trim($_SERVER['Authorization']);
+        } elseif (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+            $header = trim($_SERVER['HTTP_AUTHORIZATION']);
+        } elseif (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+            $header = trim($_SERVER['REDIRECT_HTTP_AUTHORIZATION']);
+        } else {
+            $headers = [];
+            if (function_exists('apache_request_headers')) {
+                $headers = apache_request_headers();
+            } elseif (function_exists('getallheaders')) {
+                $headers = getallheaders();
+            }
+            foreach ($headers as $key => $value) {
+                if (strtolower($key) === 'authorization') {
+                    $header = trim($value);
+                    break;
+                }
+            }
+        }
         if (!str_starts_with($header, 'Bearer ')) return null;
 
         $token  = substr($header, 7);
