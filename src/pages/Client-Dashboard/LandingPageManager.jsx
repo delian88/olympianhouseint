@@ -1658,22 +1658,22 @@ export default function LandingPageManager() {
                   <div className="grid grid-cols-2 gap-4">
                     <Field label="Bg color">
                       <Input
-                        type="color"
+                        type="text"
                         value={card.bgColor}
                         onChange={(e) =>
                           updateServiceCard(index, "bgColor", e.target.value)
                         }
-                        className="h-12 w-full rounded-xl bg-background p-1"
+                        className="h-12 w-full rounded-xl bg-background px-4"
                       />
                     </Field>
                     <Field label="Text color">
                       <Input
-                        type="color"
+                        type="text"
                         value={card.textColor}
                         onChange={(e) =>
                           updateServiceCard(index, "textColor", e.target.value)
                         }
-                        className="h-12 w-full rounded-xl bg-background p-1"
+                        className="h-12 w-full rounded-xl bg-background px-4"
                       />
                     </Field>
                   </div>

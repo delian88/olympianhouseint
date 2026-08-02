@@ -12,6 +12,7 @@ Options -MultiViews
     # Pass Authorization header to PHP (required for mod_fcgid / CGI mode)
     RewriteCond %{HTTP:Authorization} ^(.*)
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%1]
+    SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 
     # Allow direct access to real files (e.g. index.php itself)
     RewriteCond %{REQUEST_FILENAME} !-f
