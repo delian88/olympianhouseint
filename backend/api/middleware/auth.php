@@ -14,19 +14,16 @@ class Auth {
      * Returns the decoded payload array on success.
      */
     public static function requireAuth(): array {
-        $payload = self::getPayload();
+        $reason = '';
+        $payload = self::getPayload($reason);
         if ($payload === null) {
             http_response_code(401);
-            die(json_encode(['error' => 'Unauthorized. Valid Bearer token required.']));
+            die(json_encode(['error' => 'Unauthorized. Valid Bearer token required.', 'debug_reason' => $reason]));
         }
         return $payload;
     }
 
-    /**
-     * Decodes and verifies the JWT from the Authorization header.
-     * Returns the payload array on success, null on failure.
-     */
-    public static function getPayload(): ?array {
+    public static function getPayload(&$reason = null): ?array {
         $header = '';
         if (isset($_SERVER['Authorization'])) {
             $header = trim($_SERVER['Authorization']);
@@ -48,14 +45,23 @@ class Auth {
                 }
             }
         }
-        if (!str_starts_with($header, 'Bearer ')) return null;
+        if (!str_starts_with($header, 'Bearer ')) {
+            $reason = 'Missing or invalid Authorization header format. Header was: ' . $header;
+            return null;
+        }
 
         $token  = substr($header, 7);
         $secret = $_ENV['JWT_SECRET'] ?? $_SERVER['JWT_SECRET'] ?? getenv('JWT_SECRET') ?: 'changeme';
-        if (!$secret) return null;
+        if (!$secret) {
+            $reason = 'Secret not found.';
+            return null;
+        }
 
         $parts = explode('.', $token);
-        if (count($parts) !== 3) return null;
+        if (count($parts) !== 3) {
+            $reason = 'Token does not have 3 parts.';
+            return null;
+        }
 
         [$b64Header, $b64Payload, $b64Sig] = $parts;
 
@@ -63,14 +69,23 @@ class Auth {
         $expectedSig = self::base64UrlEncode(
             hash_hmac('sha256', "{$b64Header}.{$b64Payload}", $secret, true)
         );
-        if (!hash_equals($expectedSig, $b64Sig)) return null;
+        if (!hash_equals($expectedSig, $b64Sig)) {
+            $reason = 'Signature mismatch. Secret used started with: ' . substr($secret, 0, 3);
+            return null;
+        }
 
         // Decode payload
         $payload = json_decode(self::base64UrlDecode($b64Payload), true);
-        if (!is_array($payload)) return null;
+        if (!is_array($payload)) {
+            $reason = 'Payload is not a valid JSON array.';
+            return null;
+        }
 
         // Check expiry
-        if (isset($payload['exp']) && $payload['exp'] < time()) return null;
+        if (isset($payload['exp']) && $payload['exp'] < time()) {
+            $reason = 'Token expired.';
+            return null;
+        }
 
         return $payload;
     }

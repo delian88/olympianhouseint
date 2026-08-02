@@ -78,6 +78,15 @@ try {
         exit;
     }
 
+    if ($path === '/debug-auth') {
+        echo json_encode([
+            'server' => $_SERVER,
+            'token' => \Auth::getPayload() ? 'valid' : 'invalid',
+            'secret_source' => isset($_ENV['JWT_SECRET']) ? 'env' : (isset($_SERVER['JWT_SECRET']) ? 'server' : (getenv('JWT_SECRET') ? 'getenv' : 'missing'))
+        ]);
+        exit;
+    }
+
     if (str_starts_with($path, '/landing-config')) {
         require __DIR__ . '/routes/landing.php';
         exit;
