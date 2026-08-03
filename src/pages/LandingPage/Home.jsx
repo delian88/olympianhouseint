@@ -493,19 +493,21 @@ function Home() {
         </div>
       </section>
 
-      <section id="support-ohi" className="py-4 bg-[#f59d21] text-[#3a2413]">
-        <div className="container flex flex-wrap items-center justify-center gap-4 text-center">
-          <p className="text-[13px] font-semibold">
-            {homePage.supporters.title}
-          </p>
-          <Link
-            to={homePage.supporters.ctaHref ?? "/contact"}
-            className="inline-flex h-7 items-center justify-center rounded-sm bg-[linear-gradient(180deg,#f58e1b_0%,#d76418_100%)] px-4 text-xs font-bold text-white shadow-[0_8px_18px_rgba(0,0,0,0.16)]"
-          >
-            {homePage.supporters.ctaLabel ?? "Donate Now"}
-          </Link>
-        </div>
-      </section>
+      {homePage.supporters?.isEnabled !== false && (
+        <section id="support-ohi" className="py-4 bg-[#f59d21] text-[#3a2413]">
+          <div className="container flex flex-wrap items-center justify-center gap-4 text-center">
+            <p className="text-[13px] font-semibold">
+              {homePage.supporters.title}
+            </p>
+            <Link
+              to={homePage.supporters.ctaHref ?? "/contact"}
+              className="inline-flex h-7 items-center justify-center rounded-sm bg-[linear-gradient(180deg,#f58e1b_0%,#d76418_100%)] px-4 text-xs font-bold text-white shadow-[0_8px_18px_rgba(0,0,0,0.16)]"
+            >
+              {homePage.supporters.ctaLabel ?? "Donate Now"}
+            </Link>
+          </div>
+        </section>
+      )}
 
       <section
         id="turn-programme-into-proof"

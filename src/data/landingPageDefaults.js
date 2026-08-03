@@ -237,6 +237,7 @@ export const landingPageDefaults = {
       ],
     },
     supporters: {
+      isEnabled: true,
       title: "OurPartners / Supporters",
       description: "Support OHI and connect with the team for partnership or funding.",
       ctaLabel: "Donate Now",

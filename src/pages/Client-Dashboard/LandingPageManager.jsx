@@ -1130,7 +1130,9 @@ export default function LandingPageManager() {
 
         <SectionCard id="home-programmes" title="Featured Programmes" description="Edit the featured programme cards." onSave={() => requestSave(async () => { setConfig((current) => ({ ...current, homePage: draftConfig.homePage })); toast.success("Programmes saved!"); }, "Featured Programmes")} saveLabel="Update Section">
           <div className="space-y-4">
+            <Field label="Eyebrow"><TextInput value={draftConfig.homePage?.programmes?.eyebrow || ""} onChange={(e) => updateHomePage("programmes", "eyebrow", e.target.value)} /></Field>
             <Field label="Title"><TextInput value={draftConfig.homePage?.programmes?.title || ""} onChange={(e) => updateHomePage("programmes", "title", e.target.value)} /></Field>
+            <Field label="Subline"><TextArea rows={3} value={draftConfig.homePage?.programmes?.subline || ""} onChange={(e) => updateHomePage("programmes", "subline", e.target.value)} /></Field>
             {(draftConfig.homePage?.programmes?.items || []).map((item, index) => (
               <div key={index} className="rounded-2xl border border-border bg-muted/40 p-4">
                 <Field label={`Programme ${index + 1} title`}><TextInput value={item.title || ""} onChange={(e) => updateHomePageArrayItem("programmes", "items", index, "title", e.target.value)} /></Field>
@@ -1189,9 +1191,56 @@ export default function LandingPageManager() {
           </div>
         </SectionCard>
 
+        <SectionCard id="home-news" title="Tips & Articles (News)" description="Edit the latest news / articles section on the homepage." onSave={() => requestSave(async () => { setConfig((current) => ({ ...current, homePage: draftConfig.homePage })); toast.success("News section saved!"); }, "News / Articles")} saveLabel="Update Section">
+          <div className="space-y-4">
+            <Field label="Eyebrow"><TextInput value={draftConfig.homePage?.news?.eyebrow || ""} onChange={(e) => updateHomePage("news", "eyebrow", e.target.value)} /></Field>
+            <Field label="Title"><TextInput value={draftConfig.homePage?.news?.title || ""} onChange={(e) => updateHomePage("news", "title", e.target.value)} /></Field>
+            <div className="space-y-4 rounded-2xl border border-border/70 bg-muted/30 p-4">
+              <p className="text-sm font-semibold text-foreground">News Cards</p>
+              <div className="space-y-6">
+                {(draftConfig.homePage?.news?.cards || landingPageDefaults.homePage.news.cards).map((card, index) => (
+                  <div key={index} className="space-y-4 rounded-xl border border-border bg-background p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Article {index + 1}</p>
+                    <Field label="Title"><TextInput value={card.title || ""} onChange={(e) => updateHomePageArrayItem("news", "cards", index, "title", e.target.value)} /></Field>
+                    <Field label="Slug (URL path)"><TextInput value={card.slug || ""} onChange={(e) => updateHomePageArrayItem("news", "cards", index, "slug", e.target.value)} /></Field>
+                    <Field label="Date"><TextInput value={card.date || ""} onChange={(e) => updateHomePageArrayItem("news", "cards", index, "date", e.target.value)} /></Field>
+                    <Field label="Categories (comma separated)"><TextInput value={(card.categories || []).join(", ")} onChange={(e) => updateHomePageArrayItem("news", "cards", index, "categories", e.target.value.split(",").map(c => c.trim()))} /></Field>
+                    <Field label="Description"><TextArea rows={3} value={card.description || ""} onChange={(e) => updateHomePageArrayItem("news", "cards", index, "description", e.target.value)} /></Field>
+                    <ImageField label="Image" value={draftConfig.homePage?.news?.images?.[index] || ""} onChange={(e) => handleImageUpload(e, (value) => {
+                      setDraftConfig((current) => {
+                        const images = [...(current.homePage?.news?.images || [])];
+                        images[index] = value;
+                        return {
+                          ...current,
+                          homePage: {
+                            ...current.homePage,
+                            news: { ...current.homePage?.news, images }
+                          }
+                        };
+                      });
+                    })} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </SectionCard>
+
 
         <SectionCard id="home-supporters" title="OurPartners / Supporters" description="Edit the support strip on the homepage." onSave={() => requestSave(async () => { setConfig((current) => ({ ...current, homePage: draftConfig.homePage })); toast.success("Supporters saved!"); }, "OurPartners / Supporters")} saveLabel="Update Section">
           <div className="space-y-4">
+            <div className="flex items-center gap-2 rounded-xl border border-border bg-muted/40 p-4">
+              <input
+                type="checkbox"
+                id="supporters-enabled"
+                checked={draftConfig.homePage?.supporters?.isEnabled !== false}
+                onChange={(e) => updateHomePage("supporters", "isEnabled", e.target.checked)}
+                className="h-4 w-4 rounded border-gray-300 text-primaryColor focus:ring-primaryColor"
+              />
+              <label htmlFor="supporters-enabled" className="text-sm font-semibold text-foreground">
+                Show section on homepage
+              </label>
+            </div>
             <Field label="Title"><TextInput value={draftConfig.homePage?.supporters?.title || ""} onChange={(e) => updateHomePage("supporters", "title", e.target.value)} /></Field>
             <Field label="Description"><TextArea rows={4} value={draftConfig.homePage?.supporters?.description || ""} onChange={(e) => updateHomePage("supporters", "description", e.target.value)} /></Field>
             <Field label="Button label"><TextInput value={draftConfig.homePage?.supporters?.ctaLabel || ""} onChange={(e) => updateHomePage("supporters", "ctaLabel", e.target.value)} /></Field>
