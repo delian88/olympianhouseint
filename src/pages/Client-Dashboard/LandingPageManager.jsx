@@ -229,11 +229,11 @@ export default function LandingPageManager() {
     });
   };
 
-  const updateSupportersLogo = (categoryIndex, logoIndex, value) => {
+  const updateSupportersLogo = (categoryIndex, logoIndex, key, value) => {
     setDraftConfig((current) => {
       const categories = [...(current.homePage?.supporters?.categories ?? landingPageDefaults.homePage.supporters.categories)];
       const items = [...(categories[categoryIndex]?.items ?? [])];
-      items[logoIndex] = { ...items[logoIndex], name: value };
+      items[logoIndex] = { ...items[logoIndex], [key]: value };
       categories[categoryIndex] = { ...categories[categoryIndex], items };
 
       return {
@@ -1279,13 +1279,20 @@ export default function LandingPageManager() {
                     <div className="space-y-3">
                       {(category.items || []).map((item, logoIndex) => (
                         <div key={`${categoryIndex}-${logoIndex}`} className="flex items-start gap-3">
-                          <Field className="flex-1" label={`Partner ${logoIndex + 1}`}>
-                            <TextInput
-                              value={item.name || ""}
-                              onChange={(e) => updateSupportersLogo(categoryIndex, logoIndex, e.target.value)}
+                          <div className="flex-1 space-y-3">
+                            <Field label={`Partner ${logoIndex + 1} Name`}>
+                              <TextInput
+                                value={item.name || ""}
+                                onChange={(e) => updateSupportersLogo(categoryIndex, logoIndex, "name", e.target.value)}
+                              />
+                            </Field>
+                            <ImageField
+                              label={`Partner ${logoIndex + 1} Logo`}
+                              value={item.logo || ""}
+                              onChange={(e) => handleImageUpload(e, (value) => updateSupportersLogo(categoryIndex, logoIndex, "logo", value))}
                             />
-                          </Field>
-                          <Button type="button" variant="outline" className="mt-7 rounded-xl border-destructive/30 text-destructive hover:bg-destructive/10" onClick={() => removeSupportersLogo(categoryIndex, logoIndex)}>
+                          </div>
+                          <Button type="button" variant="outline" className="mt-7 rounded-xl border-destructive/30 text-destructive hover:bg-destructive/10 shrink-0" onClick={() => removeSupportersLogo(categoryIndex, logoIndex)}>
                             Delete
                           </Button>
                         </div>

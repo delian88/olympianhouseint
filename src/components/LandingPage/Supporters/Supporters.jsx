@@ -40,7 +40,7 @@ const LogoMarquee = ({ logos }) => {
   return (
     <div className="flex flex-wrap justify-start gap-2 sm:gap-3">
       {(logos || []).map((logo, index) => (
-        <LogoCard key={`${logo.name}-${index}`} name={logo.name} src={getLogoSrc(logo.name)} />
+        <LogoCard key={`${logo.name}-${index}`} name={logo.name} src={logo.logo || getLogoSrc(logo.name)} />
       ))}
     </div>
   );
