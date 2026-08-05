@@ -1128,11 +1128,11 @@ export default function LandingPageManager() {
           </div>
         </SectionCard>
 
-        <SectionCard id="home-programmes" title="Featured Programmes" description="Edit the featured programme cards." onSave={() => requestSave(async () => { setConfig((current) => ({ ...current, homePage: draftConfig.homePage })); toast.success("Programmes saved!"); }, "Featured Programmes")} saveLabel="Update Section">
+        <SectionCard id="home-programmes" title="Our Work (Showcases/Adverts)" description="Edit the featured showcases and their heading text." onSave={() => requestSave(async () => { setConfig((current) => ({ ...current, homePage: draftConfig.homePage })); toast.success("Programmes saved!"); }, "Our Work (Showcases/Adverts)")} saveLabel="Update Section">
           <div className="space-y-4">
-            <Field label="Eyebrow"><TextInput value={draftConfig.homePage?.programmes?.eyebrow || ""} onChange={(e) => updateHomePage("programmes", "eyebrow", e.target.value)} /></Field>
-            <Field label="Title"><TextInput value={draftConfig.homePage?.programmes?.title || ""} onChange={(e) => updateHomePage("programmes", "title", e.target.value)} /></Field>
-            <Field label="Subline"><TextArea rows={3} value={draftConfig.homePage?.programmes?.subline || ""} onChange={(e) => updateHomePage("programmes", "subline", e.target.value)} /></Field>
+            <Field label="Eyebrow (e.g. Our work)"><TextInput value={draftConfig.homePage?.programmes?.eyebrow || ""} onChange={(e) => updateHomePage("programmes", "eyebrow", e.target.value)} /></Field>
+            <Field label="Title (e.g. SHOWCASES/ADVERTS)"><TextInput value={draftConfig.homePage?.programmes?.title || ""} onChange={(e) => updateHomePage("programmes", "title", e.target.value)} /></Field>
+            <Field label="Subline (Description)"><TextArea rows={3} value={draftConfig.homePage?.programmes?.subline || ""} onChange={(e) => updateHomePage("programmes", "subline", e.target.value)} /></Field>
             {(draftConfig.homePage?.programmes?.items || []).map((item, index) => (
               <div key={index} className="rounded-2xl border border-border bg-muted/40 p-4">
                 <Field label={`Programme ${index + 1} title`}><TextInput value={item.title || ""} onChange={(e) => updateHomePageArrayItem("programmes", "items", index, "title", e.target.value)} /></Field>
