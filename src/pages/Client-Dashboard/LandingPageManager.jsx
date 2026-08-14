@@ -1217,13 +1217,37 @@ export default function LandingPageManager() {
               <p className="text-sm font-semibold text-foreground">News Cards</p>
               <div className="space-y-6">
                 {(draftConfig.homePage?.news?.cards || landingPageDefaults.homePage.news.cards).map((card, index) => (
-                  <div key={index} className="space-y-4 rounded-xl border border-border bg-background p-4">
+                  <div key={index} className="relative space-y-4 rounded-xl border border-border bg-background p-4">
+                    <button
+                      onClick={() => {
+                        setDraftConfig((current) => {
+                          const cards = [...(current.homePage?.news?.cards || landingPageDefaults.homePage.news.cards)];
+                          cards.splice(index, 1);
+                          const images = [...(current.homePage?.news?.images || [])];
+                          if (images.length > index) images.splice(index, 1);
+                          return {
+                            ...current,
+                            homePage: {
+                              ...current.homePage,
+                              news: { ...current.homePage?.news, cards, images }
+                            }
+                          };
+                        });
+                      }}
+                      className="absolute right-4 top-4 text-xs font-bold text-red-500 hover:text-red-600 transition"
+                      title="Remove Article"
+                    >
+                      Remove
+                    </button>
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Article {index + 1}</p>
                     <Field label="Title"><TextInput value={card.title || ""} onChange={(e) => updateHomePageArrayItem("news", "cards", index, "title", e.target.value)} /></Field>
                     <Field label="Slug (URL path)"><TextInput value={card.slug || ""} onChange={(e) => updateHomePageArrayItem("news", "cards", index, "slug", e.target.value)} /></Field>
                     <Field label="Date"><TextInput value={card.date || ""} onChange={(e) => updateHomePageArrayItem("news", "cards", index, "date", e.target.value)} /></Field>
                     <Field label="Categories (comma separated)"><TextInput value={(card.categories || []).join(", ")} onChange={(e) => updateHomePageArrayItem("news", "cards", index, "categories", e.target.value.split(",").map(c => c.trim()))} /></Field>
-                    <Field label="Description"><TextArea rows={3} value={card.description || ""} onChange={(e) => updateHomePageArrayItem("news", "cards", index, "description", e.target.value)} /></Field>
+                    <Field label="Description (Snippet)"><TextArea rows={3} value={card.description || ""} onChange={(e) => updateHomePageArrayItem("news", "cards", index, "description", e.target.value)} /></Field>
+                    <Field label="Article Content (Use double newlines for paragraphs, and start lines with '# ' for headings)">
+                      <TextArea rows={12} value={card.content || ""} onChange={(e) => updateHomePageArrayItem("news", "cards", index, "content", e.target.value)} />
+                    </Field>
                     <ImageField label="Image" value={draftConfig.homePage?.news?.images?.[index] || ""} onChange={(e) => handleImageUpload(e, (value) => {
                       setDraftConfig((current) => {
                         const images = [...(current.homePage?.news?.images || [])];
@@ -1240,6 +1264,31 @@ export default function LandingPageManager() {
                   </div>
                 ))}
               </div>
+              <button
+                onClick={() => {
+                  setDraftConfig((current) => {
+                    const cards = [...(current.homePage?.news?.cards || landingPageDefaults.homePage.news.cards)];
+                    cards.push({
+                      title: "New Article",
+                      slug: "new-article-" + Date.now(),
+                      date: new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }),
+                      categories: [],
+                      description: "",
+                      content: "Your article text goes here..."
+                    });
+                    return {
+                      ...current,
+                      homePage: {
+                        ...current.homePage,
+                        news: { ...current.homePage?.news, cards }
+                      }
+                    };
+                  });
+                }}
+                className="mt-4 rounded-lg border border-border bg-white px-4 py-2 text-sm font-semibold text-foreground shadow-sm transition hover:bg-muted"
+              >
+                + Add Article
+              </button>
             </div>
           </div>
         </SectionCard>

@@ -24,9 +24,14 @@ if ($method === 'GET') {
         return;
     }
 
-    // config is stored as JSON string in MySQL — decode it
-    $row['config'] = json_decode($row['config'], true);
-    echo json_encode(['data' => $row]);
+    // config is stored as JSON string in MySQL. Avoid decoding and re-encoding it to save memory and prevent fatals.
+    echo '{"data":{"id":';
+    echo json_encode($row['id']);
+    echo ',"config":';
+    echo $row['config'];
+    echo ',"updated_at":';
+    echo json_encode($row['updated_at']);
+    echo '}}';
     return;
 }
 
