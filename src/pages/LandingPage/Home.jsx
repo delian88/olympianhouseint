@@ -420,18 +420,18 @@ function Home() {
                 whileInView="show"
                 viewport={{ once: true, amount: 0.2 }}
               >
-                {(gallery.items?.slice(0, 6) ?? []).map((item, i) => (
+                {(homePage.trackRecord?.images ?? landingPageDefaults.homePage.trackRecord.images).map((imgUrl, i) => (
                   <motion.div
-                    key={item.id ?? i}
+                    key={i}
                     variants={staggerItem}
                     className={`overflow-hidden rounded-[4px] ${
                       i === 1 || i === 4 ? "row-span-2" : ""
                     } ${i === 2 ? "col-span-2" : ""}`}
                   >
                     <FallbackImage
-                      src={item.image}
-                      fallback={landingPageDefaults.gallery.items?.[0]?.image}
-                      alt={item.title ?? `Track record ${i + 1}`}
+                      src={imgUrl}
+                      fallback={landingPageDefaults.homePage.trackRecord.images[i]}
+                      alt={`Track record ${i + 1}`}
                       className="h-full w-full object-cover"
                     />
                   </motion.div>

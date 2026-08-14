@@ -130,6 +130,14 @@ export const landingPageDefaults = {
       ],
       trustedByText:
         "Trusted by the Cameroon Investment Promotion Agency (API), the World Food Programme, EU Civil Protection & Humanitarian Aid, IFRC, Olam Food Ingredients (OFI), Sun King, and more.",
+      images: [
+        gallery01,
+        gallery02,
+        gallery03,
+        gallery04,
+        gallery05,
+        gallery06,
+      ],
     },
     testimonials: {
       eyebrow: "Client Voices",
