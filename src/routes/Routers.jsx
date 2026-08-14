@@ -22,6 +22,7 @@ import ProfileSetting from "../pages/Client-Dashboard/ProfileSetting";
 import { Overview } from "../pages/Client-Dashboard/Overview";
 import LandingPageManager from "../pages/Client-Dashboard/LandingPageManager";
 import AdminLogin from "../pages/Client-Dashboard/AdminLogin";
+import NewsManager from "../pages/Client-Dashboard/NewsManager";
 import { RequireAdminAuth } from "../components/ui/RequireAdminAuth";
 
 const Routers = () => {
@@ -57,6 +58,7 @@ const Routers = () => {
         >
           <Route index element={<LandingPageManager />} />
           <Route path="overview" element={<Overview />} />
+          <Route path="news" element={<NewsManager />} />
           <Route path="profile-setting" element={<ProfileSetting />} />
           <Route path="landing-page" element={<LandingPageManager />} />
         </Route>

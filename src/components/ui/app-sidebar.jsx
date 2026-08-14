@@ -51,6 +51,11 @@ const mainItems = [
     url: "/dashboard/landing-page",
     icon: PaletteIcon,
   },
+  {
+    title: "News & Articles",
+    url: "/dashboard/news",
+    icon: FileText,
+  },
 ];
 
 const sitePages = [
