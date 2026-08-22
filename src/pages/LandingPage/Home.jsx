@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ChevronDown, Play, CalendarDays } from "lucide-react";
+import { ArrowRight, ChevronDown, Play, CalendarDays, X, Film } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLandingPageConfig } from "../../context/LandingPageConfigContext";
 import { landingPageDefaults } from "../../data/landingPageDefaults";
@@ -46,8 +46,26 @@ function Home() {
   };
   const heroSlideFallbacks = landingPageDefaults.hero.slides.map((slide) => slide.image);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isOhiVideoOpen, setIsOhiVideoOpen] = useState(false);
   const railRef = useRef(null);
   const thumbHeight = "clamp(80px, 24vh, 180px)";
+
+  const getEmbedUrl = (url) => {
+    if (!url) return null;
+    if (url.includes("youtube.com/watch?v=")) {
+      const videoId = url.split("v=")[1]?.split("&")[0];
+      return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    }
+    if (url.includes("youtu.be/")) {
+      const videoId = url.split("youtu.be/")[1]?.split("?")[0];
+      return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    }
+    if (url.includes("vimeo.com/")) {
+      const videoId = url.split("vimeo.com/")[1]?.split("?")[0];
+      return `https://player.vimeo.com/video/${videoId}?autoplay=1`;
+    }
+    return null;
+  };
 
   useEffect(() => {
     const updateScrollProgress = () => {
@@ -598,7 +616,7 @@ function Home() {
                     <h3 className="text-sm font-bold leading-5 text-[#a75f1a]">{item.title}</h3>
                     <p className="mt-3 text-xs leading-5 text-[#54565a]">{item.description}</p>
                     <Link
-                      to="/portfolio"
+                      to="/services"
                       className="mt-auto inline-flex h-10 items-center justify-center bg-[linear-gradient(180deg,#f58e1b_0%,#d76418_100%)] px-4 text-[11px] font-semibold text-white"
                     >
                       Learn More
@@ -660,10 +678,10 @@ function Home() {
 
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Link
-              to="/who-we-serve"
-              className="inline-flex h-8 items-center justify-center bg-[#e97a2f] px-4 text-xs font-semibold text-white transition hover:bg-[#d96f1f]"
+              to="/client-voices"
+              className="inline-flex h-9 items-center justify-center bg-[#05c1ff] px-6 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-[#04a0d4] rounded-full shadow-md"
             >
-              View More
+              View Client Voices (Attestations & Photos)
             </Link>
             <Link
               to={homePage.storytellers.ctaHref ?? "/contact"}
@@ -689,7 +707,7 @@ function Home() {
               </h2>
             </div>
             <Link
-              to="/impact"
+              to="/news"
               className="shrink-0 inline-flex items-center justify-center bg-[#e97a2f] px-8 py-3 text-sm font-bold text-white transition hover:bg-[#d96f1f]"
             >
               All Posts
@@ -738,7 +756,7 @@ function Home() {
                     to={`/news/${card.slug}`}
                     className="self-start inline-flex items-center gap-2 rounded border border-[#e97a2f] text-[#e97a2f] px-6 py-2.5 text-sm font-semibold transition hover:bg-[#e97a2f] hover:text-white"
                   >
-                    Read More &#8594;
+                    Learn More &#8594;
                   </Link>
                 </div>
               </motion.article>
@@ -765,21 +783,24 @@ function Home() {
               </p>
             </Reveal>
 
-            <Reveal x={30} className="relative h-[220px] overflow-hidden rounded-[10px] bg-black shadow-[0_16px_38px_rgba(0,0,0,0.4)]">
+            <Reveal x={30} className="relative h-[220px] overflow-hidden rounded-[10px] bg-black shadow-[0_16px_38px_rgba(0,0,0,0.4)] cursor-pointer group" onClick={() => setIsOhiVideoOpen(true)}>
               <FallbackImage
-                src={heroImages.hero2}
+                src={homePage.videoSection?.poster || heroImages.hero2}
                 fallback={heroSlideFallbacks[1]}
                 alt="OHI video preview"
-                className="h-full w-full object-cover opacity-95"
+                className="h-full w-full object-cover opacity-95 transition duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 flex items-end justify-start p-3">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/30 backdrop-blur-[1px]">
                 <button
                   type="button"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-[#111]"
+                  className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#f07f1a] text-white shadow-xl transition duration-300 group-hover:scale-110 group-hover:bg-[#05c1ff]"
                   aria-label="Play video"
                 >
-                  <Play className="h-4 w-4 fill-current" />
+                  <Play className="ml-1 h-7 w-7 fill-current" />
                 </button>
+                <span className="rounded-full bg-black/60 px-3 py-1 text-[11px] font-bold tracking-wider text-white backdrop-blur">
+                  WATCH THIS IS OHI
+                </span>
               </div>
             </Reveal>
           </div>
@@ -798,6 +819,63 @@ function Home() {
           </div>
         </div>
       </section>
+
+      {/* Video Modal Player for This is OHI */}
+      {isOhiVideoOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={() => setIsOhiVideoOpen(false)}
+        >
+          <div
+            className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-slate-900 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-slate-800 bg-slate-950 px-6 py-4">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-[#05c1ff]">
+                  Featured Film
+                </span>
+                <h3 className="text-lg font-bold text-white">
+                  {homePage.videoSection?.title || "This is OHI"}
+                </h3>
+              </div>
+              <button
+                onClick={() => setIsOhiVideoOpen(false)}
+                className="rounded-full bg-slate-800 p-2 text-slate-400 hover:bg-slate-700 hover:text-white"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="relative aspect-video w-full bg-black">
+              {getEmbedUrl(homePage.videoSection?.videoUrl) ? (
+                <iframe
+                  src={getEmbedUrl(homePage.videoSection?.videoUrl)}
+                  title="This is OHI Video"
+                  className="h-full w-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <video
+                  src={homePage.videoSection?.videoUrl || "/OHI-video.mp4"}
+                  controls
+                  autoPlay
+                  className="h-full w-full object-contain"
+                />
+              )}
+            </div>
+
+            {homePage.videoSection?.description && (
+              <div className="border-t border-slate-800 bg-slate-950 p-5">
+                <p className="text-sm text-slate-300">
+                  {homePage.videoSection.description}
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -41,8 +41,8 @@ const LogoCard = ({ logo, name }) => (
 const OurPartnersPage = () => {
   return (
     <ProfilePageShell
-      title="Our Partners"
-      description="Institutional partnerships that support delivery, credibility, and reach."
+      title="Our Clients"
+      description="Institutional clients, partners, and multilateral agencies that trust Olympian House International."
       descriptionClassName="text-white"
       primaryCta={{ label: "Contact Us", href: "/contact" }}
       secondaryCta={{ label: "Our Team", href: "/our-team" }}

@@ -73,14 +73,16 @@ function stripBundledAssetUrls(value) {
 
 function mergeDeep(base, override) {
   if (Array.isArray(base)) {
-    if (!Array.isArray(override) || !override.length) {
+    if (!Array.isArray(override)) {
       return base;
     }
 
-    const merged = base.map((item, index) => mergeDeep(item, override[index]));
-    const extraItems = override.slice(base.length).filter((item) => item !== undefined);
-
-    return extraItems.length ? [...merged, ...extraItems] : merged;
+    return override.map((item, index) => {
+      if (index < base.length) {
+        return mergeDeep(base[index], item);
+      }
+      return item;
+    });
   }
 
   if (base && typeof base === "object") {
@@ -149,7 +151,7 @@ function normalizeConfig(config) {
         ...config.hero,
         ...(config.hero.images ? { images: { ...config.hero.images } } : {}),
         ...(Array.isArray(config.hero.slides)
-          ? { slides: config.hero.slides.slice(0, landingPageDefaults.hero.slides.length) }
+          ? { slides: [...config.hero.slides] }
           : {}),
       }
     : null;

@@ -1,7 +1,7 @@
 <?php
 /**
  * Database Configuration — PDO MySQL Singleton
- * Reads credentials from a .env file in the backend root.
+ * Reads credentials from a .env file or server environment variables.
  */
 
 class Database {
@@ -12,25 +12,40 @@ class Database {
      */
     public static function getInstance(): PDO {
         if (self::$instance === null) {
-            // Load .env if not already loaded by index.php
-            $envFile = dirname(__DIR__, 2) . '/.env';
-            if (file_exists($envFile) && !getenv('DATABASE_URL')) {
-                self::loadEnv($envFile);
+            // Check potential .env locations
+            $possibleEnvFiles = [
+                __DIR__ . '/.env',
+                dirname(__DIR__) . '/.env',
+                dirname(__DIR__, 2) . '/.env',
+            ];
+
+            foreach ($possibleEnvFiles as $envFile) {
+                if (file_exists($envFile)) {
+                    self::loadEnv($envFile);
+                }
             }
 
-            $dsn = getenv('DATABASE_URL');
-            if (!$dsn) {
+            $dsnStr = getenv('DATABASE_URL') ?: ($_ENV['DATABASE_URL'] ?? '');
+
+            if ($dsnStr) {
+                $parsed = parse_url($dsnStr);
+                $host   = $parsed['host']  ?? 'localhost';
+                $port   = $parsed['port']  ?? 3306;
+                $dbname = ltrim($parsed['path'] ?? '', '/');
+                $user   = $parsed['user']  ?? '';
+                $pass   = rawurldecode($parsed['pass'] ?? '');
+            } else {
+                $host   = getenv('DB_HOST') ?: ($_ENV['DB_HOST'] ?? 'localhost');
+                $port   = getenv('DB_PORT') ?: ($_ENV['DB_PORT'] ?? 3306);
+                $dbname = getenv('DB_NAME') ?: ($_ENV['DB_NAME'] ?? 'ohi_db');
+                $user   = getenv('DB_USER') ?: ($_ENV['DB_USER'] ?? 'root');
+                $pass   = getenv('DB_PASS') !== false ? getenv('DB_PASS') : ($_ENV['DB_PASS'] ?? '');
+            }
+
+            if (!$dbname) {
                 http_response_code(500);
-                die(json_encode(['error' => 'DATABASE_URL is not configured.']));
+                die(json_encode(['error' => 'Database parameters not configured.']));
             }
-
-            // Parse the DSN: mysql://user:pass@host:port/dbname
-            $parsed = parse_url($dsn);
-            $host   = $parsed['host']  ?? 'localhost';
-            $port   = $parsed['port']  ?? 3306;
-            $dbname = ltrim($parsed['path'] ?? '', '/');
-            $user   = $parsed['user']  ?? '';
-            $pass   = rawurldecode($parsed['pass'] ?? '');
 
             try {
                 self::$instance = new PDO(

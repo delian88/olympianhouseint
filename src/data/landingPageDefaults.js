@@ -147,22 +147,36 @@ export const landingPageDefaults = {
           quote:
             "OHI brought clarity and visual precision to how we communicate our food security programmes across the region. The quality was exceptional.",
           name: "Communications Lead",
-          org: "World Food Programme",
+          org: "World Food Programme (WFP)",
           image: gallery01,
         },
         {
           quote:
             "Their team understood the stakes of our humanitarian narrative. The documentary they produced has been screened at multiple EU forums.",
           name: "Media & Advocacy Officer",
-          org: "EU Civil Protection & Humanitarian Aid",
+          org: "EU Civil Protection & Humanitarian Aid (ECHO)",
           image: gallery03,
         },
         {
           quote:
             "We needed an investment showcase that could speak to global audiences about Cameroon's potential. OHI delivered exactly that — on time and on message.",
           name: "Senior Investment Advisor",
-          org: "Cameroon Investment Promotion Agency",
+          org: "Cameroon Investment Promotion Agency (API)",
           image: gallery05,
+        },
+        {
+          quote:
+            "The ESG documentary series created by OHI helped demonstrate our solar energy impact to investors and international development partners with immense credibility.",
+          name: "Regional Impact Lead",
+          org: "Sun King Solar",
+          image: gallery06,
+        },
+        {
+          quote:
+            "OHI's field production captured the human dimension of emergency response and community resilience across Central Africa in a powerful, dignity-preserving way.",
+          name: "Disaster Response Coordinator",
+          org: "IFRC Regional Delegation",
+          image: gallery07,
         },
       ],
     },

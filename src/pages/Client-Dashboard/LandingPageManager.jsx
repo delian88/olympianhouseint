@@ -861,6 +861,21 @@ export default function LandingPageManager() {
     }
   };
 
+  const handleVideoUpload = async (event, apply) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const dataUrl = await readFileAsDataUrl(file);
+      apply(String(dataUrl));
+      toast.success("Video uploaded successfully");
+    } catch {
+      toast.error("Could not read that video file");
+    } finally {
+      event.target.value = "";
+    }
+  };
+
   const requestSave = (saveAction, label) => {
     setPendingSave(() => saveAction);
     setPendingSaveLabel(label);
@@ -911,23 +926,41 @@ export default function LandingPageManager() {
                   <ArrowRightIcon className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" className="w-full rounded-full px-5 py-3 text-sm font-semibold sm:w-auto">
-                <Link to="#value-proposition">
-                  Jump to value proposition
-                  <ArrowRightIcon className="h-4 w-4" />
-                </Link>
+              <Button asChild variant="outline" className="w-full rounded-full px-4 py-2.5 text-xs font-semibold sm:w-auto">
+                <a href="#services-page">
+                  Services Page
+                  <ArrowRightIcon className="h-3.5 w-3.5" />
+                </a>
               </Button>
-              <Button asChild variant="outline" className="w-full rounded-full px-5 py-3 text-sm font-semibold sm:w-auto">
-                <Link to="#footer-settings">
-                  Jump to footer settings
-                  <ArrowRightIcon className="h-4 w-4" />
-                </Link>
+              <Button asChild variant="outline" className="w-full rounded-full px-4 py-2.5 text-xs font-semibold sm:w-auto">
+                <a href="#portfolio-page">
+                  Portfolio Page
+                  <ArrowRightIcon className="h-3.5 w-3.5" />
+                </a>
               </Button>
-              <Button asChild variant="outline" className="w-full rounded-full px-5 py-3 text-sm font-semibold sm:w-auto">
-                <Link to="#theme-settings">
-                  Jump to theme settings
-                  <ArrowRightIcon className="h-4 w-4" />
-                </Link>
+              <Button asChild variant="outline" className="w-full rounded-full px-4 py-2.5 text-xs font-semibold sm:w-auto">
+                <a href="#leadership-page">
+                  Leadership Page
+                  <ArrowRightIcon className="h-3.5 w-3.5" />
+                </a>
+              </Button>
+              <Button asChild variant="outline" className="w-full rounded-full px-4 py-2.5 text-xs font-semibold sm:w-auto">
+                <a href="#approach-page">
+                  Approach Page
+                  <ArrowRightIcon className="h-3.5 w-3.5" />
+                </a>
+              </Button>
+              <Button asChild variant="outline" className="w-full rounded-full px-4 py-2.5 text-xs font-semibold sm:w-auto">
+                <a href="#background-page">
+                  Background Page
+                  <ArrowRightIcon className="h-3.5 w-3.5" />
+                </a>
+              </Button>
+              <Button asChild variant="outline" className="w-full rounded-full px-4 py-2.5 text-xs font-semibold sm:w-auto">
+                <a href="#footer-settings">
+                  Footer & Video Settings
+                  <ArrowRightIcon className="h-3.5 w-3.5" />
+                </a>
               </Button>
               <Button asChild variant="outline" className="w-full rounded-full px-5 py-3 text-sm font-semibold sm:w-auto">
                 <Link to="#approach-page">
@@ -1024,8 +1057,19 @@ export default function LandingPageManager() {
                 <Field label="Description"><TextArea rows={4} value={slide.description} onChange={(e) => updateHeroSlide(index, "description", e.target.value)} /></Field>
               </div>
             ))}
-            <div className="rounded-2xl border border-border bg-muted/40 p-3 sm:p-4">
-              <Field label="Background video URL" hint="Paste a direct MP4 URL (e.g. from Cloudinary). Leave blank to use the default OHI-video.mp4.">
+            <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-3 sm:p-4">
+              <h3 className="text-lg font-bold text-foreground">Hero Background Video</h3>
+              <Field label="Upload Hero Video File" hint="Upload MP4, WebM or video file directly for hero background">
+                <FileInput
+                  label="Choose hero video"
+                  accept="video/*"
+                  value={draftConfig.hero.videoUrl?.startsWith("data:video") || draftConfig.hero.videoUrl?.endsWith(".mp4") ? draftConfig.hero.videoUrl : ""}
+                  onChange={(e) =>
+                    handleVideoUpload(e, (value) => updateHero("videoUrl", value))
+                  }
+                />
+              </Field>
+              <Field label="OR Background Video URL" hint="Paste direct MP4 or video URL (leave blank to use default video)">
                 <TextInput
                   value={draftConfig.hero.videoUrl ?? ""}
                   placeholder="https://res.cloudinary.com/your-cloud/video/upload/..."
@@ -1321,6 +1365,35 @@ export default function LandingPageManager() {
           <div className="space-y-4">
             <Field label="Title"><TextInput value={draftConfig.homePage?.videoSection?.title || ""} onChange={(e) => updateHomePage("videoSection", "title", e.target.value)} /></Field>
             <Field label="Description"><TextArea rows={3} value={draftConfig.homePage?.videoSection?.description || ""} onChange={(e) => updateHomePage("videoSection", "description", e.target.value)} /></Field>
+            
+            <div className="space-y-3 rounded-2xl border border-border bg-background p-4">
+              <h3 className="text-sm font-bold text-foreground">This is OHI Video Content</h3>
+              <Field label="Upload Video File" hint="Upload MP4, WebM or video file directly">
+                <FileInput
+                  label="Choose banner video"
+                  accept="video/*"
+                  value={draftConfig.homePage?.videoSection?.videoUrl?.startsWith("data:video") || draftConfig.homePage?.videoSection?.videoUrl?.endsWith(".mp4") ? draftConfig.homePage?.videoSection?.videoUrl : ""}
+                  onChange={(e) =>
+                    handleVideoUpload(e, (value) => updateHomePage("videoSection", "videoUrl", value))
+                  }
+                />
+              </Field>
+              <Field label="OR Video Link / URL" hint="Paste YouTube, Vimeo or MP4 link">
+                <TextInput
+                  placeholder="https://www.youtube.com/watch?v=... or https://.../video.mp4"
+                  value={draftConfig.homePage?.videoSection?.videoUrl || ""}
+                  onChange={(e) => updateHomePage("videoSection", "videoUrl", e.target.value)}
+                />
+              </Field>
+              <ImageField
+                label="Video Thumbnail / Preview Poster"
+                value={draftConfig.homePage?.videoSection?.poster || ""}
+                onChange={(e) =>
+                  handleImageUpload(e, (value) => updateHomePage("videoSection", "poster", value))
+                }
+              />
+            </div>
+
             <div className="grid gap-4 lg:grid-cols-2">
               {(draftConfig.homePage?.videoSection?.stats || []).map((stat, index) => (
                 <div key={index} className="rounded-2xl border border-border bg-muted/40 p-4">
@@ -2546,15 +2619,61 @@ export default function LandingPageManager() {
                 </Field>
               </div>
             </div>
-            <div className="grid gap-4 xl:grid-cols-2">
-              {(draftConfig.portfolioPage?.projects || []).map((project, index) => (
-                <div key={index} className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
-                  <h3 className="text-lg font-bold text-foreground">Project {index + 1}</h3>
+            <div className="flex items-center justify-between pt-2">
+              <h3 className="text-xl font-bold text-foreground">Portfolio Projects & Videos</h3>
+              <Button
+                type="button"
+                onClick={() => {
+                  const next = [...(draftConfig.portfolioPage?.projects || landingPageDefaults.portfolioPage.projects)];
+                  next.push({
+                    title: "New Video Project",
+                    category: "Documentary",
+                    description: "Project video description...",
+                    image: "",
+                    videoUrl: "",
+                  });
+                  setDraftConfig((current) => ({
+                    ...current,
+                    portfolioPage: {
+                      ...current.portfolioPage,
+                      projects: next,
+                    },
+                  }));
+                }}
+                className="bg-[#05c1ff] text-white hover:brightness-110"
+              >
+                + Add Project
+              </Button>
+            </div>
+            <div className="grid gap-6 xl:grid-cols-2">
+              {(draftConfig.portfolioPage?.projects || landingPageDefaults.portfolioPage.projects).map((project, index) => (
+                <div key={index} className="relative space-y-4 rounded-2xl border border-border bg-muted/40 p-5">
+                  <div className="flex items-center justify-between border-b border-border/50 pb-3">
+                    <h3 className="text-lg font-bold text-foreground">Project {index + 1}</h3>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => {
+                        const next = [...(draftConfig.portfolioPage?.projects || landingPageDefaults.portfolioPage.projects)];
+                        next.splice(index, 1);
+                        setDraftConfig((current) => ({
+                          ...current,
+                          portfolioPage: {
+                            ...current.portfolioPage,
+                            projects: next,
+                          },
+                        }));
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </div>
                   <Field label={`Project ${index + 1} title`}>
                     <TextInput
                       value={project.title || ""}
                       onChange={(e) => {
-                        const next = [...(draftConfig.portfolioPage?.projects || [])];
+                        const next = [...(draftConfig.portfolioPage?.projects || landingPageDefaults.portfolioPage.projects)];
                         next[index] = { ...next[index], title: e.target.value };
                         setDraftConfig((current) => ({
                           ...current,
@@ -2570,7 +2689,7 @@ export default function LandingPageManager() {
                     <TextInput
                       value={project.category || ""}
                       onChange={(e) => {
-                        const next = [...(draftConfig.portfolioPage?.projects || [])];
+                        const next = [...(draftConfig.portfolioPage?.projects || landingPageDefaults.portfolioPage.projects)];
                         next[index] = { ...next[index], category: e.target.value };
                         setDraftConfig((current) => ({
                           ...current,
@@ -2584,10 +2703,10 @@ export default function LandingPageManager() {
                   </Field>
                   <Field label={`Project ${index + 1} description`}>
                     <TextArea
-                      rows={4}
+                      rows={3}
                       value={project.description || ""}
                       onChange={(e) => {
-                        const next = [...(draftConfig.portfolioPage?.projects || [])];
+                        const next = [...(draftConfig.portfolioPage?.projects || landingPageDefaults.portfolioPage.projects)];
                         next[index] = { ...next[index], description: e.target.value };
                         setDraftConfig((current) => ({
                           ...current,
@@ -2600,11 +2719,11 @@ export default function LandingPageManager() {
                     />
                   </Field>
                   <ImageField
-                    label={`Project ${index + 1} image`}
+                    label={`Project ${index + 1} thumbnail image`}
                     value={project.image || ""}
                     onChange={(e) =>
                       handleImageUpload(e, (value) => {
-                        const next = [...(draftConfig.portfolioPage?.projects || [])];
+                        const next = [...(draftConfig.portfolioPage?.projects || landingPageDefaults.portfolioPage.projects)];
                         next[index] = { ...next[index], image: value };
                         setDraftConfig((current) => ({
                           ...current,
@@ -2616,6 +2735,45 @@ export default function LandingPageManager() {
                       })
                     }
                   />
+                  <div className="space-y-3 rounded-xl border border-border/60 bg-background/60 p-4">
+                    <Field label="Upload Project Video File" hint="Upload an MP4, WebM, or video file directly">
+                      <FileInput
+                        label="Choose video file"
+                        accept="video/*"
+                        value={project.videoUrl?.startsWith("data:video") || project.videoUrl?.endsWith(".mp4") ? project.videoUrl : ""}
+                        onChange={(e) =>
+                          handleVideoUpload(e, (value) => {
+                            const next = [...(draftConfig.portfolioPage?.projects || landingPageDefaults.portfolioPage.projects)];
+                            next[index] = { ...next[index], videoUrl: value };
+                            setDraftConfig((current) => ({
+                              ...current,
+                              portfolioPage: {
+                                ...current.portfolioPage,
+                                projects: next,
+                              },
+                            }));
+                          })
+                        }
+                      />
+                    </Field>
+                    <Field label="OR Video Link / URL" hint="Paste a YouTube, Vimeo, or external MP4 link">
+                      <TextInput
+                        placeholder="https://www.youtube.com/watch?v=... or https://.../video.mp4"
+                        value={project.videoUrl || project.video || ""}
+                        onChange={(e) => {
+                          const next = [...(draftConfig.portfolioPage?.projects || landingPageDefaults.portfolioPage.projects)];
+                          next[index] = { ...next[index], videoUrl: e.target.value };
+                          setDraftConfig((current) => ({
+                            ...current,
+                            portfolioPage: {
+                              ...current.portfolioPage,
+                              projects: next,
+                            },
+                          }));
+                        }}
+                      />
+                    </Field>
+                  </div>
                 </div>
               ))}
             </div>
@@ -3197,6 +3355,34 @@ export default function LandingPageManager() {
                 onChange={(e) => updateFooter("description", e.target.value)}
               />
             </Field>
+
+            <div className="space-y-4 rounded-2xl border border-border bg-background p-4">
+              <h3 className="text-lg font-bold text-foreground">OHI: Who We Are Video</h3>
+              <Field label="Upload Footer Video File" hint="Upload MP4, WebM or video file directly for footer">
+                <FileInput
+                  label="Choose footer video"
+                  accept="video/*"
+                  value={draftConfig.footer?.videoUrl?.startsWith("data:video") || draftConfig.footer?.videoUrl?.endsWith(".mp4") ? draftConfig.footer?.videoUrl : ""}
+                  onChange={(e) =>
+                    handleVideoUpload(e, (value) => updateFooter("videoUrl", value))
+                  }
+                />
+              </Field>
+              <Field label="OR Footer Video URL / Embed Link" hint="Paste YouTube, Vimeo or MP4 link">
+                <TextInput
+                  placeholder="https://www.youtube.com/watch?v=... or https://.../video.mp4"
+                  value={draftConfig.footer?.videoUrl || ""}
+                  onChange={(e) => updateFooter("videoUrl", e.target.value)}
+                />
+              </Field>
+              <ImageField
+                label="Footer Video Thumbnail / Preview"
+                value={draftConfig.footer?.videoThumb || ""}
+                onChange={(e) =>
+                  handleImageUpload(e, (value) => updateFooter("videoThumb", value))
+                }
+              />
+            </div>
           </div>
           <div className="mt-6 space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
             <h3 className="text-lg font-bold text-foreground">Social links</h3>

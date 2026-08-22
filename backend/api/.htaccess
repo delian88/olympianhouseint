@@ -7,14 +7,13 @@ Options -MultiViews
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /ohi-api/
 
-    # Pass Authorization header to PHP (required for mod_fcgid / CGI mode)
+    # Pass Authorization header to PHP (required for mod_fcgid / CGI mode on Namecheap)
     RewriteCond %{HTTP:Authorization} ^(.*)
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%1]
     SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 
-    # Allow direct access to real files (e.g. index.php itself)
+    # Allow direct access to real files
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
 
@@ -30,4 +29,3 @@ Options -MultiViews
 # Prevent PHP errors from leaking in production
 php_flag display_errors Off
 php_flag log_errors On
-php_value error_log /tmp/ohi-api-errors.log

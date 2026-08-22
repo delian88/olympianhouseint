@@ -32,8 +32,8 @@ export default function ValueProposition() {
             <motion.div
               className={classNames(
                 tier.featured
-                  ? "relative bg-black shadow-2xl border border-white/10"
-                  : "bg-white/60 sm:mx-0 lg:mx-0",
+                  ? "relative bg-slate-950 text-white shadow-2xl border border-white/10"
+                  : "bg-white text-slate-900 shadow-xl border border-slate-100 sm:mx-0 lg:mx-0",
                 "rounded-3xl p-6 ring-1 ring-gray-900/10 sm:p-8"
               )}
               whileHover={{ y: -8, scale: 1.01 }}
@@ -41,8 +41,8 @@ export default function ValueProposition() {
             >
               <h3
                 className={classNames(
-                  tier.featured ? "text-white" : "text-primaryColor",
-                  "text-base/7 font-semibold"
+                  tier.featured ? "text-[#05c1ff]" : "text-[#f9a11b]",
+                  "text-lg font-bold"
                 )}
               >
                 {tier.name}
@@ -50,8 +50,8 @@ export default function ValueProposition() {
               <p className="mt-4 flex items-baseline gap-x-2">
                 <span
                   className={classNames(
-                    tier.featured ? "text-white" : "text-gray-900",
-                    "text-5xl font-semibold tracking-tight"
+                    tier.featured ? "text-white" : "text-slate-900",
+                    "text-5xl font-black tracking-tight"
                   )}
                 >
                   {tier.number}
@@ -59,8 +59,8 @@ export default function ValueProposition() {
               </p>
               <p
                 className={classNames(
-                  tier.featured ? "text-gray-300" : "text-gray-600",
-                  "mt-6 text-base/7"
+                  tier.featured ? "text-slate-200" : "text-slate-700",
+                  "mt-4 text-sm leading-relaxed font-medium"
                 )}
               >
                 {tier.description}
@@ -68,8 +68,8 @@ export default function ValueProposition() {
               <ul
                 role="list"
                 className={classNames(
-                  tier.featured ? "text-gray-300" : "text-gray-600",
-                  "mt-8 space-y-3 text-sm/6 sm:mt-10"
+                  tier.featured ? "text-slate-200" : "text-slate-800",
+                  "mt-6 space-y-2.5 text-sm leading-6 font-medium sm:mt-8"
                 )}
               >
                 {(tier.features ?? []).map((feature) => (

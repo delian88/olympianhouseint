@@ -73,9 +73,9 @@ const CompanyProfile = () => {
 
   return (
     <ProfilePageShell
-      title={hero.title ?? "Company Overview"}
+      title={hero.title ?? "Documentary & Visual Proof"}
       heroImage={hero.image ?? companyHeroImage}
-      heroImageAlt="OHI company overview hero"
+      heroImageAlt="OHI documentary hero"
       description={hero.description ?? "OHI creates development communication that helps institutions, partners, and communities understand the work being done, why it matters, and why it deserves attention from capital and policy actors."}
       descriptionClassName="text-white"
       primaryCta={{ label: hero.primaryCtaLabel ?? "View Portfolio", href: hero.primaryCtaHref ?? "/portfolio" }}
@@ -83,7 +83,7 @@ const CompanyProfile = () => {
       heroBadge={
         <div className="space-y-1">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/80">
-            {hero.badgeEyebrow ?? "OHI company overview"}
+            {hero.badgeEyebrow ?? "OHI documentary"}
           </p>
           <p className="text-sm leading-6 text-white/80">
             {hero.badgeDescription ?? "Strategic visibility for development, investment, and impact communication."}

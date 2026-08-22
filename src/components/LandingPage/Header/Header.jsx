@@ -47,7 +47,7 @@ const searchablePages = [
   { label: "About OHI", path: "/about", keywords: ["about", "creditability", "human focus", "editorial craft", "vision statement"] },
   { label: "Background", path: "/background", keywords: ["background", "history", "institutional foundation"] },
   { label: "Our Team", path: "/our-team", keywords: ["team", "our team", "executive team", "board of trustees"] },
-  { label: "Our Partners", path: "/our-partners", keywords: ["partners", "supporters", "institutional partnerships"] },
+  { label: "Our Clients", path: "/our-clients", keywords: ["clients", "partners", "supporters", "institutional clients"] },
   { label: "Our Platforms", path: "/our-platforms", keywords: ["platforms"] },
   {
     label: "Services",
@@ -389,11 +389,18 @@ const Header = () => {
                 <Search className="h-5 w-5" />
               </button>
             )}
+            <a
+              href="/OHI-Company-Profile.pdf"
+              download
+              className="inline-flex h-11 items-center justify-center bg-[#05c1ff] px-5 text-xs font-bold uppercase tracking-wider text-white shadow-md transition hover:bg-[#04a0d4] rounded-lg"
+            >
+              Brochure
+            </a>
             {publicUtilityLinks.map((item) => (
-            <Link
+              <Link
                 key={item.label}
                 to={item.href}
-                className="inline-flex h-11 items-center justify-center bg-[linear-gradient(180deg,#f59d21_0%,#c96b17_100%)] px-6 text-sm font-bold uppercase tracking-[0.02em] text-white shadow-[0_12px_28px_rgba(201,107,23,0.3)] transition hover:brightness-105"
+                className="inline-flex h-11 items-center justify-center bg-[linear-gradient(180deg,#f59d21_0%,#c96b17_100%)] px-6 text-sm font-bold uppercase tracking-[0.02em] text-white shadow-[0_12px_28px_rgba(201,107,23,0.3)] transition hover:brightness-105 rounded-lg"
               >
                 {item.label}
               </Link>

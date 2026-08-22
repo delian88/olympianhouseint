@@ -8,7 +8,17 @@
  *   const { token } = await api.login(email, password);
  */
 
-const BASE_URL = import.meta.env.VITE_API_URL || '/api';
+function getBaseUrl() {
+  if (typeof window !== 'undefined') {
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    if (!isLocalhost) {
+      return `${window.location.origin}/api`;
+    }
+  }
+  return import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+}
+
+const BASE_URL = getBaseUrl();
 
 // ─── Internal helpers ─────────────────────────────────────────────────────────
 

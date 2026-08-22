@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Facebook,
@@ -7,6 +7,7 @@ import {
   Play,
   Twitter,
   Youtube,
+  X,
 } from "lucide-react";
 import Logo from "../Logo/logo.jsx";
 import { useLandingPageConfig } from "../../../context/LandingPageConfigContext";
@@ -65,14 +66,37 @@ function ExternalLink({ href, children, className }) {
   );
 }
 
+function getEmbedUrl(url) {
+  if (!url) return null;
+  if (url.includes("youtube.com/watch?v=")) {
+    const videoId = url.split("v=")[1]?.split("&")[0];
+    return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+  }
+  if (url.includes("youtu.be/")) {
+    const videoId = url.split("youtu.be/")[1]?.split("?")[0];
+    return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+  }
+  if (url.includes("vimeo.com/")) {
+    const videoId = url.split("vimeo.com/")[1]?.split("?")[0];
+    return `https://player.vimeo.com/video/${videoId}?autoplay=1`;
+  }
+  return null;
+}
+
 const Footer = () => {
   const { config } = useLandingPageConfig();
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
   const year = new Date().getFullYear();
-  const socialLinks = (config.footer?.socialLinks ?? []).map((item) => ({
+
+  const footerConfig = config.footer ?? {};
+  const socialLinks = (footerConfig.socialLinks ?? []).map((item) => ({
     label: item.label,
     href: item.path,
     icon: socialIconMap[item.label] ?? Twitter,
   }));
+
+  const footerVideoUrl = footerConfig.videoUrl || "/OHI-video.mp4";
+  const footerThumb = footerConfig.videoThumb || footerVideoThumb;
 
   return (
     <footer className="bg-black text-white">
@@ -155,17 +179,20 @@ const Footer = () => {
 
           <div>
             <h3 className="text-lg font-bold text-white">OHI: WHO WE ARE</h3>
-            <div className="mt-5 overflow-hidden rounded-sm bg-black shadow-[0_12px_28px_rgba(0,0,0,0.35)]">
+            <div
+              className="group mt-5 cursor-pointer overflow-hidden rounded-sm bg-black shadow-[0_12px_28px_rgba(0,0,0,0.35)]"
+              onClick={() => setIsVideoOpen(true)}
+            >
               <div className="relative aspect-video">
                 <img
-                  src={footerVideoThumb}
+                  src={footerThumb}
                   alt="OHI video preview"
-                  className="h-full w-full object-cover opacity-75"
+                  className="h-full w-full object-cover opacity-75 transition duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 flex items-center justify-center">
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
                   <button
                     type="button"
-                    className="inline-flex h-12 w-16 items-center justify-center rounded-lg bg-red-500/95 text-white shadow-[0_8px_18px_rgba(0,0,0,0.2)]"
+                    className="inline-flex h-12 w-16 items-center justify-center rounded-lg bg-red-500/95 text-white shadow-[0_8px_18px_rgba(0,0,0,0.2)] transition group-hover:scale-110 group-hover:bg-red-600"
                     aria-label="Play video"
                   >
                     <Play className="h-6 w-6 fill-current" />
@@ -227,6 +254,53 @@ const Footer = () => {
           <p>Copyright © {year} All Rights Reserved. Designed by OLSTECH SOLUTIONS</p>
         </div>
       </div>
+
+      {/* Footer Video Player Modal */}
+      {isVideoOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={() => setIsVideoOpen(false)}
+        >
+          <div
+            className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-slate-900 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-slate-800 bg-slate-950 px-6 py-4">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-[#05c1ff]">
+                  OHI Institutional Video
+                </span>
+                <h3 className="text-lg font-bold text-white">OHI: Who We Are</h3>
+              </div>
+              <button
+                onClick={() => setIsVideoOpen(false)}
+                className="rounded-full bg-slate-800 p-2 text-slate-400 hover:bg-slate-700 hover:text-white"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="relative aspect-video w-full bg-black">
+              {getEmbedUrl(footerVideoUrl) ? (
+                <iframe
+                  src={getEmbedUrl(footerVideoUrl)}
+                  title="OHI Who We Are Video"
+                  className="h-full w-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <video
+                  src={footerVideoUrl}
+                  controls
+                  autoPlay
+                  className="h-full w-full object-contain"
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </footer>
   );
 };

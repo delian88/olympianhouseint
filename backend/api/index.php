@@ -9,18 +9,23 @@
 declare(strict_types=1);
 
 // ─── Load .env ────────────────────────────────────────────────────────────────
-$envFile = dirname(__DIR__) . '/.env';
-if (file_exists($envFile)) {
-    $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-        $line = trim($line);
-        if ($line === '' || str_starts_with($line, '#') || !str_contains($line, '=')) continue;
-        [$key, $value] = explode('=', $line, 2);
-        $key   = trim($key);
-        $value = trim($value, " \t\n\r\0\x0B\"'");
-        if (!getenv($key)) {
-            putenv("{$key}={$value}");
-            $_ENV[$key] = $value;
+$possibleEnvFiles = [
+    __DIR__ . '/.env',
+    dirname(__DIR__) . '/.env',
+];
+foreach ($possibleEnvFiles as $envFile) {
+    if (file_exists($envFile)) {
+        $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if ($line === '' || str_starts_with($line, '#') || !str_contains($line, '=')) continue;
+            [$key, $value] = explode('=', $line, 2);
+            $key   = trim($key);
+            $value = trim($value, " \t\n\r\0\x0B\"'");
+            if (!getenv($key)) {
+                putenv("{$key}={$value}");
+                $_ENV[$key] = $value;
+            }
         }
     }
 }
@@ -50,10 +55,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-// ─── Parse URI ────────────────────────────────────────────────────────────────
 $requestUri  = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$scriptName  = dirname($_SERVER['SCRIPT_NAME']); // e.g. /api
-$path        = '/' . trim(str_replace($scriptName, '', $requestUri), '/');
+$path        = $requestUri;
+
+// If the URI starts with /api (from local proxy or Namecheap subfolder), strip it
+if (str_starts_with($path, '/api')) {
+    $path = substr($path, 4);
+}
+if ($path === '') {
+    $path = '/';
+}
 
 // ─── Route Dispatch ───────────────────────────────────────────────────────────
 try {

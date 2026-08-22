@@ -51,7 +51,11 @@ const FileInput = React.forwardRef(
         <div className="flex items-center gap-4">
           <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-border/70 bg-background">
             {previewUrl ? (
-              <img src={previewUrl} alt={previewAlt} className="h-full w-full object-cover" />
+              accept?.includes("video") || previewUrl.startsWith("data:video") || previewUrl.endsWith(".mp4") || previewUrl.endsWith(".webm") ? (
+                <video src={previewUrl} className="h-full w-full object-cover" muted />
+              ) : (
+                <img src={previewUrl} alt={previewAlt} className="h-full w-full object-cover" />
+              )
             ) : (
               <Upload className="h-5 w-5 text-muted-foreground" />
             )}

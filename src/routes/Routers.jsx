@@ -17,6 +17,8 @@ import ImpactPage from "../pages/LandingPage/CompanyProfile/ImpactPage";
 import ApproachPage from "../pages/LandingPage/CompanyProfile/ApproachPage";
 import ContactPage from "../pages/LandingPage/CompanyProfile/ContactPage";
 import ArticlePage from "../pages/LandingPage/CompanyProfile/ArticlePage";
+import NewsLandingPage from "../pages/LandingPage/CompanyProfile/NewsLandingPage";
+import ClientVoicesPage from "../pages/LandingPage/CompanyProfile/ClientVoicesPage";
 import Dashboard from "../pages/Client-Dashboard/Dashboard";
 import ProfileSetting from "../pages/Client-Dashboard/ProfileSetting";
 import { Overview } from "../pages/Client-Dashboard/Overview";
@@ -37,6 +39,7 @@ const Routers = () => {
         <Route path="background" element={<BackgroundPage />} />
         <Route path="our-team" element={<OurTeamPage />} />
         <Route path="our-partners" element={<OurPartnersPage />} />
+        <Route path="our-clients" element={<OurPartnersPage />} />
         <Route path="our-platforms" element={<OurPlatformsPage />} />
         <Route path="services" element={<ServicesPage />} />
         <Route path="portfolio" element={<PortfolioPage />} />
@@ -44,6 +47,8 @@ const Routers = () => {
         <Route path="impact" element={<ImpactPage />} />
         <Route path="approach" element={<ApproachPage />} />
         <Route path="contact" element={<ContactPage />} />
+        <Route path="news" element={<NewsLandingPage />} />
+        <Route path="client-voices" element={<ClientVoicesPage />} />
         <Route path="news/:slug" element={<ArticlePage />} />
         <Route path="admin/login" element={<AdminLogin />} />
 
