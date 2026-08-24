@@ -175,34 +175,52 @@ async function askAiChat(message, history = []) {
 /**
  * Upload a media file to the backend, which forwards it to Cloudinary.
  * @param {File} file
- * @returns {{ url: string }}
+ * @param {function} onProgress - Callback for upload progress
+ * @returns {Promise<{ url: string }>}
  */
-async function uploadMedia(file) {
-  const formData = new FormData();
-  formData.append('file', file);
+function uploadMedia(file, onProgress) {
+  return new Promise((resolve, reject) => {
+    const formData = new FormData();
+    formData.append('file', file);
 
-  const token = localStorage.getItem('ohi_token');
-  const headers = {
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-  };
+    const token = localStorage.getItem('ohi_token');
+    const xhr = new XMLHttpRequest();
+    
+    xhr.open('POST', `${BASE_URL}/upload`, true);
+    
+    if (token) {
+      xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+    }
 
-  const res = await fetch(`${BASE_URL}/upload`, {
-    method: 'POST',
-    body: formData,
-    headers,
-    signal: AbortSignal.timeout(120000), // 120s timeout for large videos
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable && onProgress) {
+        const percentComplete = (event.loaded / event.total) * 100;
+        onProgress(percentComplete);
+      }
+    };
+
+    xhr.onload = () => {
+      let data = {};
+      try {
+        data = JSON.parse(xhr.responseText);
+      } catch (e) {}
+
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(data);
+      } else {
+        const err = new Error(data.error || `HTTP ${xhr.status}`);
+        err.status = xhr.status;
+        err.data = data;
+        reject(err);
+      }
+    };
+
+    xhr.onerror = () => reject(new Error("Network Error"));
+    xhr.timeout = 120000; // 120s timeout
+    xhr.ontimeout = () => reject(new Error("Timeout Error"));
+
+    xhr.send(formData);
   });
-
-  const data = await res.json().catch(() => ({}));
-
-  if (!res.ok) {
-    const err = new Error(data.error || `HTTP ${res.status}`);
-    err.status = res.status;
-    err.data = data;
-    throw err;
-  }
-
-  return data;
 }
 
 // ─── Export ───────────────────────────────────────────────────────────────────

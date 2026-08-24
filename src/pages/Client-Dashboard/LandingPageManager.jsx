@@ -851,9 +851,11 @@ export default function LandingPageManager() {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const toastId = toast.loading("Uploading image...");
+    const toastId = toast.loading("Uploading image... 0%");
     try {
-      const data = await api.uploadMedia(file);
+      const data = await api.uploadMedia(file, (progress) => {
+        toast.loading(`Uploading image... ${Math.round(progress)}%`, { id: toastId });
+      });
       apply(data.url);
       toast.success("Image uploaded", { id: toastId });
     } catch (err) {
@@ -868,9 +870,11 @@ export default function LandingPageManager() {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const toastId = toast.loading("Uploading video...");
+    const toastId = toast.loading("Uploading video... 0%");
     try {
-      const data = await api.uploadMedia(file);
+      const data = await api.uploadMedia(file, (progress) => {
+        toast.loading(`Uploading video... ${Math.round(progress)}%`, { id: toastId });
+      });
       apply(data.url);
       toast.success("Video uploaded", { id: toastId });
     } catch (err) {
