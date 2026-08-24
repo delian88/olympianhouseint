@@ -172,14 +172,34 @@ export default function LandingPageManager() {
     }));
   };
 
-  const updateHero = (key, value) => {
-    setDraftConfig((current) => ({
-      ...current,
-      hero: {
-        ...current.hero,
-        [key]: value,
-      },
-    }));
+  const autoSaveConfig = (updater, sectionName) => {
+    setDraftConfig(prev => {
+      const nextConfig = updater(prev);
+      setConfig(nextConfig)
+        .then(() => toast.success(`${sectionName} saved automatically!`))
+        .catch(err => toast.error(`Failed to auto-save: ${err.message}`));
+      return nextConfig;
+    });
+  };
+
+  const updateHero = (key, value, autoSave = false) => {
+    if (autoSave) {
+      autoSaveConfig(current => ({
+        ...current,
+        hero: {
+          ...current.hero,
+          [key]: value,
+        },
+      }), "Hero Video");
+    } else {
+      setDraftConfig((current) => ({
+        ...current,
+        hero: {
+          ...current.hero,
+          [key]: value,
+        },
+      }));
+    }
   };
 
   const updateHomePage = (section, key, value) => {
@@ -884,7 +904,7 @@ export default function LandingPageManager() {
         }
       });
       apply(data.url);
-      toast.success("Video uploaded", { id: toastId });
+      toast.success("Video uploaded!", { id: toastId });
     } catch (err) {
       console.error(err);
       toast.error(err.message || "Could not upload that video file", { id: toastId });
@@ -1080,9 +1100,9 @@ export default function LandingPageManager() {
                 <FileInput
                   label="Choose hero video"
                   accept="video/*"
-                  value={draftConfig.hero.videoUrl?.startsWith("data:video") || draftConfig.hero.videoUrl?.endsWith(".mp4") ? draftConfig.hero.videoUrl : ""}
+                  value={draftConfig.hero.videoUrl?.startsWith("data:video") || draftConfig.hero.videoUrl?.startsWith("http") ? draftConfig.hero.videoUrl : ""}
                   onChange={(e) =>
-                    handleVideoUpload(e, (value) => updateHero("videoUrl", value))
+                    handleVideoUpload(e, (value) => updateHero("videoUrl", value, true))
                   }
                 />
               </Field>
@@ -1389,7 +1409,7 @@ export default function LandingPageManager() {
                 <FileInput
                   label="Choose banner video"
                   accept="video/*"
-                  value={draftConfig.homePage?.videoSection?.videoUrl?.startsWith("data:video") || draftConfig.homePage?.videoSection?.videoUrl?.endsWith(".mp4") ? draftConfig.homePage?.videoSection?.videoUrl : ""}
+                  value={draftConfig.homePage?.videoSection?.videoUrl?.startsWith("data:video") || draftConfig.homePage?.videoSection?.videoUrl?.startsWith("http") ? draftConfig.homePage?.videoSection?.videoUrl : ""}
                   onChange={(e) =>
                     handleVideoUpload(e, (value) => updateHomePage("videoSection", "videoUrl", value))
                   }
@@ -2757,7 +2777,7 @@ export default function LandingPageManager() {
                       <FileInput
                         label="Choose video file"
                         accept="video/*"
-                        value={project.videoUrl?.startsWith("data:video") || project.videoUrl?.endsWith(".mp4") ? project.videoUrl : ""}
+                        value={project.videoUrl?.startsWith("data:video") || project.videoUrl?.startsWith("http") ? project.videoUrl : ""}
                         onChange={(e) =>
                           handleVideoUpload(e, (value) => {
                             const next = [...(draftConfig.portfolioPage?.projects || landingPageDefaults.portfolioPage.projects)];
@@ -3379,7 +3399,7 @@ export default function LandingPageManager() {
                 <FileInput
                   label="Choose footer video"
                   accept="video/*"
-                  value={draftConfig.footer?.videoUrl?.startsWith("data:video") || draftConfig.footer?.videoUrl?.endsWith(".mp4") ? draftConfig.footer?.videoUrl : ""}
+                  value={draftConfig.footer?.videoUrl?.startsWith("data:video") || draftConfig.footer?.videoUrl?.startsWith("http") ? draftConfig.footer?.videoUrl : ""}
                   onChange={(e) =>
                     handleVideoUpload(e, (value) => updateFooter("videoUrl", value))
                   }

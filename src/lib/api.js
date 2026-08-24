@@ -218,7 +218,15 @@ async function uploadMedia(file, onProgress) {
       } catch (e) {}
 
       if (xhr.status >= 200 && xhr.status < 300) {
-        resolve({ url: data.secure_url });
+        let finalUrl = data.secure_url || data.url;
+        if (!finalUrl) {
+          reject(new Error("Cloudinary response missing url: " + xhr.responseText.substring(0, 100)));
+          return;
+        }
+        if (finalUrl && finalUrl.includes('/video/upload/')) {
+          finalUrl = finalUrl.replace(/\.[^/.]+$/, "") + ".mp4";
+        }
+        resolve({ url: finalUrl });
       } else {
         const err = new Error(data.error?.message || `HTTP ${xhr.status}`);
         err.status = xhr.status;

@@ -340,6 +340,7 @@ export function LandingPageConfigProvider({ children }) {
 
   const updateConfig = async (nextConfig) => {
     const newConfig = typeof nextConfig === "function" ? nextConfig(config) : nextConfig;
+    const previousConfig = config;
     setConfigState(newConfig);
 
     const cleaned = stripBundledAssetUrls(newConfig);
@@ -347,6 +348,8 @@ export function LandingPageConfigProvider({ children }) {
       await api.updateLandingConfig(cleaned);
     } catch (error) {
       console.error("Failed to save config to backend API:", error);
+      setConfigState(previousConfig);
+      alert("Failed to save changes. The image or configuration payload might be too large for the server. Check MySQL LONGTEXT or PHP post_max_size limits.");
       return;
     }
 
