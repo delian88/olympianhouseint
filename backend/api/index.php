@@ -113,6 +113,11 @@ try {
         exit;
     }
 
+    if (str_starts_with($path, '/upload')) {
+        require __DIR__ . '/routes/upload.php';
+        exit;
+    }
+
     if (str_starts_with($path, '/chat')) {
         require __DIR__ . '/routes/chat.php';
         exit;

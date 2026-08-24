@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { api } from "../../lib/api";
 import { toast } from "sonner";
 import { useLandingPageConfig } from "../../context/LandingPageConfigContext";
 import { ArrowRightIcon, RotateCcwIcon, SparklesIcon } from "lucide-react";
@@ -850,12 +851,14 @@ export default function LandingPageManager() {
     const file = event.target.files?.[0];
     if (!file) return;
 
+    const toastId = toast.loading("Uploading image...");
     try {
-      const dataUrl = await readFileAsDataUrl(file);
-      apply(String(dataUrl));
-      toast.success("Image updated");
-    } catch {
-      toast.error("Could not read that image");
+      const data = await api.uploadMedia(file);
+      apply(data.url);
+      toast.success("Image uploaded", { id: toastId });
+    } catch (err) {
+      console.error(err);
+      toast.error("Could not upload that image", { id: toastId });
     } finally {
       event.target.value = "";
     }
@@ -865,12 +868,14 @@ export default function LandingPageManager() {
     const file = event.target.files?.[0];
     if (!file) return;
 
+    const toastId = toast.loading("Uploading video...");
     try {
-      const dataUrl = await readFileAsDataUrl(file);
-      apply(String(dataUrl));
-      toast.success("Video uploaded successfully");
-    } catch {
-      toast.error("Could not read that video file");
+      const data = await api.uploadMedia(file);
+      apply(data.url);
+      toast.success("Video uploaded", { id: toastId });
+    } catch (err) {
+      console.error(err);
+      toast.error("Could not upload that video file", { id: toastId });
     } finally {
       event.target.value = "";
     }

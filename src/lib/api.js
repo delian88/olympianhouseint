@@ -172,6 +172,39 @@ async function askAiChat(message, history = []) {
   });
 }
 
+/**
+ * Upload a media file to the backend, which forwards it to Cloudinary.
+ * @param {File} file
+ * @returns {{ url: string }}
+ */
+async function uploadMedia(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const token = localStorage.getItem('ohi_token');
+  const headers = {
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+
+  const res = await fetch(`${BASE_URL}/upload`, {
+    method: 'POST',
+    body: formData,
+    headers,
+    signal: AbortSignal.timeout(120000), // 120s timeout for large videos
+  });
+
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    const err = new Error(data.error || `HTTP ${res.status}`);
+    err.status = res.status;
+    err.data = data;
+    throw err;
+  }
+
+  return data;
+}
+
 // ─── Export ───────────────────────────────────────────────────────────────────
 
 export const api = {
@@ -192,4 +225,6 @@ export const api = {
   deleteAdminUser,
   // AI Chat
   askAiChat,
+  // Media Upload
+  uploadMedia,
 };

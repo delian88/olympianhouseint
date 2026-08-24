@@ -90,15 +90,21 @@ export default function NewsManager() {
     }
   };
 
-  const handleImageUpload = (e, callback) => {
+  const handleImageUpload = async (e, callback) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      callback(event.target.result);
-    };
-    reader.readAsDataURL(file);
+    const toastId = toast.loading("Uploading image...");
+    try {
+      const data = await api.uploadMedia(file);
+      callback(data.url);
+      toast.success("Image uploaded", { id: toastId });
+    } catch (err) {
+      console.error(err);
+      toast.error("Could not upload that image", { id: toastId });
+    } finally {
+      e.target.value = "";
+    }
   };
 
   const updateSelectedArticle = (field, value) => {
