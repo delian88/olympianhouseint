@@ -7,6 +7,9 @@
 
 require_once __DIR__ . '/../middleware/auth.php';
 
+// Prevent PHP from timing out during large uploads
+set_time_limit(0);
+
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method !== 'POST') {
@@ -63,6 +66,7 @@ curl_setopt($ch, CURLOPT_URL, $cloudinaryUrl);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_TIMEOUT, 0); // No timeout for Cloudinary cURL upload
 
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);

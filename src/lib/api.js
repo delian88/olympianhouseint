@@ -216,8 +216,6 @@ function uploadMedia(file, onProgress) {
     };
 
     xhr.onerror = () => reject(new Error("Network Error"));
-    xhr.timeout = 120000; // 120s timeout
-    xhr.ontimeout = () => reject(new Error("Timeout Error"));
 
     xhr.send(formData);
   });
