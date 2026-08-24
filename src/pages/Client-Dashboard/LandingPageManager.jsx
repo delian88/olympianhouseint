@@ -172,35 +172,26 @@ export default function LandingPageManager() {
     }));
   };
 
-  const autoSaveConfig = (updater, sectionName) => {
-    setDraftConfig(prev => {
-      const nextConfig = updater(prev);
-      setConfig(nextConfig)
-        .then(() => toast.success(`${sectionName} saved automatically!`))
-        .catch(err => toast.error(`Failed to auto-save: ${err.message}`));
-      return nextConfig;
-    });
+  const autoSaveConfig = async (nextConfig, sectionName) => {
+    setDraftConfig(nextConfig);
+    try {
+      await setConfig(nextConfig);
+      toast.success(`${sectionName} saved!`);
+    } catch (err) {
+      toast.error(`Failed to save: ${err.message}`);
+    }
   };
 
   const updateHero = (key, value, autoSave = false) => {
+    const nextHero = { ...draftConfig.hero, [key]: value };
+    const nextConfig = { ...draftConfig, hero: nextHero };
     if (autoSave) {
-      autoSaveConfig(current => ({
-        ...current,
-        hero: {
-          ...current.hero,
-          [key]: value,
-        },
-      }), "Hero Video");
+      autoSaveConfig(nextConfig, "Hero Video");
     } else {
-      setDraftConfig((current) => ({
-        ...current,
-        hero: {
-          ...current.hero,
-          [key]: value,
-        },
-      }));
+      setDraftConfig(nextConfig);
     }
   };
+
 
   const updateHomePage = (section, key, value) => {
     setDraftConfig((current) => ({
