@@ -128,6 +128,11 @@ try {
         exit;
     }
 
+    if (str_starts_with($path, '/cleanup_db.php')) {
+        require __DIR__ . '/cleanup_db.php';
+        exit;
+    }
+
     // ─── 404 Not Found ────────────────────────────────────────────────────────
     http_response_code(404);
     echo json_encode(['error' => "Route not found: {$path}"]);
