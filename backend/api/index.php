@@ -113,6 +113,11 @@ try {
         exit;
     }
 
+    if (str_starts_with($path, '/cloudinary-signature')) {
+        require __DIR__ . '/routes/cloudinary-signature.php';
+        exit;
+    }
+
     if (str_starts_with($path, '/upload')) {
         require __DIR__ . '/routes/upload.php';
         exit;
