@@ -97,13 +97,17 @@ export default function NewsManager() {
     const toastId = toast.loading("Uploading image... 0%");
     try {
       const data = await api.uploadMedia(file, (progress) => {
-        toast.loading(`Uploading image... ${Math.round(progress)}%`, { id: toastId });
+        if (progress >= 100) {
+          toast.loading("Processing image on server... Please wait.", { id: toastId });
+        } else {
+          toast.loading(`Uploading image... ${Math.round(progress)}%`, { id: toastId });
+        }
       });
       callback(data.url);
       toast.success("Image uploaded", { id: toastId });
     } catch (err) {
       console.error(err);
-      toast.error("Could not upload that image", { id: toastId });
+      toast.error(err.message || "Could not upload that image", { id: toastId });
     } finally {
       e.target.value = "";
     }

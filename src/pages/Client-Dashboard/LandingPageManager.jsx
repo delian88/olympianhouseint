@@ -854,13 +854,17 @@ export default function LandingPageManager() {
     const toastId = toast.loading("Uploading image... 0%");
     try {
       const data = await api.uploadMedia(file, (progress) => {
-        toast.loading(`Uploading image... ${Math.round(progress)}%`, { id: toastId });
+        if (progress >= 100) {
+          toast.loading("Processing image on server... Please wait.", { id: toastId });
+        } else {
+          toast.loading(`Uploading image... ${Math.round(progress)}%`, { id: toastId });
+        }
       });
       apply(data.url);
       toast.success("Image uploaded", { id: toastId });
     } catch (err) {
       console.error(err);
-      toast.error("Could not upload that image", { id: toastId });
+      toast.error(err.message || "Could not upload that image", { id: toastId });
     } finally {
       event.target.value = "";
     }
@@ -873,13 +877,17 @@ export default function LandingPageManager() {
     const toastId = toast.loading("Uploading video... 0%");
     try {
       const data = await api.uploadMedia(file, (progress) => {
-        toast.loading(`Uploading video... ${Math.round(progress)}%`, { id: toastId });
+        if (progress >= 100) {
+          toast.loading("Processing video on server... Please wait.", { id: toastId });
+        } else {
+          toast.loading(`Uploading video... ${Math.round(progress)}%`, { id: toastId });
+        }
       });
       apply(data.url);
       toast.success("Video uploaded", { id: toastId });
     } catch (err) {
       console.error(err);
-      toast.error("Could not upload that video file", { id: toastId });
+      toast.error(err.message || "Could not upload that video file", { id: toastId });
     } finally {
       event.target.value = "";
     }
