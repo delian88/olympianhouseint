@@ -37,7 +37,7 @@ async function request(path, options = {}) {
   const res = await fetch(`${BASE_URL}${path}`, {
     ...options,
     headers,
-    signal: AbortSignal.timeout(30000), // 30 second timeout for large base64 payload
+    signal: AbortSignal.timeout(120000), // 120 second timeout for large base64 payload
   });
 
   const data = await res.json().catch(() => ({}));

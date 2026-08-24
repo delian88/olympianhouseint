@@ -46,7 +46,7 @@ if ($action === 'login') {
         return;
     }
 
-    $expirySeconds = (int)(getenv('JWT_EXPIRY') ?: 86400);
+    $expirySeconds = (int)(getenv('JWT_EXPIRY') ?: 604800);
     $token = Auth::createToken([
         'sub'   => $user['id'],
         'email' => $user['email'],

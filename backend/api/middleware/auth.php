@@ -93,7 +93,7 @@ class Auth {
     /**
      * Creates a signed JWT token for the given user data.
      */
-    public static function createToken(array $data, int $expirySeconds = 86400): string {
+    public static function createToken(array $data, int $expirySeconds = 604800): string {
         $secret = $_ENV['JWT_SECRET'] ?? $_SERVER['JWT_SECRET'] ?? getenv('JWT_SECRET') ?: 'changeme';
         $now    = time();
 
