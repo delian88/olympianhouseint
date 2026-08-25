@@ -117,7 +117,6 @@ function normalizeConfig(config) {
   const nextAbout = config.about
     ? {
         ...config.about,
-        image: landingPageDefaults.about.image,
       }
     : null;
   const nextWhyChoose = config.whyChoose?.cards
@@ -125,7 +124,6 @@ function normalizeConfig(config) {
         ...config.whyChoose,
         cards: config.whyChoose.cards.map((card, index) => ({
           ...card,
-          icon: landingPageDefaults.whyChoose.cards[index]?.icon ?? card.icon,
         })),
       }
     : null;
