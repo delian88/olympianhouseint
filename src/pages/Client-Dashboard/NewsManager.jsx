@@ -45,14 +45,17 @@ export default function NewsManager() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
 
+  const draftInitialized = React.useRef(false);
+
   useEffect(() => {
-    if (!loading) {
+    if (!loading && !draftInitialized.current) {
       const defaultCards = landingPageDefaults.homePage.news.cards;
       const loadedCards = config?.homePage?.news?.cards ?? defaultCards;
       const loadedImages = config?.homePage?.news?.images ?? [];
       
       setDraftCards(loadedCards);
       setDraftImages(loadedImages);
+      draftInitialized.current = true;
     }
   }, [config, loading]);
 
@@ -71,21 +74,12 @@ export default function NewsManager() {
         }
       };
       
-      setConfig(newConfig);
-      
-      // Wait for React state
-      setTimeout(async () => {
-        try {
-          await api.updateLandingConfig(newConfig);
-          toast.success("Articles saved successfully!");
-        } catch (err) {
-          console.error(err);
-          toast.error("Failed to save articles to the database.");
-        } finally {
-          setIsSaving(false);
-        }
-      }, 0);
+      await setConfig(newConfig);
+      toast.success("Articles saved successfully!");
     } catch (e) {
+      console.error("Failed to save articles:", e);
+      toast.error("Failed to save articles to the database.");
+    } finally {
       setIsSaving(false);
     }
   };

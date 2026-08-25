@@ -1165,13 +1165,13 @@ export default function LandingPageManager() {
             <div className="pt-4 pb-2">
               <p className="text-sm font-medium mb-2">Track Record Photos</p>
               <div className="grid gap-4 lg:grid-cols-3">
-                {(draftConfig.homePage?.trackRecord?.images || Array(6).fill("")).map((imgUrl, index) => (
+                {(draftConfig.homePage?.trackRecord?.images?.length ? draftConfig.homePage.trackRecord.images : Array(6).fill("")).map((imgUrl, index) => (
                   <div key={index} className="rounded-2xl border border-border bg-muted/40 p-4">
                     <ImageField 
                       label={`Photo ${index + 1}`} 
                       value={imgUrl || ""} 
                       onChange={(e) => handleImageUpload(e, (value) => {
-                        const newImages = [...(draftConfig.homePage?.trackRecord?.images || Array(6).fill(""))];
+                        const newImages = [...(draftConfig.homePage?.trackRecord?.images?.length ? draftConfig.homePage.trackRecord.images : Array(6).fill(""))];
                         newImages[index] = value;
                         updateHomePage("trackRecord", "images", newImages);
                       })} 

@@ -438,7 +438,7 @@ function Home() {
                 whileInView="show"
                 viewport={{ once: true, amount: 0.2 }}
               >
-                {(homePage.trackRecord?.images ?? landingPageDefaults.homePage.trackRecord.images).map((imgUrl, i) => (
+                {(homePage.trackRecord?.images?.length ? homePage.trackRecord.images : landingPageDefaults.homePage.trackRecord.images).map((imgUrl, i) => (
                   <motion.div
                     key={i}
                     variants={staggerItem}
