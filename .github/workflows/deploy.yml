@@ -38,3 +38,11 @@ jobs:
             **/.git*
             **/.git*/**
             **/node_modules/**
+
+      - name: Run Prisma Database Migrations
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          cd backend
+          npm install
+          npx prisma migrate deploy
