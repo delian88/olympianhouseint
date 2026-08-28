@@ -125,7 +125,7 @@ const PortfolioPage = () => {
                   : "bg-white text-slate-700 hover:bg-slate-100 shadow-sm"
               }`}
             >
-              1. Highlights & Adverts
+              1. Adverts
             </button>
             <button
               onClick={() => setActiveTab("documentaries")}
