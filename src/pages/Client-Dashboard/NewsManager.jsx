@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useMemo, useCallback } from "react";
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
 import { toast } from "sonner";
 import { useLandingPageConfig } from "../../context/LandingPageConfigContext";
 import { landingPageDefaults } from "../../data/landingPageDefaults";
@@ -38,12 +40,25 @@ function ImageField({ label, value, onChange, hint }) {
   );
 }
 
+const fonts = ['arial', 'comic-sans', 'courier-new', 'georgia', 'helvetica', 'lucida', 'impact', 'tahoma', 'times-new-roman', 'trebuchet', 'verdana', 'lato', 'poppins', 'roboto', 'inter', 'oswald', 'raleway', 'montserrat', 'ubuntu', 'nunito', 'merriweather', 'playfair-display', 'rubik', 'work-sans', 'quicksand', 'karla', 'oxygen', 'anton', 'cabin', 'dancing-script', 'inconsolata', 'josefin-sans', 'lobster', 'mukta', 'pacifico', 'pt-sans', 'pt-serif', 'titillium-web', 'varela-round'];
+const sizes = ['10px', '12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px', '36px', '48px', '64px'];
+
+const Font = ReactQuill.Quill.import('formats/font');
+Font.whitelist = fonts;
+ReactQuill.Quill.register(Font, true);
+
+const Size = ReactQuill.Quill.import('formats/size');
+Size.whitelist = sizes;
+ReactQuill.Quill.register(Size, true);
+
 export default function NewsManager() {
   const { config, setConfig, loading } = useLandingPageConfig();
   const [draftCards, setDraftCards] = useState([]);
   const [draftImages, setDraftImages] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
+  const quillRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   const draftInitialized = React.useRef(false);
 
@@ -114,6 +129,30 @@ export default function NewsManager() {
       return updated;
     });
   };
+
+  const imageHandler = useCallback(() => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  }, []);
+
+  const modules = useMemo(() => ({
+    toolbar: {
+      container: [
+        [{ 'font': fonts }, { 'size': sizes }],
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'color': [] }, { 'background': [] }],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'align': [] }],
+        ['link', 'image'],
+        ['clean']
+      ],
+      handlers: {
+        image: imageHandler
+      }
+    }
+  }), [imageHandler]);
 
   const addArticle = () => {
     const newArticle = {
@@ -285,21 +324,44 @@ export default function NewsManager() {
                   </div>
 
                   <div className="border-t border-border/50 pt-6">
-                    <Field label="Full Article Content">
-                      <p className="text-xs text-muted-foreground mb-3">
-                        Use double newlines for paragraphs. Start lines with <code># </code> for large headings.
-                      </p>
-                      <TextArea 
-                        rows={20} 
-                        value={selectedArticle.content || ""} 
-                        onChange={(e) => updateSelectedArticle("content", e.target.value)} 
-                        className="font-mono text-sm leading-relaxed"
-                      />
-                    </Field>
+                    <div className="block">
+                      <Label className="mb-2 block text-sm font-semibold text-foreground">
+                        Full Article Content
+                      </Label>
+                      <div className="mt-2 bg-white rounded-xl border border-border/60">
+                        <ReactQuill 
+                          ref={quillRef}
+                          theme="snow"
+                          value={selectedArticle.content || ""} 
+                          onChange={(content) => updateSelectedArticle("content", content)} 
+                          modules={modules}
+                          className="h-96"
+                          style={{ minHeight: "384px" }}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            
+            {/* Hidden file input for Quill image handler */}
+            <input 
+              type="file" 
+              accept="image/*" 
+              ref={fileInputRef} 
+              style={{ display: "none" }} 
+              onChange={(e) => {
+                handleImageUpload(e, (url) => {
+                  const quill = quillRef.current?.getEditor();
+                  if (quill) {
+                    const range = quill.getSelection(true);
+                    quill.insertEmbed(range.index, 'image', url);
+                    quill.setSelection(range.index + 1);
+                  }
+                });
+              }} 
+            />
           </>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground p-8 text-center">

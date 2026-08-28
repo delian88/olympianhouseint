@@ -48,6 +48,17 @@ function stripBundledAssetUrls(value) {
   }
 
   if (value && typeof value === "object") {
+    if (Array.isArray(value)) {
+      const result = [];
+      for (const item of value) {
+        const cleaned = stripBundledAssetUrls(item);
+        if (cleaned !== undefined) {
+          result.push(cleaned);
+        }
+      }
+      return result;
+    }
+
     const result = {};
 
     for (const [key, nestedValue] of Object.entries(value)) {
@@ -73,11 +84,18 @@ function stripBundledAssetUrls(value) {
 
 function mergeDeep(base, override) {
   if (Array.isArray(base)) {
-    if (!Array.isArray(override)) {
+    if (!override) return base;
+
+    let overrideArray = override;
+    if (!Array.isArray(override) && typeof override === "object") {
+      // If PHP returned an object {"0": ..., "1": ...} instead of an array (e.g. due to unset/gaps)
+      const keys = Object.keys(override).filter(k => !isNaN(parseInt(k))).sort((a, b) => parseInt(a) - parseInt(b));
+      overrideArray = keys.map(k => override[k]);
+    } else if (!Array.isArray(override)) {
       return base;
     }
 
-    return override.map((item, index) => {
+    return overrideArray.map((item, index) => {
       if (index < base.length) {
         return mergeDeep(base[index], item);
       }
@@ -102,7 +120,7 @@ function mergeDeep(base, override) {
     return result;
   }
 
-  return override ?? base;
+  return override !== undefined ? override : base;
 }
 
 function normalizeConfig(config) {

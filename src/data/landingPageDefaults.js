@@ -186,7 +186,7 @@ export const landingPageDefaults = {
       description:
         "Named leadership, regional storytellers, and institutional partners working across Africa and beyond.",
       ctaLabel: "Learn More",
-      ctaHref: "/documentary",
+      ctaHref: "/portfolio",
       image: gallery12,
     },
     programmes: {
@@ -386,7 +386,7 @@ export const landingPageDefaults = {
           "Participation in Africa Investment Forum",
           "Speaks the language of capital, not just communication",
         ],
-        href: "/documentary",
+        href: "/portfolio",
         featured: false,
       },
       {
@@ -700,6 +700,7 @@ export const landingPageDefaults = {
           title: "Program visibility films",
           category: "Development communication",
           image: gallery01,
+          videoUrl: "",
           description:
             "Clear communication that helps teams show results, context, and institutional value.",
         },
@@ -707,6 +708,7 @@ export const landingPageDefaults = {
           title: "Stakeholder event coverage",
           category: "Event production",
           image: gallery02,
+          videoUrl: "",
           description:
             "Fast, polished coverage for launches, convenings, and milestone moments.",
         },
@@ -714,6 +716,7 @@ export const landingPageDefaults = {
           title: "Human-centered interviews",
           category: "Story gathering",
           image: gallery03,
+          videoUrl: "",
           description:
             "Short-form stories that make complex initiatives feel relatable and real.",
         },
@@ -721,6 +724,7 @@ export const landingPageDefaults = {
           title: "Campaign content packages",
           category: "Multi-channel delivery",
           image: gallery04,
+          videoUrl: "",
           description:
             "Reusable content for reports, digital campaigns, and partner updates.",
         },
@@ -728,6 +732,7 @@ export const landingPageDefaults = {
           title: "Field documentation",
           category: "On-location production",
           image: gallery05,
+          videoUrl: "",
           description:
             "Visual reporting from communities, project sites, and implementation work.",
         },
@@ -735,6 +740,7 @@ export const landingPageDefaults = {
           title: "Impact storytelling",
           category: "Strategic visibility",
           image: gallery06,
+          videoUrl: "",
           description:
             "Editorial visuals built to support credibility, trust, and action.",
         },
@@ -899,7 +905,7 @@ export const landingPageDefaults = {
   },
   portfolioPage: {
     hero: {
-      title: "Portfolio",
+      title: "OHI Portfolio",
       description:
         "OHI presents a portfolio of development storytelling projects, case studies, and content packages that demonstrate institutional impact, visibility, and narrative clarity.",
       primaryCtaLabel: "View Portfolio",
@@ -910,9 +916,10 @@ export const landingPageDefaults = {
       badgeDescription:
         "Strategic visibility for development, investment, and impact communication.",
       image: profileHeroMountain,
+      videoUrl: "",
     },
     header: {
-      title: "Portfolio highlights",
+      title: "OHI Portfolio",
       description:
         "These sample projects reflect the kind of output OHI builds for public, institutional, and private-sector communication goals.",
     },
@@ -933,6 +940,7 @@ export const landingPageDefaults = {
         "OHI can shape a communication package around your audience, timeline, and intended outcome.",
       ctaLabel: "Start a project",
       ctaHref: "/contact",
+      videoUrl: "",
     },
   },
   leadershipPage: {

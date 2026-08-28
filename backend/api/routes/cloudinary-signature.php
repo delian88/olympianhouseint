@@ -16,7 +16,12 @@ if (!$cloudName || !$apiKey || !$apiSecret) {
     return;
 }
 $timestamp = time();
-$signature = sha1("timestamp=" . $timestamp . $apiSecret);
+
+// Cloudinary signature requires parameters to be alphabetically sorted.
+// 'timestamp' comes before 'unique_filename' which comes before 'use_filename'
+$paramsToSign = "timestamp=" . $timestamp . "&unique_filename=false&use_filename=true";
+$signature = sha1($paramsToSign . $apiSecret);
+
 echo json_encode([
     "signature" => $signature,
     "timestamp" => $timestamp,

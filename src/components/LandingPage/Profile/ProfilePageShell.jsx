@@ -9,6 +9,7 @@ export default function ProfilePageShell({
   description,
   primaryCta,
   secondaryCta,
+  videoCta,
   heroBadge,
   heroBadgeClassName = "bottom-6 right-6 hidden max-w-[280px] lg:block",
   heroVariant = "default",
@@ -60,8 +61,19 @@ export default function ProfilePageShell({
                         </p>
                       </Reveal>
                     ) : null}
-                    {(primaryCta || secondaryCta) ? (
+                    {(primaryCta || secondaryCta || videoCta) ? (
                       <div className="mt-6 flex flex-wrap items-center gap-3">
+                        {videoCta ? (
+                          <Reveal delay={0.16} className="inline-flex">
+                            <button
+                              onClick={videoCta.onClick}
+                              className="hero_btn2 !mt-0 inline-flex items-center gap-2 border-white/20 bg-white/10 text-white backdrop-blur shadow-[0_18px_42px_rgba(255,255,255,0.06)] transition duration-300 ease-out hover:-translate-y-0.5 hover:bg-white/20"
+                            >
+                              <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+                              {videoCta.label || "Watch Video"}
+                            </button>
+                          </Reveal>
+                        ) : null}
                         {primaryCta ? (
                           <Reveal delay={0.18} className="inline-flex">
                             <Link to={primaryCta.href}>

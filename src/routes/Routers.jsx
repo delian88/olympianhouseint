@@ -4,10 +4,11 @@ import Layout from "../layout/Layout";
 
 // Pages
 import Home from "../pages/LandingPage/Home";
-import CompanyProfile from "../pages/LandingPage/CompanyProfile/CompanyProfile";
+
 import AboutPage from "../pages/LandingPage/CompanyProfile/AboutPage";
 import BackgroundPage from "../pages/LandingPage/CompanyProfile/BackgroundPage";
 import OurTeamPage from "../pages/LandingPage/CompanyProfile/OurTeamPage";
+import TeamMemberProfilePage from "../pages/LandingPage/CompanyProfile/TeamMemberProfilePage";
 import OurPartnersPage from "../pages/LandingPage/CompanyProfile/OurPartnersPage";
 import OurPlatformsPage from "../pages/LandingPage/CompanyProfile/OurPlatformsPage";
 import ServicesPage from "../pages/LandingPage/CompanyProfile/ServicesPage";
@@ -34,10 +35,11 @@ const Routers = () => {
         {/* Public */}
         <Route index element={<Home />} />
         <Route path="home" element={<Home />} />
-        <Route path="documentary" element={<CompanyProfile />} />
+
         <Route path="about" element={<AboutPage />} />
         <Route path="background" element={<BackgroundPage />} />
         <Route path="our-team" element={<OurTeamPage />} />
+        <Route path="team/:slug" element={<TeamMemberProfilePage />} />
         <Route path="our-partners" element={<OurPartnersPage />} />
         <Route path="our-clients" element={<OurPartnersPage />} />
         <Route path="our-platforms" element={<OurPlatformsPage />} />

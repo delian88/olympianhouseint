@@ -123,6 +123,7 @@ const searchablePages = [
 
 const Header = () => {
   const { config } = useLandingPageConfig();
+  const brochurePdfHref = config?.companyProfile?.brochurePdf || "/OHI-Company-Profile.pdf";
   const navigate = useNavigate();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isPinned, setIsPinned] = useState(false);
@@ -390,7 +391,7 @@ const Header = () => {
               </button>
             )}
             <a
-              href="/OHI-Company-Profile.pdf"
+              href={brochurePdfHref}
               download
               className="inline-flex h-11 items-center justify-center bg-[#05c1ff] px-5 text-xs font-bold uppercase tracking-wider text-white shadow-md transition hover:bg-[#04a0d4] rounded-lg"
             >

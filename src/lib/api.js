@@ -18,7 +18,7 @@ function getBaseUrl() {
   return import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 }
 
-const BASE_URL = getBaseUrl();
+export const BASE_URL = getBaseUrl();
 
 // ─── Internal helpers ─────────────────────────────────────────────────────────
 
@@ -198,11 +198,14 @@ async function uploadMedia(file, onProgress) {
   formData.append("api_key", api_key);
   formData.append("timestamp", timestamp);
   formData.append("signature", signature);
+  formData.append("use_filename", "true");
+  formData.append("unique_filename", "false");
 
   // 3. Upload directly to Cloudinary with XMLHttpRequest for progress tracking
   return new Promise((resolve, reject) => {
+    const resourceType = 'auto';
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", `https://api.cloudinary.com/v1_1/${cloud_name}/auto/upload`);
+    xhr.open("POST", `https://api.cloudinary.com/v1_1/${cloud_name}/${resourceType}/upload`);
 
     xhr.upload.onprogress = (event) => {
       if (event.lengthComputable && onProgress) {

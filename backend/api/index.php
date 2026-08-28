@@ -133,6 +133,11 @@ try {
         exit;
     }
 
+    if (str_starts_with($path, '/pdf-viewer')) {
+        require __DIR__ . '/routes/pdf-viewer.php';
+        exit;
+    }
+
     // ─── 404 Not Found ────────────────────────────────────────────────────────
     http_response_code(404);
     echo json_encode(['error' => "Route not found: {$path}"]);

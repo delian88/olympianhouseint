@@ -29,17 +29,7 @@ const ArticlePage = () => {
   const prev = articles[articleIndex - 1] ?? null;
   const next = articles[articleIndex + 1] ?? null;
 
-  // Parse the content string into blocks
-  const contentBlocks = (article.content || "")
-    .split("\n\n")
-    .map(block => block.trim())
-    .filter(Boolean)
-    .map(block => {
-      if (block.startsWith("# ")) {
-        return { type: "heading", text: block.substring(2).trim() };
-      }
-      return { type: "paragraph", text: block };
-    });
+  // Using ReactQuill HTML directly
 
   return (
     <div className="bg-white">
@@ -85,25 +75,10 @@ const ArticlePage = () => {
           <ArrowLeft className="h-4 w-4" /> Back to Home
         </Link>
 
-        <div className="space-y-6">
-          {contentBlocks.map((block, i) => {
-            if (block.type === "heading") {
-              return (
-                <h2
-                  key={i}
-                  className="pt-4 text-2xl font-black uppercase text-[#0d1f2d] tracking-tight"
-                >
-                  {block.text}
-                </h2>
-              );
-            }
-            return (
-              <p key={i} className="text-base leading-8 text-[#4e5a67]">
-                {block.text}
-              </p>
-            );
-          })}
-        </div>
+        <div 
+          className="prose prose-lg max-w-none text-[#4e5a67] prose-headings:text-[#0d1f2d] prose-headings:font-black prose-headings:uppercase prose-a:text-[#e97a2f]"
+          dangerouslySetInnerHTML={{ __html: article.content || "" }}
+        />
 
         {/* CTA */}
         <div className="mt-14 border-t border-[#e5e5e5] pt-10">

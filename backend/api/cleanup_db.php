@@ -19,10 +19,12 @@ function cleanBase64(&$item) {
             cleanBase64($value);
         }
     } else if (is_string($item) && strpos($item, 'data:image') === 0) {
-        if (strlen($item) > 100000) {
-            echo "Removing large base64 string (size: " . strlen($item) . ")\n";
-            $item = ''; // or default image url
-        }
+        // Disabled aggressive base64 removal as it was causing data loss for users
+        // uploading images from old dashboard sessions.
+        // if (strlen($item) > 100000) {
+        //    echo "Found large base64 string (size: " . strlen($item) . ")\n";
+        //    // $item = ''; // NO LONGER DELETING USER DATA
+        // }
     }
 }
 

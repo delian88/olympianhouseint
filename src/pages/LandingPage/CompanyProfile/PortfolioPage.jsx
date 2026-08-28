@@ -13,7 +13,7 @@ import portfolioImage04 from "../../../assets/images/Gallery/gallery-04.jpeg";
 import portfolioImage05 from "../../../assets/images/Gallery/gallery-05.jpeg";
 import portfolioImage06 from "../../../assets/images/Gallery/gallery-06.jpeg";
 
-const brochurePdfHref = "/OHI-Company-Profile.pdf";
+
 
 const defaultPortfolioProjects = [
   { title: "Program visibility films", category: "Development communication", image: portfolioImage01, description: "Clear communication that helps teams show results, context, and institutional value." },
@@ -53,6 +53,7 @@ function getEmbedUrl(url) {
 
 const PortfolioPage = () => {
   const { config } = useLandingPageConfig();
+  const brochurePdfHref = config.companyProfile?.brochurePdf || "/OHI-Company-Profile.pdf";
   const [activeVideoProject, setActiveVideoProject] = useState(null);
   const [activeTab, setActiveTab] = useState("all");
 
@@ -66,7 +67,7 @@ const PortfolioPage = () => {
 
   return (
     <ProfilePageShell
-      title={hero.title ?? "Portfolio"}
+      title={hero.title ?? "OHI Portfolio"}
       heroImage={hero.image ?? portfolioImage02}
       heroImageAlt="OHI portfolio hero"
       description={hero.description ?? "OHI presents a portfolio of development storytelling projects, case studies, and content packages that demonstrate institutional impact, visibility, and narrative clarity."}
@@ -83,12 +84,25 @@ const PortfolioPage = () => {
           </p>
         </div>
       }
+      videoCta={
+        hero.videoUrl
+          ? {
+              label: "Watch Video",
+              onClick: () =>
+                setActiveVideoProject({
+                  title: hero.title || "Portfolio Overview",
+                  category: "Featured Video",
+                  videoUrl: hero.videoUrl,
+                }),
+            }
+          : null
+      }
     >
       {/* Portfolio grid */}
       <section className="py-16 sm:py-20" style={{ backgroundImage: "url('/white-bg3.png')", backgroundSize: "cover", backgroundPosition: "center" }}>
         <div className="container">
           <SectionHeader
-            title={header.title ?? "Portfolio highlights"}
+            title={header.title ?? "OHI Portfolio"}
             description={header.description ?? "These sample projects reflect the kind of output OHI builds for public, institutional, and private-sector communication goals."}
           />
 
@@ -264,6 +278,30 @@ const PortfolioPage = () => {
             </div>
           </Reveal>
         </div>
+
+        {method.videoUrl && (
+          <div className="container mt-12">
+            <Reveal delay={0.16}>
+              <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black shadow-2xl">
+                {getEmbedUrl(method.videoUrl) ? (
+                  <iframe
+                    src={getEmbedUrl(method.videoUrl)}
+                    className="h-full w-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    title={method.title || "Method Video"}
+                  />
+                ) : (
+                  <video
+                    src={method.videoUrl}
+                    controls
+                    className="h-full w-full object-cover"
+                  />
+                )}
+              </div>
+            </Reveal>
+          </div>
+        )}
       </section>
 
       {/* Video Modal Player */}

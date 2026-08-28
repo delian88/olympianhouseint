@@ -7,8 +7,7 @@ export const publicMenuSections = [
     href: "/portfolio",
     heroImage: gallery11,
     items: [
-      { label: "Portfolio Highlights", href: "/portfolio" },
-      { label: "Company Overview", href: "/documentary" },
+      { label: "OHI Portfolio", href: "/portfolio" },
     ],
   },
   {
@@ -32,10 +31,10 @@ export const publicMenuSections = [
   },
   {
     label: "Clients",
-    href: "/our-partners",
+    href: "/our-clients",
     items: [
-      { label: "Our Partners", href: "/our-partners" },
       { label: "Who We Serve", href: "/who-we-serve" },
+      { label: "Our Clients", href: "/our-clients" },
     ],
   },
 ];

@@ -1,1 +1,6 @@
-<?php require 'backend/api/config/database.php'; $db = Database::getInstance(); $stmt = $db->query('SELECT config FROM landing_page_config WHERE id=1'); $row = $stmt->fetch(); var_dump(substr($row['config'], 0, 50));
+<?php
+require 'backend/config/database.php';
+$db = Database::getInstance();
+$stmt = $db->query('SELECT config FROM landing_page_config WHERE id=1');
+$config = $stmt->fetchColumn();
+echo $config;

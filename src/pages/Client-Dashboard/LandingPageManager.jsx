@@ -62,30 +62,33 @@ function SectionCard({ id, title, description, children, onSave, saveLabel = "Sa
       >
         <div className="h-1 bg-[linear-gradient(90deg,#0f4c81,#118ab2,#f4b942)]" />
         <CardHeader className="border-b border-border/60 px-3 py-4 sm:px-6 sm:py-5">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground sm:text-[11px] sm:tracking-[0.24em]">
-            Section editor
-          </p>
-          <CardTitle className="mt-2 text-xl leading-tight text-foreground sm:text-2xl">
-            {title}
-          </CardTitle>
-          {description && (
-            <CardDescription className="mt-2 max-w-3xl text-sm leading-6">
-              {description}
-            </CardDescription>
-          )}
+          <div className="flex flex-col">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground sm:text-[11px] sm:tracking-[0.24em]">
+              Section editor
+            </p>
+            <CardTitle className="mt-2 text-xl leading-tight text-foreground sm:text-2xl break-words">
+              {title}
+            </CardTitle>
+            {description && (
+              <CardDescription className="mt-2 max-w-3xl text-sm leading-6">
+                {description}
+              </CardDescription>
+            )}
+            
+            {onSave && (
+              <div className="mt-5">
+                <Button
+                  onClick={onSave}
+                  className="w-full sm:w-auto rounded-xl px-6 py-2.5 font-semibold shadow-[0_8px_30px_rgb(0,0,0,0.12)] bg-[#05c1ff] text-white transition hover:brightness-110"
+                >
+                  {saveLabel}
+                </Button>
+              </div>
+            )}
+          </div>
         </CardHeader>
         <CardContent className="px-3 py-4 sm:px-6 sm:py-6">
           {children}
-          {onSave && (
-            <div className="mt-6 flex flex-col gap-3 border-t border-border/40 pt-5 sm:flex-row sm:justify-end">
-              <Button
-                onClick={onSave}
-                className="w-full rounded-xl px-6 font-semibold shadow-[0_8px_30px_rgb(0,0,0,0.12)] bg-[#05c1ff] text-white transition hover:brightness-110 sm:w-auto"
-              >
-                {saveLabel}
-              </Button>
-            </div>
-          )}
         </CardContent>
       </Card>
     </motion.div>
@@ -126,6 +129,14 @@ function ImageField({ label, value, onChange, hint }) {
   return (
     <Field label={label} hint={hint}>
       <FileInput label="Choose file" value={value} accept="image/*" onChange={onChange} previewAlt={label} />
+    </Field>
+  );
+}
+
+function DocumentField({ label, value, onChange, hint }) {
+  return (
+    <Field label={label} hint={hint}>
+      <FileInput label="Choose document" value={value} accept=".pdf,.doc,.docx" onChange={onChange} previewAlt={label} />
     </Field>
   );
 }
@@ -862,20 +873,20 @@ export default function LandingPageManager() {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const toastId = toast.loading("Uploading image... 0%");
+    const toastId = toast.loading("Uploading... 0%");
     try {
       const data = await api.uploadMedia(file, (progress) => {
         if (progress >= 100) {
-          toast.loading("Processing image on server... Please wait.", { id: toastId });
+          toast.loading("Processing on server... Please wait.", { id: toastId });
         } else {
-          toast.loading(`Uploading image... ${Math.round(progress)}%`, { id: toastId });
+          toast.loading(`Uploading... ${Math.round(progress)}%`, { id: toastId });
         }
       });
       apply(data.url);
-      toast.success("Image uploaded", { id: toastId });
+      toast.success("Uploaded successfully", { id: toastId });
     } catch (err) {
       console.error(err);
-      toast.error(err.message || "Could not upload that image", { id: toastId });
+      toast.error(err.message || "Could not upload that file", { id: toastId });
     } finally {
       event.target.value = "";
     }
@@ -925,7 +936,7 @@ export default function LandingPageManager() {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="mx-auto w-full max-w-7xl overflow-x-hidden px-3 pt-2 pb-4 sm:px-6 sm:pt-4 sm:pb-6 lg:px-8 lg:pt-6 lg:pb-8"
+      className="mx-auto w-full max-w-5xl overflow-x-hidden px-3 pt-2 pb-4 sm:px-6 sm:pt-4 sm:pb-6 lg:px-8 lg:pt-6 lg:pb-8"
     >
       <motion.div variants={itemVariants} className="mb-6 overflow-hidden rounded-[28px] border border-border/80 bg-card/95 p-4 text-card-foreground shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur dark:shadow-[0_20px_60px_rgba(0,0,0,0.35)] sm:p-6">
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
@@ -2627,6 +2638,25 @@ export default function LandingPageManager() {
                 handleImageUpload(e, (value) => updatePortfolioPage("hero", "image", value))
               }
             />
+            <div className="space-y-3 rounded-xl border border-border/60 bg-background/60 p-4">
+              <Field label="Upload Hero Video File" hint="Upload an MP4, WebM, or video file directly">
+                <FileInput
+                  label="Choose video file"
+                  accept="video/*"
+                  value={draftConfig.portfolioPage?.hero?.videoUrl?.startsWith("data:video") || draftConfig.portfolioPage?.hero?.videoUrl?.startsWith("http") ? draftConfig.portfolioPage?.hero?.videoUrl : ""}
+                  onChange={(e) =>
+                    handleVideoUpload(e, (value) => updatePortfolioPage("hero", "videoUrl", value))
+                  }
+                />
+              </Field>
+              <Field label="OR Video Link / URL" hint="Paste a YouTube, Vimeo, or external MP4 link">
+                <TextInput
+                  placeholder="https://www.youtube.com/watch?v=... or https://.../video.mp4"
+                  value={draftConfig.portfolioPage?.hero?.videoUrl && !draftConfig.portfolioPage?.hero?.videoUrl.startsWith("data:video") ? draftConfig.portfolioPage?.hero?.videoUrl : ""}
+                  onChange={(e) => updatePortfolioPage("hero", "videoUrl", e.target.value)}
+                />
+              </Field>
+            </div>
             <div className="grid gap-4 xl:grid-cols-2">
               <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
                 <h3 className="text-lg font-bold text-foreground">Header</h3>
@@ -2645,6 +2675,25 @@ export default function LandingPageManager() {
                 <Field label="Method description">
                   <TextArea rows={4} value={draftConfig.portfolioPage?.method?.description || ""} onChange={(e) => updatePortfolioPage("method", "description", e.target.value)} />
                 </Field>
+                <div className="space-y-3 rounded-xl border border-border/60 bg-background/60 p-4 mt-4">
+                  <Field label="Upload Method Video File" hint="Upload an MP4, WebM, or video file directly">
+                    <FileInput
+                      label="Choose video file"
+                      accept="video/*"
+                      value={draftConfig.portfolioPage?.method?.videoUrl?.startsWith("data:video") || draftConfig.portfolioPage?.method?.videoUrl?.startsWith("http") ? draftConfig.portfolioPage?.method?.videoUrl : ""}
+                      onChange={(e) =>
+                        handleVideoUpload(e, (value) => updatePortfolioPage("method", "videoUrl", value))
+                      }
+                    />
+                  </Field>
+                  <Field label="OR Video Link / URL" hint="Paste a YouTube, Vimeo, or external MP4 link">
+                    <TextInput
+                      placeholder="https://www.youtube.com/watch?v=... or https://.../video.mp4"
+                      value={draftConfig.portfolioPage?.method?.videoUrl && !draftConfig.portfolioPage?.method?.videoUrl.startsWith("data:video") ? draftConfig.portfolioPage?.method?.videoUrl : ""}
+                      onChange={(e) => updatePortfolioPage("method", "videoUrl", e.target.value)}
+                    />
+                  </Field>
+                </div>
               </div>
             </div>
             <div className="flex items-center justify-between pt-2">
@@ -3114,6 +3163,20 @@ export default function LandingPageManager() {
               </Field>
             </div>
 
+            <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
+              <h3 className="text-lg font-bold text-foreground">Brochure Download</h3>
+              <DocumentField
+                label="Brochure PDF file"
+                value={draftConfig.companyProfile?.brochurePdf || ""}
+                onChange={(e) =>
+                  handleImageUpload(e, (value) =>
+                    updateCompanyProfile("brochurePdf", value)
+                  )
+                }
+                hint="Upload a PDF file that visitors can download"
+              />
+            </div>
+
             <div className="grid gap-4 xl:grid-cols-2">
               <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
                 <h3 className="text-lg font-bold text-foreground">Difference block</h3>
@@ -3240,6 +3303,33 @@ export default function LandingPageManager() {
                         })
                       }
                     />
+                    <div className="space-y-3 rounded-xl border border-border/60 bg-background/60 p-4">
+                      <Field label="Upload Project Video File" hint="Upload an MP4, WebM, or video file directly">
+                        <FileInput
+                          label="Choose video file"
+                          accept="video/*"
+                          value={project.videoUrl?.startsWith("data:video") || project.videoUrl?.startsWith("http") ? project.videoUrl : ""}
+                          onChange={(e) =>
+                            handleVideoUpload(e, (value) => {
+                              const next = [...(draftConfig.companyProfile?.portfolio?.projects || [])];
+                              next[index] = { ...next[index], videoUrl: value };
+                              updateCompanyProfileSection("portfolio", "projects", next);
+                            })
+                          }
+                        />
+                      </Field>
+                      <Field label="OR Video Link / URL" hint="Paste a YouTube, Vimeo, or external MP4 link">
+                        <TextInput
+                          placeholder="https://www.youtube.com/watch?v=... or https://.../video.mp4"
+                          value={project.videoUrl && !project.videoUrl.startsWith("data:video") ? project.videoUrl : ""}
+                          onChange={(e) => {
+                            const next = [...(draftConfig.companyProfile?.portfolio?.projects || [])];
+                            next[index] = { ...next[index], videoUrl: e.target.value };
+                            updateCompanyProfileSection("portfolio", "projects", next);
+                          }}
+                        />
+                      </Field>
+                    </div>
                   </div>
                 ))}
               </div>
