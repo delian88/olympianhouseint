@@ -403,53 +403,7 @@ function Home() {
         </div>
       </section>
 
-      <section id="client-voices" className="py-16 sm:py-20 bg-white">
-        <div className="container">
-          <Reveal className="mb-8">
-            <p className="text-[#e97a2f] text-sm font-semibold mb-2 tracking-wide">
-              {homePage.testimonials.eyebrow}
-            </p>
-            <UnderlinedHeading as="h2" className="text-2xl font-bold tracking-[-0.03em] sm:text-3xl" textColorClassName="text-[#0d1f2d]" showBorder={true}>
-              {homePage.testimonials.title}
-            </UnderlinedHeading>
-          </Reveal>
-
-          <motion.div
-            className="grid gap-5 md:grid-cols-3"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            {homePage.testimonials.items.map((item) => (
-              <motion.article
-                key={item.org}
-                variants={staggerItem}
-                className="flex h-full min-h-[420px] flex-col overflow-hidden border border-[#e5e5e5] bg-white shadow-[0_10px_24px_rgba(15,23,42,0.12)]"
-              >
-                <FallbackImage
-                  src={item.image}
-                  fallback={landingPageDefaults.gallery.items?.[0]?.image}
-                  alt={item.org}
-                  className="h-52 w-full object-cover"
-                />
-                <div className="flex flex-1 flex-col p-5">
-                  <p className="text-[10px] uppercase tracking-[0.22em] text-[#b16a18]">
-                    Partner Testimonial
-                  </p>
-                  <p className="mt-3 text-xs leading-6 text-[#54565a] flex-1">
-                    "{item.quote}"
-                  </p>
-                  <div className="mt-4 pt-4 border-t border-[#f0ece6]">
-                    <p className="text-xs font-semibold text-[#0d1f2d]">{item.name}</p>
-                    <p className="mt-0.5 text-[11px] text-[#e97a2f] font-medium">{item.org}</p>
-                  </div>
-                </div>
-              </motion.article>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+      <ValueProposition />
 
 
 
@@ -516,7 +470,53 @@ function Home() {
         </div>
       </section>
 
-      <ValueProposition />
+      <section id="client-voices" className="py-16 sm:py-20 bg-white">
+        <div className="container">
+          <Reveal className="mb-8">
+            <p className="text-[#e97a2f] text-sm font-semibold mb-2 tracking-wide">
+              {homePage.testimonials.eyebrow}
+            </p>
+            <UnderlinedHeading as="h2" className="text-2xl font-bold tracking-[-0.03em] sm:text-3xl" textColorClassName="text-[#0d1f2d]" showBorder={true}>
+              {homePage.testimonials.title}
+            </UnderlinedHeading>
+          </Reveal>
+
+          <motion.div
+            className="grid gap-5 md:grid-cols-3"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            {homePage.testimonials.items.map((item) => (
+              <motion.article
+                key={item.org}
+                variants={staggerItem}
+                className="flex h-full min-h-[420px] flex-col overflow-hidden border border-[#e5e5e5] bg-white shadow-[0_10px_24px_rgba(15,23,42,0.12)]"
+              >
+                <FallbackImage
+                  src={item.image}
+                  fallback={landingPageDefaults.gallery.items?.[0]?.image}
+                  alt={item.org}
+                  className="h-52 w-full object-cover"
+                />
+                <div className="flex flex-1 flex-col p-5">
+                  <p className="text-[10px] uppercase tracking-[0.22em] text-[#b16a18]">
+                    Partner Testimonial
+                  </p>
+                  <p className="mt-3 text-xs leading-6 text-[#54565a] flex-1">
+                    "{item.quote}"
+                  </p>
+                  <div className="mt-4 pt-4 border-t border-[#f0ece6]">
+                    <p className="text-xs font-semibold text-[#0d1f2d]">{item.name}</p>
+                    <p className="mt-0.5 text-[11px] text-[#e97a2f] font-medium">{item.org}</p>
+                  </div>
+                </div>
+              </motion.article>
+            ))}
+          </motion.div>
+        </div>
+      </section>
 
 
 
