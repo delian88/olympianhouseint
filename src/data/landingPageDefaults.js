@@ -377,7 +377,7 @@ export const landingPageDefaults = {
     tiers: [
       {
         id: "tier-expertise",
-        name: "Capital-Fluent Expertise",
+        name: "CAPITAL-FLUENT EXPERTISE",
         number: "01",
         description:
           "We understand donor compliance, DFI communication frameworks, and the psychology of institutional decision-making. Our perspective is informed by direct participation in high-level investment forums, including the Africa Investment Forum.",
@@ -386,21 +386,31 @@ export const landingPageDefaults = {
         featured: false,
       },
       {
-        id: "tier-authenticity",
-        name: "Data-Driven Authenticity",
+        id: "tier-precision",
+        name: "CINEMATIC PRECISION, STRATEGIC INTENT",
         number: "02",
         description:
-          "We reject poverty porn. Our narratives are anchored in measurable impact and local agency. We capture the dignity of African innovation while addressing the rigorous reporting requirements of international partners.",
+          "We pair film-grade craft with development-sector fluency — a rare combination that turns complex programmes into narratives investors and partners trust.",
         features: [],
         href: "/portfolio",
         featured: false,
       },
       {
-        id: "tier-execution",
-        name: "End-to-End Execution",
+        id: "tier-proof",
+        name: "PROOF, NOT JUST CONTENT",
         number: "03",
         description:
-          "From conceptualizing a multi-country documentary series to managing complex logistics across African borders, we are a single-point solution. We eliminate the friction of coordinating multiple agencies.",
+          "We demonstrate that capital is working, communities are changing, and programmes are delivering — the evidence institutions need to report results and mobilise more.",
+        features: [],
+        href: "/portfolio",
+        featured: false,
+      },
+      {
+        id: "tier-institutional",
+        name: "BUILT TO INSTITUTIONAL STANDARD",
+        number: "04",
+        description:
+          "Every production is designed to meet the compliance, evidence, and reporting expectations of DFIs, multilaterals, and governments — without compromising on craft.",
         features: [],
         href: "/portfolio",
         featured: false,

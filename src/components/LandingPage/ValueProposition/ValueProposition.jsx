@@ -47,7 +47,7 @@ export default function ValueProposition() {
         </Reveal>
 
         <motion.div 
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-7xl mx-auto"
           variants={staggerContainer}
           initial="hidden"
           whileInView="show"
@@ -59,18 +59,18 @@ export default function ValueProposition() {
               variants={staggerItem}
               className="flex flex-col bg-white overflow-hidden shadow-lg h-full"
             >
-              <div className="h-40 sm:h-48 shrink-0 relative">
+              <div className="h-32 sm:h-40 shrink-0 relative">
                 <img 
                   src={images[index % images.length]} 
                   alt={tier.name}
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="p-5 flex flex-col flex-1">
-                <h3 className="text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-[#e97a2f] mb-3 leading-tight">
+              <div className="p-4 flex flex-col flex-1">
+                <h3 className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#e97a2f] mb-2 leading-tight">
                   {tier.name}
                 </h3>
-                <p className="text-[#4e4e4e] text-xs leading-[1.65]">
+                <p className="text-[#4e4e4e] text-[11px] sm:text-[12px] leading-[1.6]">
                   {tier.description}
                 </p>
               </div>
