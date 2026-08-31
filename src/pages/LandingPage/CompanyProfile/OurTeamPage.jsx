@@ -70,23 +70,6 @@ const OurTeamPage = () => {
         </div>
       </section>
 
-      {/* Board of Trustees */}
-      <section className="py-16 sm:py-20" style={{ backgroundImage: "url('/story.png')", backgroundSize: "cover", backgroundPosition: "center" }}>
-        <div className="container">
-          <SectionHeader
-            title="Board of Trustees"
-            description="Governance and strategic oversight for OHI's institutional operations."
-            className="max-w-2xl"
-            textColorClassName="text-white"
-            descriptionClassName="text-white/80"
-          />
-          <div className="mt-12 grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4">
-            {boardMembers.map((member) => (
-              <MemberCard key={member.slug} member={member} dark />
-            ))}
-          </div>
-        </div>
-      </section>
     </ProfilePageShell>
   );
 };

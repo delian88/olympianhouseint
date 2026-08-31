@@ -1134,12 +1134,8 @@ export const landingPageDefaults = {
       { title: "Align", description: "A tailored scope and budget matched to your timeline and compliance requirements." },
       { title: "Deliver", description: "End-to-end, institution-grade storytelling and production, from field to final cut." },
     ],
-    workingStyle: {
-      label: "Working style",
-      title: "Aligned with institutional and DFI standards",
-      description:
-        "The profile notes a project management approach that aligns with communication standards expected by development partners, DFIs, and institutional teams.",
-    },
+    uniqueStrengthsTitle: "Our unique strengths",
+    uniqueStrengthsBody: "Project management aligned with donor compliance and DFI reporting standards",
     deliverables: {
       label: "Deliverables",
       items: [

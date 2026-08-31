@@ -452,6 +452,15 @@ const Header = () => {
 
         <div className="h-[calc(100%-73px)] overflow-y-auto px-5 py-5">
           <div className="grid gap-3">
+            <div className="space-y-2">
+              <Link
+                to="/"
+                className="block rounded-2xl border border-[#eee3d2] px-4 py-3 text-sm font-semibold uppercase tracking-[0.02em] text-[#2b313a] transition hover:text-[#bb7422]"
+                onClick={() => setIsDrawerOpen(false)}
+              >
+                Home
+              </Link>
+            </div>
             {publicMenuSections.map((section) => (
               <div key={section.label} className="space-y-2">
                 <div className="rounded-2xl border border-[#eee3d2] px-4 py-3">

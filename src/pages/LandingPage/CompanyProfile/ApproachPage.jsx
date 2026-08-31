@@ -43,7 +43,7 @@ const ApproachPage = () => {
   return (
     <ProfilePageShell
       title={hero.title ?? "Our Approach"}
-      heroImage={approachVisual}
+      heroImage={hero.image ?? approachVisual}
       heroImageAlt="Production workflow visual"
       description={hero.description ?? "We give your programme the visibility it deserves, the viability it needs, and the credibility it demands."}
       descriptionClassName="text-white"
@@ -84,7 +84,7 @@ const ApproachPage = () => {
 
             <Reveal x={30} className="overflow-hidden bg-white shadow-[0_10px_28px_rgba(15,23,42,0.08)]">
               <img
-                src={approachVisual}
+                src={howWeWork.image ?? approachVisual}
                 alt="Production workflow visual"
                 className="h-[400px] w-full object-cover sm:h-[460px] transition duration-500 hover:scale-105"
               />
@@ -106,15 +106,15 @@ const ApproachPage = () => {
                 className="bg-white p-6 shadow-[0_10px_28px_rgba(15,23,42,0.08)] transition-transform duration-300 hover:-translate-y-1"
               >
                 <div className="flex items-center justify-between">
-                  <step.icon className="h-5 w-5 text-[#1FA8DD]" />
+                  <step.icon className="h-8 w-8 text-[#1FA8DD]" />
                   <span className="inline-flex h-9 w-9 items-center justify-center bg-[#f8f9fb] text-xs font-bold uppercase tracking-[0.22em] text-[#F07F1A]">
                     0{index + 1}
                   </span>
                 </div>
-                <h3 className="mt-5 text-lg font-bold tracking-[-0.02em] text-[#2e3135]">
+                <h3 className="mt-5 text-2xl font-bold tracking-[-0.02em] text-[#2e3135]">
                   {step.title}
                 </h3>
-                <p className="mt-3 text-sm leading-6 text-[#4e5a67]">
+                <p className="mt-3 text-base leading-7 text-[#4e5a67]">
                   {step.description}
                 </p>
               </motion.article>
@@ -126,15 +126,12 @@ const ApproachPage = () => {
       {/* DFI standards + deliverables */}
       <section className="py-16 sm:py-20 bg-[#f59d21]">
         <div className="container grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <Reveal x={-30} className="bg-[#0a0c12] p-6 text-white shadow-[0_10px_28px_rgba(15,23,42,0.12)] sm:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#F07F1A]">
-              {workingStyle.label ?? "Working style"}
-            </p>
-            <h3 className="mt-4 text-2xl font-bold tracking-[-0.03em] text-white">
-              {workingStyle.title ?? "Aligned with institutional and DFI standards"}
+          <Reveal x={-30} className="flex flex-col justify-center">
+            <h3 className="text-2xl font-bold tracking-[-0.03em] text-white">
+              {approachPage.uniqueStrengthsTitle ?? "Our unique strengths"}
             </h3>
-            <p className="mt-4 text-sm leading-7 text-white/80">
-              {workingStyle.description ?? "The profile notes a project management approach that aligns with communication standards expected by development partners, DFIs, and institutional teams."}
+            <p className="mt-4 text-base leading-7 text-white/80">
+              ▪ {approachPage.uniqueStrengthsBody ?? "Project management aligned with donor compliance and DFI reporting standards"}
             </p>
           </Reveal>
 

@@ -14,7 +14,7 @@ import OurPlatformsPage from "../pages/LandingPage/CompanyProfile/OurPlatformsPa
 import ServicesPage from "../pages/LandingPage/CompanyProfile/ServicesPage";
 import PortfolioPage from "../pages/LandingPage/CompanyProfile/PortfolioPage";
 import WhoWeServePage from "../pages/LandingPage/CompanyProfile/WhoWeServePage";
-import ImpactPage from "../pages/LandingPage/CompanyProfile/ImpactPage";
+
 import ApproachPage from "../pages/LandingPage/CompanyProfile/ApproachPage";
 import ContactPage from "../pages/LandingPage/CompanyProfile/ContactPage";
 import ArticlePage from "../pages/LandingPage/CompanyProfile/ArticlePage";
@@ -46,7 +46,7 @@ const Routers = () => {
         <Route path="services" element={<ServicesPage />} />
         <Route path="portfolio" element={<PortfolioPage />} />
         <Route path="who-we-serve" element={<WhoWeServePage />} />
-        <Route path="impact" element={<ImpactPage />} />
+
         <Route path="approach" element={<ApproachPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="news" element={<NewsLandingPage />} />

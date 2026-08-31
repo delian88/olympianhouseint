@@ -2505,7 +2505,7 @@ export default function LandingPageManager() {
 
         <SectionCard
           id="services-page"
-          title="Services Page"
+          title="What we do - Services"
           description="Edit the public Services page content."
           onSave={() => requestSave(async () => {
             setConfig((current) => ({ ...current, servicesPage: draftConfig.servicesPage }));
@@ -2859,8 +2859,8 @@ export default function LandingPageManager() {
 
         <SectionCard
           id="leadership-page"
-          title="Leadership Page"
-          description="Edit the public Leadership page content."
+          title="Our Team"
+          description="Edit the public Leadership/Team page content."
           onSave={() => requestSave(async () => {
             setConfig((current) => ({ ...current, leadershipPage: draftConfig.leadershipPage }));
             toast.success("Leadership page saved!");
@@ -2998,93 +2998,6 @@ export default function LandingPageManager() {
           </div>
         </SectionCard>
 
-        <SectionCard
-          id="impact-page"
-          title="Impact Page"
-          description="Edit the public Impact page content."
-          onSave={() => requestSave(async () => {
-            setConfig((current) => ({ ...current, impactPage: draftConfig.impactPage }));
-            toast.success("Impact page saved!");
-          }, "Impact Page")}
-          saveLabel="Update Impact Page"
-        >
-          <div className="space-y-6">
-            <Field label="Hero title">
-              <TextInput value={draftConfig.impactPage?.hero?.title || ""} onChange={(e) => updateImpactPage("hero", "title", e.target.value)} />
-            </Field>
-            <Field label="Hero description">
-              <TextArea rows={4} value={draftConfig.impactPage?.hero?.description || ""} onChange={(e) => updateImpactPage("hero", "description", e.target.value)} />
-            </Field>
-            <ImageField
-              label="Hero image"
-              value={draftConfig.impactPage?.hero?.image || ""}
-              onChange={(e) =>
-                handleImageUpload(e, (value) => updateImpactPage("hero", "image", value))
-              }
-            />
-            <div className="grid gap-4 xl:grid-cols-2">
-              <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
-                <h3 className="text-lg font-bold text-foreground">Proof block</h3>
-                <Field label="Block title">
-                  <TextInput value={draftConfig.impactPage?.proof?.title || ""} onChange={(e) => updateImpactPage("proof", "title", e.target.value)} />
-                </Field>
-                <Field label="Block description">
-                  <TextArea rows={4} value={draftConfig.impactPage?.proof?.description || ""} onChange={(e) => updateImpactPage("proof", "description", e.target.value)} />
-                </Field>
-                <Field label="Visual label">
-                  <TextInput value={draftConfig.impactPage?.proof?.visualTitle || ""} onChange={(e) => updateImpactPage("proof", "visualTitle", e.target.value)} />
-                </Field>
-                <Field label="Visual heading">
-                  <TextInput value={draftConfig.impactPage?.proof?.visualHeading || ""} onChange={(e) => updateImpactPage("proof", "visualHeading", e.target.value)} />
-                </Field>
-                <Field label="Visual description">
-                  <TextArea rows={4} value={draftConfig.impactPage?.proof?.visualDescription || ""} onChange={(e) => updateImpactPage("proof", "visualDescription", e.target.value)} />
-                </Field>
-                <ImageField
-                  label="Proof image"
-                  value={draftConfig.impactPage?.proof?.image || ""}
-                  onChange={(e) =>
-                    handleImageUpload(e, (value) => updateImpactPage("proof", "image", value))
-                  }
-                />
-              </div>
-              <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
-                <h3 className="text-lg font-bold text-foreground">Benefits block</h3>
-                <Field label="Block title">
-                  <TextInput value={draftConfig.impactPage?.benefits?.title || ""} onChange={(e) => updateImpactPage("benefits", "title", e.target.value)} />
-                </Field>
-                <Field label="Block description">
-                  <TextArea rows={4} value={draftConfig.impactPage?.benefits?.description || ""} onChange={(e) => updateImpactPage("benefits", "description", e.target.value)} />
-                </Field>
-                <Field label="Payoff title">
-                  <TextInput value={draftConfig.impactPage?.benefits?.payoffTitle || ""} onChange={(e) => updateImpactPage("benefits", "payoffTitle", e.target.value)} />
-                </Field>
-                <Field label="Payoff description">
-                  <TextArea rows={4} value={draftConfig.impactPage?.benefits?.payoffDescription || ""} onChange={(e) => updateImpactPage("benefits", "payoffDescription", e.target.value)} />
-                </Field>
-                <Field label="Support title">
-                  <TextInput value={draftConfig.impactPage?.benefits?.supportTitle || ""} onChange={(e) => updateImpactPage("benefits", "supportTitle", e.target.value)} />
-                </Field>
-                <Field label="Support description">
-                  <TextArea rows={4} value={draftConfig.impactPage?.benefits?.supportDescription || ""} onChange={(e) => updateImpactPage("benefits", "supportDescription", e.target.value)} />
-                </Field>
-                {(draftConfig.impactPage?.benefits?.points || []).map((point, index) => (
-                  <Field key={index} label={`Point ${index + 1}`}>
-                    <TextArea
-                      rows={2}
-                      value={point}
-                      onChange={(e) => {
-                        const next = [...(draftConfig.impactPage?.benefits?.points || [])];
-                        next[index] = e.target.value;
-                        updateImpactPage("benefits", "points", next);
-                      }}
-                    />
-                  </Field>
-                ))}
-              </div>
-            </div>
-          </div>
-        </SectionCard>
 
         <SectionCard
           id="who-we-serve-page"
@@ -3339,8 +3252,8 @@ export default function LandingPageManager() {
 
         <SectionCard
           id="approach-page"
-          title="Approach Page"
-          description="Edit the public Approach page — hero, how-we-work text, 4-step process cards, working style, and deliverables."
+          title="Our Approach"
+          description="Edit the public Approach page content."
           onSave={() => requestSave(async () => {
             setConfig((current) => ({ ...current, approachPage: draftConfig.approachPage }));
             toast.success("Approach page saved!");

@@ -3,6 +3,10 @@ import gallery11 from "../../assets/images/Gallery/gallery-11.jpeg";
 
 export const publicMenuSections = [
   {
+    label: "Home",
+    href: "/",
+  },
+  {
     label: "Work",
     href: "/portfolio",
     heroImage: gallery11,
@@ -17,7 +21,6 @@ export const publicMenuSections = [
     items: [
       { label: "What We Do", href: "/services" },
       { label: "Our Approach", href: "/approach" },
-      { label: "Impact", href: "/impact" },
     ],
   },
   {
