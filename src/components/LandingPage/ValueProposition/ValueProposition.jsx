@@ -1,107 +1,98 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import SectionHeader from "../SectionHeader";
 import Reveal from "../../ui/reveal";
 import { useLandingPageConfig } from "../../../context/LandingPageConfigContext";
 import { landingPageDefaults } from "../../../data/landingPageDefaults";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+import gallery01 from "../../../assets/images/Gallery/gallery-01.jpeg";
+import gallery02 from "../../../assets/images/Gallery/gallery-02.jpeg";
+import gallery03 from "../../../assets/images/Gallery/gallery-03.jpeg";
+import gallery04 from "../../../assets/images/Gallery/gallery-04.jpeg";
+
+const images = [gallery01, gallery02, gallery03, gallery04];
 
 export default function ValueProposition() {
   const { config } = useLandingPageConfig();
   const vp = config.valueProposition ?? landingPageDefaults.valueProposition;
   const tiers = vp.tiers ?? landingPageDefaults.valueProposition.tiers;
 
-  return (
-    <div
-      id="approach"
-      className="relative isolate px-4 py-16 sm:px-6 sm:py-20 lg:px-8"
-      style={{ backgroundImage: "url('/white-bg2.png')", backgroundSize: "cover", backgroundPosition: "center" }}
-    >
-      <SectionHeader
-        title={vp.title}
-        description={vp.description}
-      />
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 },
+    },
+  };
 
-      <div className="mx-auto mt-12 grid max-w-lg grid-cols-1 items-center gap-6 sm:mt-16 lg:max-w-6xl lg:grid-cols-2 xl:grid-cols-4">
-        {tiers.map((tier, index) => (
-          <Reveal key={tier.id} delay={0.06 + index * 0.08} distance={36} scale={0.95}>
-            <motion.div
-              className={classNames(
-                tier.featured
-                  ? "relative bg-slate-950 text-white shadow-2xl border border-white/10"
-                  : "bg-white text-slate-900 shadow-xl border border-slate-100 sm:mx-0 lg:mx-0",
-                "rounded-3xl p-6 ring-1 ring-gray-900/10 sm:p-8"
-              )}
-              whileHover={{ y: -8, scale: 1.01 }}
-              transition={{ duration: 0.25 }}
+  const staggerItem = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  };
+
+  return (
+    <section 
+      id="value-proposition" 
+      className="py-16 sm:py-20 relative"
+      style={{ backgroundImage: "url('/black-bg.png')", backgroundSize: "cover", backgroundPosition: "center" }}
+    >
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <Reveal className="text-center mb-10">
+          <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+            {vp.title}
+          </h2>
+          <p className="mt-2 text-sm text-white/90">
+            we make impact impossible to ignore.
+          </p>
+        </Reveal>
+
+        <motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.1 }}
+        >
+          {tiers.slice(0, 4).map((tier, index) => (
+            <motion.article 
+              key={tier.id || index}
+              variants={staggerItem}
+              className="flex flex-col bg-white overflow-hidden shadow-lg h-full"
             >
-              <h3
-                className={classNames(
-                  tier.featured ? "text-[#05c1ff]" : "text-[#f9a11b]",
-                  "text-lg font-bold"
-                )}
-              >
-                {tier.name}
-              </h3>
-              <p className="mt-4 flex items-baseline gap-x-2">
-                <span
-                  className={classNames(
-                    tier.featured ? "text-white" : "text-slate-900",
-                    "text-5xl font-black tracking-tight"
-                  )}
-                >
-                  {tier.number}
-                </span>
-              </p>
-              <p
-                className={classNames(
-                  tier.featured ? "text-slate-200" : "text-slate-700",
-                  "mt-4 text-sm leading-relaxed font-medium"
-                )}
-              >
-                {tier.description}
-              </p>
-              <ul
-                role="list"
-                className={classNames(
-                  tier.featured ? "text-slate-200" : "text-slate-800",
-                  "mt-6 space-y-2.5 text-sm leading-6 font-medium sm:mt-8"
-                )}
-              >
-                {(tier.features ?? []).map((feature) => (
-                  <li key={feature} className="flex gap-x-3">
-                    <span
-                      className={classNames(
-                        tier.featured ? "text-white" : "text-primaryColor",
-                        "h-6 w-5 flex-none"
-                      )}
-                      aria-hidden="true"
-                    >
-                      &bull;
-                    </span>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-              <Link
-                to={tier.href ?? "/"}
-                className={classNames(
-                  tier.featured
-                    ? "bg-yellowColor text-black shadow-xs hover:bg-yellowColor/90 focus-visible:outline-yellowColor"
-                    : "text-primaryColor ring-1 ring-primaryColor/20 ring-inset hover:ring-primaryColor/30 focus-visible:outline-primaryColor",
-                  "mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold transition duration-300 ease-out hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 sm:mt-10"
-                )}
-              >
-                {tier.featured ? "See how we work" : "Open page"}
-              </Link>
-            </motion.div>
-          </Reveal>
-        ))}
+              <div className="h-40 sm:h-48 shrink-0 relative">
+                <img 
+                  src={images[index % images.length]} 
+                  alt={tier.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-5 flex flex-col flex-1">
+                <h3 className="text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-[#e97a2f] mb-3 leading-tight">
+                  {tier.name}
+                </h3>
+                <p className="text-[#4e4e4e] text-xs leading-[1.65]">
+                  {tier.description}
+                </p>
+              </div>
+            </motion.article>
+          ))}
+        </motion.div>
+
+        <Reveal className="mt-12 flex flex-col sm:flex-row justify-center items-center gap-4">
+          <a
+            href="#client-voices"
+            className="rounded-full bg-[#00c2ff] px-6 py-3 text-[11px] sm:text-xs font-bold text-white shadow-sm hover:bg-[#00a8e0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00c2ff] uppercase tracking-wider text-center transition"
+          >
+            View Client Voices (Testimonials & Photos)
+          </a>
+          <Link
+            to="/contact"
+            className="rounded-full bg-[#e97a2f] px-6 py-3 text-[11px] sm:text-xs font-bold text-white shadow-sm hover:bg-[#d4661f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e97a2f] uppercase tracking-wider text-center transition"
+          >
+            Contact Us
+          </Link>
+        </Reveal>
       </div>
-    </div>
+    </section>
   );
 }
