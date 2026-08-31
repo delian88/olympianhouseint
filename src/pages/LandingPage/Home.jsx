@@ -8,6 +8,7 @@ import { Badge } from "../../components/ui/badge";
 import Reveal from "../../components/ui/reveal";
 import { Marquee } from "../../components/LandingPage/magicui/marquee";
 import UnderlinedHeading from "../../components/LandingPage/UnderlinedHeading";
+import ValueProposition from "../../components/LandingPage/ValueProposition/ValueProposition";
 
 
 function FallbackImage({ src, fallback, alt, className, ...props }) {
@@ -463,7 +464,7 @@ function Home() {
         </div>
       </section>
 
-      
+      <ValueProposition />
 
 
 
