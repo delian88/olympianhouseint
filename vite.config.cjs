@@ -7,7 +7,7 @@ module.exports = defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8000',
+        target: 'https://olympianhouseintl.com',
         changeOrigin: true,
       }
     }

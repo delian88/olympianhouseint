@@ -9,13 +9,18 @@
  */
 
 function getBaseUrl() {
+  // If an environment variable is explicitly set (like in .env.production), use it first.
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  
   if (typeof window !== 'undefined') {
     const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     if (!isLocalhost) {
       return `${window.location.origin}/api`;
     }
   }
-  return import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+  return 'http://localhost:8000/api';
 }
 
 export const BASE_URL = getBaseUrl();
