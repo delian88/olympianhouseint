@@ -403,12 +403,6 @@ function Home() {
         </div>
       </section>
 
-      <ValueProposition />
-
-
-
-      
-
       <section id="track-record" className="py-16 sm:py-20 bg-white">
         <div className="container">
           {/* Section header */}
@@ -469,6 +463,18 @@ function Home() {
           </div>
         </div>
       </section>
+
+      <ValueProposition />
+
+
+
+      
+
+
+
+      
+
+      
 
       <section id="client-voices" className="py-16 sm:py-20 bg-white">
         <div className="container">
