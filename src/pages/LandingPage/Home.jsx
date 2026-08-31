@@ -347,7 +347,113 @@ function Home() {
         </div>
       </section>
 
-      <ValueProposition />
+      <section id="ohi-difference" className="py-14 sm:py-16" style={{ backgroundImage: "url('/story.png')", backgroundSize: "cover", backgroundPosition: "center" }}>
+        <div className="container">
+          <Reveal className="mx-auto max-w-3xl text-center text-white">
+            <UnderlinedHeading as="h2" className="text-2xl font-bold tracking-[-0.03em] sm:text-3xl" textColorClassName="text-white" showBorder={false}>
+              {homePage.difference.title}
+            </UnderlinedHeading>
+            <p className="mt-2 text-sm font-medium text-white/92">
+              {homePage.difference.description}
+            </p>
+          </Reveal>
+
+          <motion.div
+            className="mt-10 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            <motion.div variants={staggerItem} className="overflow-hidden bg-white shadow-[0_12px_26px_rgba(15,23,42,0.14)]">
+              <FallbackImage
+                src={homePage.difference.image}
+                fallback={landingPageDefaults.gallery.items?.[0]?.image}
+                alt={homePage.difference.title}
+                className="h-full min-h-[420px] w-full object-cover"
+              />
+            </motion.div>
+
+            <motion.div variants={staggerItem} className="grid gap-5 md:grid-cols-2">
+              {(homePage.difference.cards ?? cardItems).map((item) => (
+                <article
+                  key={item.title}
+                  className="flex h-full min-h-[200px] flex-col overflow-hidden bg-white shadow-[0_12px_26px_rgba(15,23,42,0.14)]"
+                >
+                    <FallbackImage
+                      src={item.image}
+                      fallback={landingPageDefaults.gallery.items?.[0]?.image}
+                      alt={item.title}
+                      className="h-44 w-full object-cover"
+                    />
+                    <div className="flex flex-1 flex-col p-4">
+                      <h3 className="text-sm font-medium text-[#2e3135]">{item.title}</h3>
+                      <p className="mt-3 text-xs leading-5 text-[#4e4e4e]">{item.description}</p>
+                      <Link
+                        to={item.href ?? "/services"}
+                        className="mt-auto inline-flex text-xs font-semibold text-[#e97a2f] transition hover:text-[#c86216]"
+                      >
+                        Learn More
+                      </Link>
+                    </div>
+                </article>
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section id="client-voices" className="py-16 sm:py-20 bg-white">
+        <div className="container">
+          <Reveal className="mb-8">
+            <p className="text-[#e97a2f] text-sm font-semibold mb-2 tracking-wide">
+              {homePage.testimonials.eyebrow}
+            </p>
+            <UnderlinedHeading as="h2" className="text-2xl font-bold tracking-[-0.03em] sm:text-3xl" textColorClassName="text-[#0d1f2d]" showBorder={true}>
+              {homePage.testimonials.title}
+            </UnderlinedHeading>
+          </Reveal>
+
+          <motion.div
+            className="grid gap-5 md:grid-cols-3"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            {homePage.testimonials.items.map((item) => (
+              <motion.article
+                key={item.org}
+                variants={staggerItem}
+                className="flex h-full min-h-[420px] flex-col overflow-hidden border border-[#e5e5e5] bg-white shadow-[0_10px_24px_rgba(15,23,42,0.12)]"
+              >
+                <FallbackImage
+                  src={item.image}
+                  fallback={landingPageDefaults.gallery.items?.[0]?.image}
+                  alt={item.org}
+                  className="h-52 w-full object-cover"
+                />
+                <div className="flex flex-1 flex-col p-5">
+                  <p className="text-[10px] uppercase tracking-[0.22em] text-[#b16a18]">
+                    Partner Testimonial
+                  </p>
+                  <p className="mt-3 text-xs leading-6 text-[#54565a] flex-1">
+                    "{item.quote}"
+                  </p>
+                  <div className="mt-4 pt-4 border-t border-[#f0ece6]">
+                    <p className="text-xs font-semibold text-[#0d1f2d]">{item.name}</p>
+                    <p className="mt-0.5 text-[11px] text-[#e97a2f] font-medium">{item.org}</p>
+                  </div>
+                </div>
+              </motion.article>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+
+
+      
 
       <section id="track-record" className="py-16 sm:py-20 bg-white">
         <div className="container">
@@ -410,53 +516,11 @@ function Home() {
         </div>
       </section>
 
-      <section id="client-voices" className="py-16 sm:py-20 bg-white">
-        <div className="container">
-          <Reveal className="mb-8">
-            <p className="text-[#e97a2f] text-sm font-semibold mb-2 tracking-wide">
-              {homePage.testimonials.eyebrow}
-            </p>
-            <UnderlinedHeading as="h2" className="text-2xl font-bold tracking-[-0.03em] sm:text-3xl" textColorClassName="text-[#0d1f2d]" showBorder={true}>
-              {homePage.testimonials.title}
-            </UnderlinedHeading>
-          </Reveal>
+      <ValueProposition />
 
-          <motion.div
-            className="grid gap-5 md:grid-cols-3"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            {homePage.testimonials.items.map((item) => (
-              <motion.article
-                key={item.org}
-                variants={staggerItem}
-                className="flex h-full min-h-[420px] flex-col overflow-hidden border border-[#e5e5e5] bg-white shadow-[0_10px_24px_rgba(15,23,42,0.12)]"
-              >
-                <FallbackImage
-                  src={item.image}
-                  fallback={landingPageDefaults.gallery.items?.[0]?.image}
-                  alt={item.org}
-                  className="h-52 w-full object-cover"
-                />
-                <div className="flex flex-1 flex-col p-5">
-                  <p className="text-[10px] uppercase tracking-[0.22em] text-[#b16a18]">
-                    Partner Testimonial
-                  </p>
-                  <p className="mt-3 text-xs leading-6 text-[#54565a] flex-1">
-                    "{item.quote}"
-                  </p>
-                  <div className="mt-4 pt-4 border-t border-[#f0ece6]">
-                    <p className="text-xs font-semibold text-[#0d1f2d]">{item.name}</p>
-                    <p className="mt-0.5 text-[11px] text-[#e97a2f] font-medium">{item.org}</p>
-                  </div>
-                </div>
-              </motion.article>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+
+
+      
 
       {homePage.supporters?.isEnabled !== false && (
         <section id="support-ohi" className="py-4 bg-[#f59d21] text-[#3a2413]">
