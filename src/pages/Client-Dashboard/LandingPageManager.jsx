@@ -30,6 +30,7 @@ import { motion } from "framer-motion";
 import { AnimatedText } from "../../components/ui/AnimatedText";
 import { useNotifications } from "../../context/NotificationContext";
 import { landingPageDefaults } from "../../data/landingPageDefaults";
+import SectionOrderManager from "./SectionOrderManager";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -1086,6 +1087,30 @@ export default function LandingPageManager() {
       </SectionCard>
 
       <div className="space-y-6 min-w-0">
+        <SectionCard
+          id="home-layout"
+          title="Homepage Layout"
+          description="Drag and drop to reorder sections. Add new sections or delete existing ones from the homepage."
+          onSave={() => requestSave(async () => {
+            setConfig((current) => ({ ...current, homePage: draftConfig.homePage }));
+            toast.success("Layout saved!");
+          }, "Homepage Layout")}
+          saveLabel="Save Layout"
+        >
+          <SectionOrderManager
+            sectionOrder={draftConfig.homePage?.sectionOrder || landingPageDefaults.homePage.sectionOrder}
+            onChange={(newOrder) => {
+              setDraftConfig((current) => ({
+                ...current,
+                homePage: {
+                  ...current.homePage,
+                  sectionOrder: newOrder,
+                },
+              }));
+            }}
+          />
+        </SectionCard>
+
         <SectionCard id="home-hero" title="Hero" description="Edit the homepage hero content. The hero displays a single slide over a video background — only Slide 1 is shown publicly." onSave={() => requestSave(async () => { setConfig((current) => ({ ...current, hero: draftConfig.hero })); toast.success("Hero saved!"); }, "Hero")} saveLabel="Update Hero">
           <div className="grid gap-4 lg:grid-cols-2">
             {(draftConfig.hero.slides ?? []).slice(0, 1).map((slide, index) => (

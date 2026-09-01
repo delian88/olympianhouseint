@@ -66,6 +66,23 @@ export const landingPageDefaults = {
     secondaryCtaHref: "/portfolio",
   },
   homePage: {
+    sectionOrder: [
+        'hero',
+        'conviction-strip',
+        'about',
+        'ohi-difference',
+        'what-we-do',
+        'track-record',
+        'support-ohi',
+        'final-cta',
+        'leadership',
+        'programmes',
+        'africa-story-banner',
+        'story-banner',
+        'client-voices',
+        'news-blog',
+        'ohi-video'
+      ],
     convictionStrip: {
       text: "Africa's development story is worth billions. Most of it is never told well enough to unlock that value.",
     },
