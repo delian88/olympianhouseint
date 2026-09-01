@@ -349,6 +349,8 @@ function Home() {
 
       
 
+      <ValueProposition />
+
       <section id="track-record" className="py-16 sm:py-20 bg-white">
         <div className="container">
           {/* Section header */}
@@ -600,9 +602,7 @@ function Home() {
         </div>
       </section>
 
-      <ValueProposition />
-
-      <section id="client-voices" className="py-16 sm:py-20 bg-white">
+<section id="client-voices" className="py-16 sm:py-20 bg-white">
         <div className="container">
           <Reveal className="mb-8">
             <p className="text-[#e97a2f] text-sm font-semibold mb-2 tracking-wide">
