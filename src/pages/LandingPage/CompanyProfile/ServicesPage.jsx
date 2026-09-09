@@ -21,57 +21,9 @@ const ServicesPage = () => {
   const servicesPage = config.servicesPage ?? {};
   const hero = servicesPage.hero ?? {};
 
-  const serviceFormats = [
-    "Investment & programme visibility",
-    "Impact documentaries",
-    "ESG & social impact storytelling",
-    "Development programme communication",
-    "Donor & investor reporting films",
-    "Multilingual field production",
-  ];
+  
 
-  const serviceShowcase = [
-    {
-      title: "Impact Documentaries",
-      description: "We produce documentaries that turn programme results into evidence-led narratives for institutional audiences.",
-      image: serviceImage01,
-    },
-    {
-      title: "Development Programme Communication",
-      description: "OHI helps development programmes communicate objectives, implementation, and results with clarity and accountability.",
-      image: serviceImage02,
-    },
-    {
-      title: "Investment & Programme Visibility",
-      description: "We craft investor-facing films that present projects as credible opportunities for financing and partnership.",
-      image: serviceImage03,
-    },
-    {
-      title: "ESG & Social Impact Storytelling",
-      description: "Our content amplifies community voice and local ownership while supporting ESG and social impact reporting.",
-      image: serviceImage04,
-    },
-    {
-      title: "Donor & Investor Reporting Films",
-      description: "We produce reporting films that support donor updates, investor confidence, and renewal conversations.",
-      image: serviceImage05,
-    },
-    {
-      title: "Multilingual Field Production",
-      description: "OHI produces concise, evidence-driven reporting films across languages and regions.",
-      image: serviceImage06,
-    },
-    {
-      title: "Event & Mission Coverage",
-      description: "From high-level forums to field missions, we document moments that matter with professional intent.",
-      image: serviceImage07,
-    },
-    {
-      title: "Social Media & Digital Campaigns",
-      description: "We design digital-first content that extends project visibility across web, social, and stakeholder channels.",
-      image: serviceImage08,
-    },
-  ];
+  
 
   return (
     <ProfilePageShell
@@ -97,13 +49,13 @@ const ServicesPage = () => {
       <section className="py-16 sm:py-20" style={{ backgroundImage: "url('/story.png')", backgroundSize: "cover", backgroundPosition: "center" }}>
         <div className="container">
           <SectionHeader
-            title="Formats in practice"
-            description="A closer look at how OHI adapts each format to the communication objective, audience, and sector."
+            title={servicesPage.showcaseSection?.title ?? "Formats in practice"}
+            description={servicesPage.showcaseSection?.description ?? "A closer look at how OHI adapts each format to the communication objective, audience, and sector."}
             textColorClassName="text-white"
             descriptionClassName="text-white/80"
           />
           <div className="mt-10 space-y-5">
-            {serviceShowcase.map((item, index) => (
+            {(servicesPage.showcase || []).map((item, index) => (
               <Reveal key={item.title} delay={0.06 + index * 0.04}>
                 <article className="overflow-hidden bg-white shadow-[0_10px_28px_rgba(15,23,42,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(15,23,42,0.12)]">
                   <div className="grid items-stretch md:grid-cols-2">

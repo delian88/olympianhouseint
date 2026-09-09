@@ -2553,33 +2553,15 @@ export default function LandingPageManager() {
                 handleImageUpload(e, (value) => updateServicesPage("hero", "image", value))
               }
             />
-            <div className="grid gap-4 xl:grid-cols-2">
-              <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
-                <h3 className="text-lg font-bold text-foreground">Intro</h3>
+            <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
+                <h3 className="text-lg font-bold text-foreground">Formats in Practice Section</h3>
                 <Field label="Section title">
-                  <TextInput value={draftConfig.servicesPage?.servicesIntro?.title || ""} onChange={(e) => updateServicesPage("servicesIntro", "title", e.target.value)} />
+                  <TextInput value={draftConfig.servicesPage?.showcaseSection?.title || ""} onChange={(e) => updateServicesPage("showcaseSection", "title", e.target.value)} />
                 </Field>
                 <Field label="Section description">
-                  <TextArea rows={4} value={draftConfig.servicesPage?.servicesIntro?.description || ""} onChange={(e) => updateServicesPage("servicesIntro", "description", e.target.value)} />
-                </Field>
-                <ImageField
-                  label="Intro image"
-                  value={draftConfig.servicesPage?.introImage || ""}
-                  onChange={(e) =>
-                    handleImageUpload(e, (value) => updateServicesPageRoot("introImage", value))
-                  }
-                />
-              </div>
-              <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
-                <h3 className="text-lg font-bold text-foreground">Travel block</h3>
-                <Field label="Travel title">
-                  <TextInput value={draftConfig.servicesPage?.travel?.title || ""} onChange={(e) => updateServicesPage("travel", "title", e.target.value)} />
-                </Field>
-                <Field label="Travel description">
-                  <TextArea rows={4} value={draftConfig.servicesPage?.travel?.description || ""} onChange={(e) => updateServicesPage("travel", "description", e.target.value)} />
+                  <TextArea rows={4} value={draftConfig.servicesPage?.showcaseSection?.description || ""} onChange={(e) => updateServicesPage("showcaseSection", "description", e.target.value)} />
                 </Field>
               </div>
-            </div>
             <div className="grid gap-4 xl:grid-cols-2">
               {(draftConfig.servicesPage?.showcase || []).map((item, index) => (
                 <div key={index} className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
@@ -2636,6 +2618,16 @@ export default function LandingPageManager() {
                   />
                 </div>
               ))}
+            </div>
+            <div className="flex justify-end mt-4">
+              <button className="h-9 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" onClick={(e) => {
+                e.preventDefault();
+                const next = [...(draftConfig.servicesPage?.showcase || [])];
+                next.push({ title: "", description: "", image: "" });
+                setDraftConfig(current => ({ ...current, servicesPage: { ...current.servicesPage, showcase: next } }));
+              }}>
+                Add Format Item
+              </button>
             </div>
           </div>
         </SectionCard>
