@@ -22,6 +22,7 @@ export const SECTION_TEMPLATES = [
   { id: 'hero', label: 'Hero Banner' },
   { id: 'conviction-strip', label: 'Conviction Strip' },
   { id: 'about', label: 'About Section' },
+  { id: 'ohi-difference', label: 'Why institutions choose OHI' },
   { id: 'what-we-do', label: 'What We Do / Value Proposition' },
   { id: 'track-record', label: 'Track Record' },
   { id: 'support-ohi', label: 'Support OHI' },
@@ -91,7 +92,7 @@ export default function SectionOrderManager({ sectionOrder, onChange }) {
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
-    if (active.id !== over.id) {
+    if (over && active.id !== over.id) {
       const oldIndex = sectionOrder.indexOf(active.id);
       const newIndex = sectionOrder.indexOf(over.id);
       const newOrder = arrayMove(sectionOrder, oldIndex, newIndex);
