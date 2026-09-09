@@ -263,8 +263,66 @@ const Header = () => {
 
               {publicMenuSections.map((section) => (
                 <li key={section.label}>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger className="group inline-flex items-center gap-1 rounded-md px-1.5 py-2 text-[14px] font-medium uppercase tracking-[0.02em] text-[#2b313a] transition hover:text-[#bb7422] focus:outline-none">
+                  {section.items && section.items.length > 0 ? (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger className="group inline-flex items-center gap-1 rounded-md px-1.5 py-2 text-[14px] font-medium uppercase tracking-[0.02em] text-[#2b313a] transition hover:text-[#bb7422] focus:outline-none">
+                        <span className="relative inline-block">
+                          {section.label}
+                          <svg
+                            className="absolute -bottom-2 left-0 w-full opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                            viewBox="0 0 300 8"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M2 6 C60 2, 140 2, 298 6"
+                              stroke="#bb7422"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                              fill="none"
+                            />
+                          </svg>
+                        </span>
+                        <ChevronDown className="h-4 w-4 opacity-80" />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="w-72 overflow-hidden p-0">
+                        <div className="p-1">
+                        {section.items.map((item, index) =>
+                          item.isHeader ? (
+                            <React.Fragment key={`${item.label}-${index}`}>
+                              {index > 0 && <DropdownMenuSeparator />}
+                              <DropdownMenuLabel className="text-[11px] font-bold uppercase tracking-[0.05em] text-[#bb7422]">
+                                {item.label}
+                              </DropdownMenuLabel>
+                              {item.items?.map((subItem) => (
+                                <DropdownMenuItem key={subItem.href} asChild>
+                                  <Link to={subItem.href} className="cursor-pointer">
+                                    {subItem.label}
+                                  </Link>
+                                </DropdownMenuItem>
+                              ))}
+                            </React.Fragment>
+                          ) : (
+                            <DropdownMenuItem key={item.href} asChild>
+                              <Link to={item.href} className="cursor-pointer">
+                                {item.label}
+                              </Link>
+                            </DropdownMenuItem>
+                          )
+                        )}
+                        </div>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  ) : (
+                    <NavLink
+                      to={section.href}
+                      className={({ isActive }) =>
+                        `group inline-flex items-center gap-1 rounded-md px-1.5 py-2 text-[14px] font-medium uppercase tracking-[0.02em] transition hover:text-[#bb7422] focus:outline-none ${
+                          isActive ? "text-[#bb7422]" : "text-[#2b313a]"
+                        }`
+                      }
+                    >
                       <span className="relative inline-block">
                         {section.label}
                         <svg
@@ -283,36 +341,8 @@ const Header = () => {
                           />
                         </svg>
                       </span>
-                      <ChevronDown className="h-4 w-4 opacity-80" />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-72 overflow-hidden p-0">
-                      <div className="p-1">
-                      {section.items?.map((item, index) =>
-                        item.isHeader ? (
-                          <React.Fragment key={`${item.label}-${index}`}>
-                            {index > 0 && <DropdownMenuSeparator />}
-                            <DropdownMenuLabel className="text-[11px] font-bold uppercase tracking-[0.05em] text-[#bb7422]">
-                              {item.label}
-                            </DropdownMenuLabel>
-                            {item.items?.map((subItem) => (
-                              <DropdownMenuItem key={subItem.href} asChild>
-                                <Link to={subItem.href} className="cursor-pointer">
-                                  {subItem.label}
-                                </Link>
-                              </DropdownMenuItem>
-                            ))}
-                          </React.Fragment>
-                        ) : (
-                          <DropdownMenuItem key={item.href} asChild>
-                            <Link to={item.href} className="cursor-pointer">
-                              {item.label}
-                            </Link>
-                          </DropdownMenuItem>
-                        )
-                      )}
-                      </div>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                    </NavLink>
+                  )}
                 </li>
               ))}
 

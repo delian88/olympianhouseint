@@ -3,6 +3,10 @@ import gallery11 from "../../assets/images/Gallery/gallery-11.jpeg";
 
 export const publicMenuSections = [
   {
+    label: "Home",
+    href: "/",
+  },
+  {
     label: "Work",
     href: "/portfolio",
     heroImage: gallery11,
