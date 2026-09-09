@@ -103,6 +103,12 @@ export default function NewsManager() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error("Image file size exceeds the 10MB limit for free tier.");
+      e.target.value = "";
+      return;
+    }
+
     const toastId = toast.loading("Uploading image... 0%");
     try {
       const data = await api.uploadMedia(file, (progress) => {

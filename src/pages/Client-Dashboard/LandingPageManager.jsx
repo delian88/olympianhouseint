@@ -874,6 +874,12 @@ export default function LandingPageManager() {
     const file = event.target.files?.[0];
     if (!file) return;
 
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error("Image file size exceeds the 10MB limit for free tier.");
+      event.target.value = "";
+      return;
+    }
+
     const toastId = toast.loading("Uploading... 0%");
     try {
       const data = await api.uploadMedia(file, (progress) => {
@@ -896,6 +902,12 @@ export default function LandingPageManager() {
   const handleVideoUpload = async (event, apply) => {
     const file = event.target.files?.[0];
     if (!file) return;
+
+    if (file.size > 100 * 1024 * 1024) {
+      toast.error("Video file size exceeds the 100MB limit for free tier.");
+      event.target.value = "";
+      return;
+    }
 
     const toastId = toast.loading("Uploading video... 0%");
     try {
