@@ -80,6 +80,13 @@ const editableItems = [
     route: "/dashboard/landing-page#leadership-page",
   },
   {
+    title: "Background",
+    description: "Background page hero, founder story, and foundation.",
+    icon: Layers3Icon,
+    route: "/dashboard/landing-page#background-page",
+  },
+
+  {
     title: "Theme and footer",
     description: "Primary colors and footer text/contact details.",
     icon: BadgeCheckIcon,

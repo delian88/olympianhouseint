@@ -988,6 +988,28 @@ export const landingPageDefaults = {
       badgeDescription:
         "Strategic visibility for development, investment, and impact communication.",
     },
+    founder: {
+      title: "A Word from the Founder",
+      description: "Fombang Banns N. · Founder & CEO, Olympian House International · Founded 2015",
+      paragraph1: "I founded Olympian House International in 2015 driven by a simple but powerful belief: stories have the ability to move people — and when people move, change follows.",
+      paragraph2: "Over a decade at the heart of the continent's development and investment landscape, that belief has matured into a conviction: the quality of a story is inseparable from the quality of the capital, partnerships, and policy decisions it attracts. Africa's development journeys deserve to be seen, trusted, and funded — and that is the standard we hold ourselves to on every project.",
+      paragraph3: "I lead a multilingual team that combines cinematic excellence with deep fluency in the language of development and investment. We understand donor compliance, DFI communication frameworks, and the psychology of institutional decision-making — because great storytelling for development is not just about beauty. It is about credibility, evidence, and impact at scale.",
+      quote: "\"Together, let's tell the stories that build the Africa we imagine.\"",
+      quoteAuthor: "Fombang Banns N.",
+      quoteRole: "Founder & CEO, Olympian House International",
+      ctaLabel: "Meet the team",
+      ctaHref: "/our-team",
+    },
+    foundation: {
+      eyebrow: "Our foundation",
+      title: "Founded on conviction",
+      description: "OHI was established in 2015 in Cameroon with a focus on documentary production, strategic communication, and institutional visibility for development and investment-focused organizations across Africa.",
+    },
+    vision: {
+      eyebrow: "What drives us",
+      title: "A decade of institutional trust",
+      description: "A 95% repeat-client rate and a growing roster of institutional partners across multilateral, government, and private-sector audiences. The work is shaped by a belief that Africa's development narrative deserves to be told well enough to unlock the capital and credibility it merits.",
+    },
   },
   impactPage: {
     hero: {
