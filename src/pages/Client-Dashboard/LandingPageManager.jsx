@@ -3110,6 +3110,253 @@ export default function LandingPageManager() {
                 handleImageUpload(e, (value) => updateWhoWeServePage("hero", "image", value))
               }
             />
+
+            <div className="space-y-4 border border-border rounded-xl p-4 mt-8 bg-card">
+              <h3 className="font-semibold text-lg text-card-foreground">Sectors</h3>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field label="Sectors Title">
+                  <TextInput
+                    value={draftConfig.whoWeServePage?.sectors?.title || ""}
+                    onChange={(e) => updateWhoWeServePage("sectors", "title", e.target.value)}
+                  />
+                </Field>
+                <Field label="Sectors Description">
+                  <TextArea
+                    rows={2}
+                    value={draftConfig.whoWeServePage?.sectors?.description || ""}
+                    onChange={(e) => updateWhoWeServePage("sectors", "description", e.target.value)}
+                  />
+                </Field>
+              </div>
+              <div className="space-y-3 mt-4">
+                <p className="text-sm font-semibold text-foreground">Sector Items</p>
+                {(draftConfig.whoWeServePage?.sectors?.items ?? []).map((item, index) => (
+                  <div key={index} className="grid gap-3 sm:grid-cols-2 rounded-2xl border border-border bg-background p-3">
+                    <Field label={`Sector ${index + 1} Title`}>
+                      <TextInput
+                        value={item.title || ""}
+                        onChange={(e) => {
+                          const next = [...(draftConfig.whoWeServePage?.sectors?.items ?? [])];
+                          next[index] = { ...next[index], title: e.target.value };
+                          updateWhoWeServePage("sectors", "items", next);
+                        }}
+                      />
+                    </Field>
+                    <Field label={`Sector ${index + 1} Category`}>
+                      <TextInput
+                        value={item.category || ""}
+                        onChange={(e) => {
+                          const next = [...(draftConfig.whoWeServePage?.sectors?.items ?? [])];
+                          next[index] = { ...next[index], category: e.target.value };
+                          updateWhoWeServePage("sectors", "items", next);
+                        }}
+                      />
+                    </Field>
+                    <Field label={`Sector ${index + 1} Description`} className="sm:col-span-2">
+                      <TextArea
+                        rows={2}
+                        value={item.description || ""}
+                        onChange={(e) => {
+                          const next = [...(draftConfig.whoWeServePage?.sectors?.items ?? [])];
+                          next[index] = { ...next[index], description: e.target.value };
+                          updateWhoWeServePage("sectors", "items", next);
+                        }}
+                      />
+                    </Field>
+                    <Field label={`Sector ${index + 1} Image`} className="sm:col-span-2">
+                      <ImageField
+                        value={item.image || ""}
+                        onChange={(val) => {
+                          const next = [...(draftConfig.whoWeServePage?.sectors?.items ?? [])];
+                          next[index] = { ...next[index], image: val };
+                          updateWhoWeServePage("sectors", "items", next);
+                        }}
+                      />
+                    </Field>
+                    <div className="sm:col-span-2 flex justify-end">
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        className="text-xs"
+                        onClick={() => {
+                          const next = [...(draftConfig.whoWeServePage?.sectors?.items ?? [])];
+                          next.splice(index, 1);
+                          updateWhoWeServePage("sectors", "items", next);
+                        }}
+                      >
+                        Remove Sector
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full text-xs"
+                  onClick={() => {
+                    const next = [...(draftConfig.whoWeServePage?.sectors?.items ?? []), { title: "", category: "", description: "", image: "" }];
+                    updateWhoWeServePage("sectors", "items", next);
+                  }}
+                >
+                  Add Sector Item
+                </Button>
+              </div>
+            </div>
+
+            <div className="space-y-4 border border-border rounded-xl p-4 mt-4 bg-card">
+              <h3 className="font-semibold text-lg text-card-foreground">Strengths</h3>
+              <Field label="Strengths Title">
+                <TextInput
+                  value={draftConfig.whoWeServePage?.strengths?.title || ""}
+                  onChange={(e) => updateWhoWeServePage("strengths", "title", e.target.value)}
+                />
+              </Field>
+              <div className="space-y-3 mt-4">
+                <p className="text-sm font-semibold text-foreground">Strength Items</p>
+                {(draftConfig.whoWeServePage?.strengths?.items ?? []).map((item, index) => (
+                  <div key={index} className="flex gap-2 items-end">
+                    <div className="flex-1">
+                      <Field label={`Strength ${index + 1}`}>
+                        <TextInput
+                          value={item.text || ""}
+                          onChange={(e) => {
+                            const next = [...(draftConfig.whoWeServePage?.strengths?.items ?? [])];
+                            next[index] = { ...next[index], text: e.target.value };
+                            updateWhoWeServePage("strengths", "items", next);
+                          }}
+                        />
+                      </Field>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      onClick={() => {
+                        const next = [...(draftConfig.whoWeServePage?.strengths?.items ?? [])];
+                        next.splice(index, 1);
+                        updateWhoWeServePage("strengths", "items", next);
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full text-xs"
+                  onClick={() => {
+                    const next = [...(draftConfig.whoWeServePage?.strengths?.items ?? []), { text: "" }];
+                    updateWhoWeServePage("strengths", "items", next);
+                  }}
+                >
+                  Add Strength
+                </Button>
+              </div>
+            </div>
+
+            <div className="space-y-4 border border-border rounded-xl p-4 mt-4 bg-card">
+              <h3 className="font-semibold text-lg text-card-foreground">Capital-fluent Expertise</h3>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field label="Title" className="sm:col-span-2">
+                  <TextInput
+                    value={draftConfig.whoWeServePage?.capitalFluent?.title || ""}
+                    onChange={(e) => updateWhoWeServePage("capitalFluent", "title", e.target.value)}
+                  />
+                </Field>
+                <Field label="Description" className="sm:col-span-2">
+                  <TextArea
+                    rows={4}
+                    value={draftConfig.whoWeServePage?.capitalFluent?.description || ""}
+                    onChange={(e) => updateWhoWeServePage("capitalFluent", "description", e.target.value)}
+                  />
+                </Field>
+                <Field label="Stat Eyebrow">
+                  <TextInput
+                    value={draftConfig.whoWeServePage?.capitalFluent?.statEyebrow || ""}
+                    onChange={(e) => updateWhoWeServePage("capitalFluent", "statEyebrow", e.target.value)}
+                  />
+                </Field>
+                <Field label="Stat Description">
+                  <TextArea
+                    rows={2}
+                    value={draftConfig.whoWeServePage?.capitalFluent?.statDescription || ""}
+                    onChange={(e) => updateWhoWeServePage("capitalFluent", "statDescription", e.target.value)}
+                  />
+                </Field>
+                <Field label="CTA Label">
+                  <TextInput
+                    value={draftConfig.whoWeServePage?.capitalFluent?.ctaLabel || ""}
+                    onChange={(e) => updateWhoWeServePage("capitalFluent", "ctaLabel", e.target.value)}
+                  />
+                </Field>
+                <Field label="CTA Href">
+                  <TextInput
+                    value={draftConfig.whoWeServePage?.capitalFluent?.ctaHref || ""}
+                    onChange={(e) => updateWhoWeServePage("capitalFluent", "ctaHref", e.target.value)}
+                  />
+                </Field>
+              </div>
+            </div>
+
+            <div className="space-y-4 border border-border rounded-xl p-4 mt-4 bg-card">
+              <h3 className="font-semibold text-lg text-card-foreground">Our Clients</h3>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field label="Clients Title">
+                  <TextInput
+                    value={draftConfig.whoWeServePage?.clients?.title || ""}
+                    onChange={(e) => updateWhoWeServePage("clients", "title", e.target.value)}
+                  />
+                </Field>
+                <Field label="Clients Description">
+                  <TextArea
+                    rows={2}
+                    value={draftConfig.whoWeServePage?.clients?.description || ""}
+                    onChange={(e) => updateWhoWeServePage("clients", "description", e.target.value)}
+                  />
+                </Field>
+              </div>
+              <div className="space-y-3 mt-4">
+                <p className="text-sm font-semibold text-foreground">Client Names</p>
+                {(draftConfig.whoWeServePage?.clients?.items ?? []).map((item, index) => (
+                  <div key={index} className="flex gap-2 items-end">
+                    <div className="flex-1">
+                      <Field label={`Client ${index + 1}`}>
+                        <TextInput
+                          value={item.name || ""}
+                          onChange={(e) => {
+                            const next = [...(draftConfig.whoWeServePage?.clients?.items ?? [])];
+                            next[index] = { ...next[index], name: e.target.value };
+                            updateWhoWeServePage("clients", "items", next);
+                          }}
+                        />
+                      </Field>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      onClick={() => {
+                        const next = [...(draftConfig.whoWeServePage?.clients?.items ?? [])];
+                        next.splice(index, 1);
+                        updateWhoWeServePage("clients", "items", next);
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full text-xs"
+                  onClick={() => {
+                    const next = [...(draftConfig.whoWeServePage?.clients?.items ?? []), { name: "" }];
+                    updateWhoWeServePage("clients", "items", next);
+                  }}
+                >
+                  Add Client
+                </Button>
+              </div>
+            </div>
           </div>
         </SectionCard>
 

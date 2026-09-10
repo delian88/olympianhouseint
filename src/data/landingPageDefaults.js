@@ -629,6 +629,75 @@ export const landingPageDefaults = {
       { title: "Evidence & Credibility", description: "We treat proof as a creative discipline. Every claim we visualise is one our clients can stand behind." },
     ],
   },
+  whoWeServePage: {
+    hero: {
+      title: "Who We Serve",
+      description:
+        "OHI creates development communication that helps institutions, partners, and communities understand the work being done, why it matters, and why it deserves attention from capital and policy actors.",
+      primaryCtaLabel: "View Portfolio",
+      primaryCtaHref: "/portfolio",
+      secondaryCtaLabel: "Contact Us",
+      secondaryCtaHref: "/contact",
+      badgeEyebrow: "OHI profile",
+      badgeDescription:
+        "Strategic visibility for development, investment, and impact communication.",
+      image: gallery11,
+    },
+    sectors: {
+      title: "Sectors OHI works with",
+      description: "These sectors explain the kind of partners OHI is built to support.",
+      items: [
+        {
+          title: "Development Finance Institutions",
+          category: "Institutional audience",
+          description: "Investment & programme visibility films that speak the language of capital and demonstrate that funding is working.",
+          image: gallery11,
+        },
+        {
+          title: "Multilateral & UN Agencies",
+          category: "Multilateral audience",
+          description: "Impact documentaries and strategic content that meet the highest institutional and reporting standards.",
+          image: gallery11,
+        },
+        {
+          title: "Private-Sector ESG Teams",
+          category: "Impact audience",
+          description: "ESG & social impact storytelling for private-sector actors operating in Africa who need to show responsibility and real-world contribution.",
+          image: gallery11,
+        },
+      ],
+    },
+    strengths: {
+      title: "Our unique strengths",
+      items: [
+        { text: "Multilingual team (English, French, Pidgin)." },
+        { text: "Deep fluency in DFI, donor, and multilateral communication frameworks." },
+        { text: "Storytelling that resonates with communities, policymakers, and global investors alike." },
+        { text: "Proven track record across investment showcases, impact documentaries, and stakeholder engagement." },
+        { text: "Led by an award-winning Producer/Director, informed by direct participation in high-level investment forums." },
+        { text: "Project management aligned with donor compliance and DFI reporting standards." },
+      ],
+    },
+    capitalFluent: {
+      title: "Capital-fluent expertise",
+      description: "We understand donor compliance, DFI communication frameworks, and the psychology of institutional decision-making. Our perspective is informed by direct participation in high-level investment forums, including the Africa Investment Forum — so our work speaks the language of capital, not just communication.",
+      statEyebrow: "A 95% repeat-client rate",
+      statDescription: "Built on trust earned across nearly a decade of institutional work.",
+      ctaLabel: "Start a conversation",
+      ctaHref: "/contact",
+    },
+    clients: {
+      title: "Our clients",
+      description: "Trusted by leading institutions, development agencies, and private-sector actors across Africa and beyond.",
+      items: [
+        { name: "Sun King" }, { name: "Olam" }, { name: "Olam Food Ingredients (OFI)" }, { name: "IFRC" }, { name: "CRTV" },
+        { name: "Les Laboratoires Biopharma" }, { name: "EU Civil Protection & Humanitarian Aid" }, { name: "HOFNA" },
+        { name: "#defyhatenow" }, { name: "African Wildlife Foundation" }, { name: "World Food Programme" }, { name: "CORAF" },
+        { name: "Cosmos Educational Press" }, { name: "International Rescue Committee" }, { name: "AfriYAN" },
+        { name: "Cameroon Investment Promotion Agency (API)" },
+      ]
+    }
+  },
   companyProfile: {
     hero: {
       title: "Documentary",

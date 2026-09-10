@@ -85,6 +85,12 @@ const editableItems = [
     icon: Layers3Icon,
     route: "/dashboard/landing-page#background-page",
   },
+  {
+    title: "Who We Serve",
+    description: "Who we serve hero, sectors, strengths, and clients.",
+    icon: Layers3Icon,
+    route: "/dashboard/landing-page#who-we-serve-page",
+  },
 
   {
     title: "Theme and footer",
