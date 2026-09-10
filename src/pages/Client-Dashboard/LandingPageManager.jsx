@@ -3084,60 +3084,6 @@ export default function LandingPageManager() {
           </div>
         </SectionCard>
 
-        <SectionCard
-          id="background-page"
-          title="Background Page"
-          description="Edit the public Background page hero, badges, and CTAs."
-          onSave={() => requestSave(async () => {
-            setConfig((current) => ({ ...current, backgroundPage: draftConfig.backgroundPage }));
-            toast.success("Background page saved!");
-          }, "Background Page")}
-          saveLabel="Update Background Page"
-        >
-          <div className="space-y-6">
-            <div className="grid gap-4 xl:grid-cols-2">
-              <Field label="Hero title">
-                <TextInput value={draftConfig.backgroundPage?.hero?.title || ""} onChange={(e) => updateBackgroundPage("hero", "title", e.target.value)} />
-              </Field>
-              <Field label="Hero description">
-                <TextArea rows={4} value={draftConfig.backgroundPage?.hero?.description || ""} onChange={(e) => updateBackgroundPage("hero", "description", e.target.value)} />
-              </Field>
-              <Field label="Badge eyebrow">
-                <TextInput value={draftConfig.backgroundPage?.hero?.badgeEyebrow || ""} onChange={(e) => updateBackgroundPage("hero", "badgeEyebrow", e.target.value)} />
-              </Field>
-              <Field label="Badge description">
-                <TextArea rows={3} value={draftConfig.backgroundPage?.hero?.badgeDescription || ""} onChange={(e) => updateBackgroundPage("hero", "badgeDescription", e.target.value)} />
-              </Field>
-            </div>
-            <div className="grid gap-4 xl:grid-cols-2">
-              <div className="space-y-3 rounded-2xl border border-border bg-muted/40 p-4">
-                <h3 className="text-base font-bold text-foreground">Primary CTA</h3>
-                <Field label="Button label">
-                  <TextInput value={draftConfig.backgroundPage?.hero?.primaryCtaLabel || ""} onChange={(e) => updateBackgroundPage("hero", "primaryCtaLabel", e.target.value)} />
-                </Field>
-                <Field label="Button link">
-                  <TextInput value={draftConfig.backgroundPage?.hero?.primaryCtaHref || ""} onChange={(e) => updateBackgroundPage("hero", "primaryCtaHref", e.target.value)} />
-                </Field>
-              </div>
-              <div className="space-y-3 rounded-2xl border border-border bg-muted/40 p-4">
-                <h3 className="text-base font-bold text-foreground">Secondary CTA</h3>
-                <Field label="Button label">
-                  <TextInput value={draftConfig.backgroundPage?.hero?.secondaryCtaLabel || ""} onChange={(e) => updateBackgroundPage("hero", "secondaryCtaLabel", e.target.value)} />
-                </Field>
-                <Field label="Button link">
-                  <TextInput value={draftConfig.backgroundPage?.hero?.secondaryCtaHref || ""} onChange={(e) => updateBackgroundPage("hero", "secondaryCtaHref", e.target.value)} />
-                </Field>
-              </div>
-            </div>
-            <ImageField
-              label="Hero image"
-              value={draftConfig.backgroundPage?.hero?.image || ""}
-              onChange={(e) =>
-                handleImageUpload(e, (value) => updateBackgroundPage("hero", "image", value))
-              }
-            />
-          </div>
-        </SectionCard>
 
 
         <SectionCard
@@ -3611,6 +3557,12 @@ export default function LandingPageManager() {
           <div className="space-y-8">
             <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
               <h3 className="text-lg font-bold text-foreground">Hero block</h3>
+              <ImageField
+                label="Hero Image"
+                value={draftConfig.backgroundPage?.hero?.image || ""}
+                onChange={(e) => handleImageUpload(e, (url) => updateBackgroundPageSection("hero", "image", url))}
+              />
+
               <Field label="Badge eyebrow"><TextInput value={draftConfig.backgroundPage?.hero?.badgeEyebrow || ""} onChange={(e) => updateBackgroundPageSection("hero", "badgeEyebrow", e.target.value)} /></Field>
               <Field label="Badge description"><TextArea rows={2} value={draftConfig.backgroundPage?.hero?.badgeDescription || ""} onChange={(e) => updateBackgroundPageSection("hero", "badgeDescription", e.target.value)} /></Field>
               <Field label="Title"><TextInput value={draftConfig.backgroundPage?.hero?.title || ""} onChange={(e) => updateBackgroundPageSection("hero", "title", e.target.value)} /></Field>
@@ -3625,6 +3577,22 @@ export default function LandingPageManager() {
 
             <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
               <h3 className="text-lg font-bold text-foreground">A Word from the Founder</h3>
+              <ImageField
+                label="Story Image 1"
+                value={draftConfig.backgroundPage?.founder?.image1 || ""}
+                onChange={(e) => handleImageUpload(e, (url) => updateBackgroundPageSection("founder", "image1", url))}
+              />
+              <ImageField
+                label="Story Image 2"
+                value={draftConfig.backgroundPage?.founder?.image2 || ""}
+                onChange={(e) => handleImageUpload(e, (url) => updateBackgroundPageSection("founder", "image2", url))}
+              />
+              <ImageField
+                label="Story Image 3"
+                value={draftConfig.backgroundPage?.founder?.image3 || ""}
+                onChange={(e) => handleImageUpload(e, (url) => updateBackgroundPageSection("founder", "image3", url))}
+              />
+
               <Field label="Title"><TextInput value={draftConfig.backgroundPage?.founder?.title || ""} onChange={(e) => updateBackgroundPageSection("founder", "title", e.target.value)} /></Field>
               <Field label="Description (Name & Role)"><TextInput value={draftConfig.backgroundPage?.founder?.description || ""} onChange={(e) => updateBackgroundPageSection("founder", "description", e.target.value)} /></Field>
               <Field label="Paragraph 1"><TextArea rows={3} value={draftConfig.backgroundPage?.founder?.paragraph1 || ""} onChange={(e) => updateBackgroundPageSection("founder", "paragraph1", e.target.value)} /></Field>
@@ -3709,3 +3677,5 @@ export default function LandingPageManager() {
 }
 
 
+
+// Trigger HMR

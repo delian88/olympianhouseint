@@ -101,7 +101,7 @@ const BackgroundPage = () => {
             >
               <motion.div variants={staggerItem} className="relative overflow-hidden shadow-[0_16px_40px_rgba(15,23,42,0.10)] min-h-[200px] sm:min-h-[220px]">
                 <img
-                  src={ourStoryImage}
+                  src={founder.image1 ?? ourStoryImage}
                   alt="OHI background visual"
                   className="absolute inset-0 h-full w-full object-cover transition duration-500 hover:scale-105"
                 />
@@ -109,7 +109,7 @@ const BackgroundPage = () => {
               </motion.div>
               <motion.div variants={staggerItem} className="relative overflow-hidden shadow-[0_16px_40px_rgba(15,23,42,0.10)] min-h-[200px] sm:min-h-[220px]">
                 <img
-                  src={founderImage}
+                  src={founder.image2 ?? founderImage}
                   alt="OHI founder visual"
                   className="absolute inset-0 h-full w-full object-cover transition duration-500 hover:scale-105"
                 />
@@ -117,7 +117,7 @@ const BackgroundPage = () => {
               </motion.div>
               <motion.div variants={staggerItem} className="relative overflow-hidden shadow-[0_16px_40px_rgba(15,23,42,0.10)] min-h-[200px] sm:min-h-[220px]">
                 <img
-                  src={founderImage2}
+                  src={founder.image3 ?? founderImage2}
                   alt="OHI team visual"
                   className="absolute inset-0 h-full w-full object-cover transition duration-500 hover:scale-105"
                 />
@@ -125,7 +125,7 @@ const BackgroundPage = () => {
               </motion.div>
               <motion.div variants={staggerItem} className="relative overflow-hidden shadow-[0_16px_40px_rgba(15,23,42,0.10)] min-h-[200px] sm:min-h-[220px]">
                 <img
-                  src={founderImage3}
+                  src={founder.image4 ?? founderImage3}
                   alt="OHI story visual"
                   className="absolute inset-0 h-full w-full object-cover transition duration-500 hover:scale-105"
                 />
