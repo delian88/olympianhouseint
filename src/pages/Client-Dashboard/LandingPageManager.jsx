@@ -2661,6 +2661,26 @@ export default function LandingPageManager() {
             <Field label="Hero description">
               <TextArea rows={4} value={draftConfig.portfolioPage?.hero?.description || ""} onChange={(e) => updatePortfolioPage("hero", "description", e.target.value)} />
             </Field>
+            <div className="grid gap-4 xl:grid-cols-2">
+              <Field label="Hero badge eyebrow">
+                <TextInput value={draftConfig.portfolioPage?.hero?.badgeEyebrow || ""} onChange={(e) => updatePortfolioPage("hero", "badgeEyebrow", e.target.value)} />
+              </Field>
+              <Field label="Hero badge description">
+                <TextInput value={draftConfig.portfolioPage?.hero?.badgeDescription || ""} onChange={(e) => updatePortfolioPage("hero", "badgeDescription", e.target.value)} />
+              </Field>
+              <Field label="Primary CTA Label">
+                <TextInput value={draftConfig.portfolioPage?.hero?.primaryCtaLabel || ""} onChange={(e) => updatePortfolioPage("hero", "primaryCtaLabel", e.target.value)} />
+              </Field>
+              <Field label="Primary CTA Link">
+                <TextInput value={draftConfig.portfolioPage?.hero?.primaryCtaHref || ""} onChange={(e) => updatePortfolioPage("hero", "primaryCtaHref", e.target.value)} />
+              </Field>
+              <Field label="Secondary CTA Label">
+                <TextInput value={draftConfig.portfolioPage?.hero?.secondaryCtaLabel || ""} onChange={(e) => updatePortfolioPage("hero", "secondaryCtaLabel", e.target.value)} />
+              </Field>
+              <Field label="Secondary CTA Link">
+                <TextInput value={draftConfig.portfolioPage?.hero?.secondaryCtaHref || ""} onChange={(e) => updatePortfolioPage("hero", "secondaryCtaHref", e.target.value)} />
+              </Field>
+            </div>
             <ImageField
               label="Hero image"
               value={draftConfig.portfolioPage?.hero?.image || ""}
@@ -2699,12 +2719,32 @@ export default function LandingPageManager() {
               </div>
               <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
                 <h3 className="text-lg font-bold text-foreground">Method</h3>
+                <Field label="Method eyebrow">
+                  <TextInput value={draftConfig.portfolioPage?.method?.eyebrow || ""} onChange={(e) => updatePortfolioPage("method", "eyebrow", e.target.value)} />
+                </Field>
                 <Field label="Method title">
                   <TextInput value={draftConfig.portfolioPage?.method?.title || ""} onChange={(e) => updatePortfolioPage("method", "title", e.target.value)} />
                 </Field>
                 <Field label="Method description">
                   <TextArea rows={4} value={draftConfig.portfolioPage?.method?.description || ""} onChange={(e) => updatePortfolioPage("method", "description", e.target.value)} />
                 </Field>
+                <Field label="Next Step Eyebrow">
+                  <TextInput value={draftConfig.portfolioPage?.method?.nextEyebrow || ""} onChange={(e) => updatePortfolioPage("method", "nextEyebrow", e.target.value)} />
+                </Field>
+                <Field label="Next Step Title">
+                  <TextInput value={draftConfig.portfolioPage?.method?.nextTitle || ""} onChange={(e) => updatePortfolioPage("method", "nextTitle", e.target.value)} />
+                </Field>
+                <Field label="Next Step Description">
+                  <TextArea rows={3} value={draftConfig.portfolioPage?.method?.nextDescription || ""} onChange={(e) => updatePortfolioPage("method", "nextDescription", e.target.value)} />
+                </Field>
+                <div className="grid gap-4 xl:grid-cols-2">
+                  <Field label="CTA Label">
+                    <TextInput value={draftConfig.portfolioPage?.method?.ctaLabel || ""} onChange={(e) => updatePortfolioPage("method", "ctaLabel", e.target.value)} />
+                  </Field>
+                  <Field label="CTA Link">
+                    <TextInput value={draftConfig.portfolioPage?.method?.ctaHref || ""} onChange={(e) => updatePortfolioPage("method", "ctaHref", e.target.value)} />
+                  </Field>
+                </div>
                 <div className="space-y-3 rounded-xl border border-border/60 bg-background/60 p-4 mt-4">
                   <Field label="Upload Method Video File" hint="Upload an MP4, WebM, or video file directly">
                     <FileInput
