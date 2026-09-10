@@ -3332,7 +3332,12 @@ export default function LandingPageManager() {
         >
           <div className="space-y-6">
             <div className="grid gap-4 xl:grid-cols-2">
-              <Field label="Hero title">
+              <ImageField 
+                  label="Hero Image"
+                  value={draftConfig.approachPage?.hero?.image || ""} 
+                  onChange={(url) => updateApproachPage("hero", "image", url)} 
+                />
+                <Field label="Hero title">
                 <TextInput value={draftConfig.approachPage?.hero?.title || ""} onChange={(e) => updateApproachPage("hero", "title", e.target.value)} />
               </Field>
               <Field label="Hero description">
@@ -3361,7 +3366,12 @@ export default function LandingPageManager() {
             <div className="grid gap-4 xl:grid-cols-2">
               <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
                 <h3 className="text-lg font-bold text-foreground">How OHI works</h3>
-                <Field label="Section title">
+                  <ImageField 
+                    label="Section Image"
+                    value={draftConfig.approachPage?.howWeWork?.image || ""} 
+                    onChange={(url) => updateApproachPage("howWeWork", "image", url)} 
+                  />
+                  <Field label="Section title">
                   <TextInput value={draftConfig.approachPage?.howWeWork?.title || ""} onChange={(e) => updateApproachPage("howWeWork", "title", e.target.value)} />
                 </Field>
                 <Field label="Section description">
@@ -3406,7 +3416,21 @@ export default function LandingPageManager() {
               </div>
             </div>
 
-            <div className="space-y-3 rounded-2xl border border-border bg-muted/40 p-4">
+            <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
+                <h3 className="text-lg font-bold text-foreground">Unique Strengths</h3>
+                <Field label="Title">
+                  <TextInput value={draftConfig.approachPage?.uniqueStrengthsTitle || ""} onChange={(e) => 
+                    setDraftConfig(current => ({ ...current, approachPage: { ...current.approachPage, uniqueStrengthsTitle: e.target.value } }))
+                  } />
+                </Field>
+                <Field label="Body text">
+                  <TextArea rows={4} value={draftConfig.approachPage?.uniqueStrengthsBody || ""} onChange={(e) => 
+                    setDraftConfig(current => ({ ...current, approachPage: { ...current.approachPage, uniqueStrengthsBody: e.target.value } }))
+                  } />
+                </Field>
+              </div>
+
+              <div className="space-y-3 rounded-2xl border border-border bg-muted/40 p-4">
               <h3 className="text-lg font-bold text-foreground">Deliverables</h3>
               <div className="grid gap-3 sm:grid-cols-2">
                 <Field label="Section label">
