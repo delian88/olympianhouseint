@@ -1164,6 +1164,7 @@ export default function LandingPageManager() {
 
         <SectionCard id="home-about" title="Olympian House International" description="Edit the homepage introduction block." onSave={() => requestSave(async () => { setConfig((current) => ({ ...current, homePage: draftConfig.homePage })); toast.success("About section saved!"); }, "Olympian House International")} saveLabel="Update Section">
           <div className="space-y-4">
+              <Field label="Eyebrow"><TextInput value={draftConfig.homePage?.about?.eyebrow || ""} onChange={(e) => updateHomePage("about", "eyebrow", e.target.value)} /></Field>
             <Field label="Title"><TextInput value={draftConfig.homePage?.about?.title || ""} onChange={(e) => updateHomePage("about", "title", e.target.value)} /></Field>
             <Field label="Description"><TextArea rows={4} value={draftConfig.homePage?.about?.description || ""} onChange={(e) => updateHomePage("about", "description", e.target.value)} /></Field>
             <Field label="Founder quote"><TextArea rows={3} value={draftConfig.homePage?.about?.founderQuote || ""} onChange={(e) => updateHomePage("about", "founderQuote", e.target.value)} /></Field>
@@ -1648,6 +1649,43 @@ export default function LandingPageManager() {
                 />
               </Field>
             </div>
+              <div className="grid gap-4 xl:grid-cols-2">
+                <Field label="Page eyebrow">
+                  <TextInput
+                    value={draftConfig.aboutPage?.hero?.eyebrow || ""}
+                    onChange={(e) => updateAboutPageSection("hero", "eyebrow", e.target.value)}
+                  />
+                </Field>
+                <Field label="Primary CTA Label">
+                  <TextInput
+                    value={draftConfig.aboutPage?.hero?.primaryCtaLabel || ""}
+                    onChange={(e) => updateAboutPageSection("hero", "primaryCtaLabel", e.target.value)}
+                  />
+                </Field>
+                <Field label="Primary CTA Link">
+                  <TextInput
+                    value={draftConfig.aboutPage?.hero?.primaryCtaHref || ""}
+                    onChange={(e) => updateAboutPageSection("hero", "primaryCtaHref", e.target.value)}
+                  />
+                </Field>
+                <Field label="Secondary CTA Label">
+                  <TextInput
+                    value={draftConfig.aboutPage?.hero?.secondaryCtaLabel || ""}
+                    onChange={(e) => updateAboutPageSection("hero", "secondaryCtaLabel", e.target.value)}
+                  />
+                </Field>
+                <Field label="Secondary CTA Link">
+                  <TextInput
+                    value={draftConfig.aboutPage?.hero?.secondaryCtaHref || ""}
+                    onChange={(e) => updateAboutPageSection("hero", "secondaryCtaHref", e.target.value)}
+                  />
+                </Field>
+                <ImageField
+                  label="Hero Image"
+                  value={draftConfig.aboutPage?.hero?.image || ""}
+                  onChange={(e) => handleImageUpload(e, (value) => updateAboutPageSection("hero", "image", value))}
+                />
+              </div>
 
             <div className="grid gap-4 xl:grid-cols-2">
               <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
@@ -1670,6 +1708,18 @@ export default function LandingPageManager() {
                 <Field label="Editorial text">
                   <TextArea rows={3} value={draftConfig.aboutPage?.intro?.editorialText || ""} onChange={(e) => updateAboutPageSection("intro", "editorialText", e.target.value)} />
                 </Field>
+                  <Field label="What We Do Label">
+                    <TextInput value={draftConfig.aboutPage?.intro?.whatWeDoLabel || ""} onChange={(e) => updateAboutPageSection("intro", "whatWeDoLabel", e.target.value)} />
+                  </Field>
+                  <Field label="What We Do Text">
+                    <TextArea rows={3} value={draftConfig.aboutPage?.intro?.whatWeDoText || ""} onChange={(e) => updateAboutPageSection("intro", "whatWeDoText", e.target.value)} />
+                  </Field>
+                  <Field label="Dark Box Title">
+                    <TextInput value={draftConfig.aboutPage?.intro?.closeTitle || ""} onChange={(e) => updateAboutPageSection("intro", "closeTitle", e.target.value)} />
+                  </Field>
+                  <Field label="Dark Box Text">
+                    <TextArea rows={3} value={draftConfig.aboutPage?.intro?.closeDescription || ""} onChange={(e) => updateAboutPageSection("intro", "closeDescription", e.target.value)} />
+                  </Field>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <Field label="Primary CTA label">
                     <TextInput value={draftConfig.aboutPage?.intro?.ctaLabel || ""} onChange={(e) => updateAboutPageSection("intro", "ctaLabel", e.target.value)} />
@@ -2681,6 +2731,43 @@ export default function LandingPageManager() {
                 <TextInput value={draftConfig.portfolioPage?.hero?.secondaryCtaHref || ""} onChange={(e) => updatePortfolioPage("hero", "secondaryCtaHref", e.target.value)} />
               </Field>
             </div>
+              <div className="grid gap-4 xl:grid-cols-2">
+                <Field label="Page eyebrow">
+                  <TextInput
+                    value={draftConfig.aboutPage?.hero?.eyebrow || ""}
+                    onChange={(e) => updateAboutPageSection("hero", "eyebrow", e.target.value)}
+                  />
+                </Field>
+                <Field label="Primary CTA Label">
+                  <TextInput
+                    value={draftConfig.aboutPage?.hero?.primaryCtaLabel || ""}
+                    onChange={(e) => updateAboutPageSection("hero", "primaryCtaLabel", e.target.value)}
+                  />
+                </Field>
+                <Field label="Primary CTA Link">
+                  <TextInput
+                    value={draftConfig.aboutPage?.hero?.primaryCtaHref || ""}
+                    onChange={(e) => updateAboutPageSection("hero", "primaryCtaHref", e.target.value)}
+                  />
+                </Field>
+                <Field label="Secondary CTA Label">
+                  <TextInput
+                    value={draftConfig.aboutPage?.hero?.secondaryCtaLabel || ""}
+                    onChange={(e) => updateAboutPageSection("hero", "secondaryCtaLabel", e.target.value)}
+                  />
+                </Field>
+                <Field label="Secondary CTA Link">
+                  <TextInput
+                    value={draftConfig.aboutPage?.hero?.secondaryCtaHref || ""}
+                    onChange={(e) => updateAboutPageSection("hero", "secondaryCtaHref", e.target.value)}
+                  />
+                </Field>
+                <ImageField
+                  label="Hero Image"
+                  value={draftConfig.aboutPage?.hero?.image || ""}
+                  onChange={(e) => handleImageUpload(e, (value) => updateAboutPageSection("hero", "image", value))}
+                />
+              </div>
             <ImageField
               label="Hero image"
               value={draftConfig.portfolioPage?.hero?.image || ""}
@@ -3145,6 +3232,43 @@ export default function LandingPageManager() {
                 />
               </Field>
             </div>
+              <div className="grid gap-4 xl:grid-cols-2">
+                <Field label="Page eyebrow">
+                  <TextInput
+                    value={draftConfig.aboutPage?.hero?.eyebrow || ""}
+                    onChange={(e) => updateAboutPageSection("hero", "eyebrow", e.target.value)}
+                  />
+                </Field>
+                <Field label="Primary CTA Label">
+                  <TextInput
+                    value={draftConfig.aboutPage?.hero?.primaryCtaLabel || ""}
+                    onChange={(e) => updateAboutPageSection("hero", "primaryCtaLabel", e.target.value)}
+                  />
+                </Field>
+                <Field label="Primary CTA Link">
+                  <TextInput
+                    value={draftConfig.aboutPage?.hero?.primaryCtaHref || ""}
+                    onChange={(e) => updateAboutPageSection("hero", "primaryCtaHref", e.target.value)}
+                  />
+                </Field>
+                <Field label="Secondary CTA Label">
+                  <TextInput
+                    value={draftConfig.aboutPage?.hero?.secondaryCtaLabel || ""}
+                    onChange={(e) => updateAboutPageSection("hero", "secondaryCtaLabel", e.target.value)}
+                  />
+                </Field>
+                <Field label="Secondary CTA Link">
+                  <TextInput
+                    value={draftConfig.aboutPage?.hero?.secondaryCtaHref || ""}
+                    onChange={(e) => updateAboutPageSection("hero", "secondaryCtaHref", e.target.value)}
+                  />
+                </Field>
+                <ImageField
+                  label="Hero Image"
+                  value={draftConfig.aboutPage?.hero?.image || ""}
+                  onChange={(e) => handleImageUpload(e, (value) => updateAboutPageSection("hero", "image", value))}
+                />
+              </div>
 
             <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
               <h3 className="text-lg font-bold text-foreground">Brochure Download</h3>

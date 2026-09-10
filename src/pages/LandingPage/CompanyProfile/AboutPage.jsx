@@ -65,7 +65,7 @@ const AboutPage = () => {
       descriptionClassName="text-white"
       primaryCta={{ label: hero.primaryCtaLabel ?? "View Portfolio", href: hero.primaryCtaHref ?? "/portfolio" }}
       secondaryCta={{ label: hero.secondaryCtaLabel ?? "Contact Us", href: hero.secondaryCtaHref ?? "/contact" }}
-      heroImage={aboutHeroImage}
+      heroImage={hero.image ?? aboutHeroImage}
       heroImageAlt="About OHI hero"
       heroBadge={
         <div className="space-y-1">
@@ -103,10 +103,10 @@ const AboutPage = () => {
                 </div>
                 <div className="bg-white border border-[#f0f0f0] p-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#F07F1A]">
-                    What we do
+                    {intro.whatWeDoLabel ?? "What we do"}
                   </p>
                   <p className="mt-2 text-sm leading-6 text-[#4e5a67]">
-                    Clear communication, trusted delivery, and audience-ready outputs.
+                    {intro.whatWeDoText ?? "Clear communication, trusted delivery, and audience-ready outputs."}
                   </p>
                 </div>
               </div>
@@ -140,10 +140,10 @@ const AboutPage = () => {
                 </div>
                 <div className="bg-[#0a0c12] p-5 text-white shadow-[0_10px_28px_rgba(15,23,42,0.12)]">
                   <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
-                    {close.title ?? "What OHI stands for"}
+                    {intro.closeTitle ?? "What OHI stands for"}
                   </p>
                   <p className="mt-3 text-sm leading-6 text-white/80">
-                    {close.description ?? "OHI combines strategy, production, and editorial craft to help development work communicate with confidence across Africa."}
+                    {intro.closeDescription ?? "OHI combines strategy, production, and editorial craft to help development work communicate with confidence across Africa."}
                   </p>
                 </div>
               </div>
@@ -215,21 +215,21 @@ const AboutPage = () => {
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/60">
                 {snapshot.missionTitle ?? "Mission & vision"}
               </p>
-              <div className="mt-5 space-y-4">
-                <div className="bg-white/8 p-5">
-                  <h3 className="text-base font-semibold text-white">Field production</h3>
-                  <p className="mt-2 text-sm leading-6 text-white/75">
-                    Story capture in communities, project sites, and institutional spaces.
-                  </p>
+              
+                <div className="mt-5 space-y-4">
+                  {(snapshot.missionItems ?? [
+                    { title: "Field production", description: "Story capture in communities, project sites, and institutional spaces." },
+                    { title: "Post-production", description: "Editing, motion, and finishing that keep the story clear and polished." }
+                  ]).map((item, index) => (
+                    <div key={index} className="bg-white/8 p-5">
+                      <h3 className="text-base font-semibold text-white">{item.title}</h3>
+                      <p className="mt-2 text-sm leading-6 text-white/75">
+                        {item.description}
+                      </p>
+                    </div>
+                  ))}
                 </div>
-                <div className="bg-white/8 p-5">
-                  <h3 className="text-base font-semibold text-white">Post-production</h3>
-                  <p className="mt-2 text-sm leading-6 text-white/75">
-                    Editing, motion, and finishing that keep the story clear and polished.
-                  </p>
-                </div>
-              </div>
-            </Reveal>
+              </Reveal>
           </div>
         </div>
       </section>
