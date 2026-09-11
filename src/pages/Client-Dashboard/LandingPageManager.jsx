@@ -433,6 +433,20 @@ export default function LandingPageManager() {
     }));
   };
 
+  
+  const updateFooterNestedSection = (section, field, value) => {
+    setDraftConfig((prev) => ({
+      ...prev,
+      footer: {
+        ...prev.footer,
+        [section]: {
+          ...prev.footer[section],
+          [field]: value,
+        },
+      },
+    }));
+  };
+
   const updateFooterSocialLink = (index, key, value) => {
     setDraftConfig((current) => {
       const socialLinks = [...(current.footer?.socialLinks || [])];
@@ -732,6 +746,20 @@ export default function LandingPageManager() {
         [section]: {
           ...current.impactPage?.[section],
           [key]: value,
+        },
+      },
+    }));
+  };
+
+  
+  const updateOurClientsPage = (section, field, value) => {
+    setDraftConfig((prev) => ({
+      ...prev,
+      ourClientsPage: {
+        ...prev.ourClientsPage,
+        [section]: {
+          ...prev.ourClientsPage[section],
+          [field]: value,
         },
       },
     }));
@@ -3361,6 +3389,174 @@ export default function LandingPageManager() {
         </SectionCard>
 
         <SectionCard
+          id="our-clients-page"
+          title="Our Clients Page"
+          description="Edit the public Our Clients page content."
+          onSave={() => requestSave(async () => {
+            setConfig((current) => ({ ...current, ourClientsPage: draftConfig.ourClientsPage }));
+            toast.success("Our Clients page saved!");
+          }, "Our Clients Page")}
+          saveLabel="Update Our Clients Page"
+        >
+          <div className="space-y-6">
+            <Field label="Hero Title">
+              <TextInput value={draftConfig.ourClientsPage?.hero?.title || ""} onChange={(e) => updateOurClientsPage("hero", "title", e.target.value)} />
+            </Field>
+            <Field label="Hero Description">
+              <TextArea rows={2} value={draftConfig.ourClientsPage?.hero?.description || ""} onChange={(e) => updateOurClientsPage("hero", "description", e.target.value)} />
+            </Field>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label="Primary CTA Label">
+                <TextInput value={draftConfig.ourClientsPage?.hero?.primaryCtaLabel || ""} onChange={(e) => updateOurClientsPage("hero", "primaryCtaLabel", e.target.value)} />
+              </Field>
+              <Field label="Primary CTA Href">
+                <TextInput value={draftConfig.ourClientsPage?.hero?.primaryCtaHref || ""} onChange={(e) => updateOurClientsPage("hero", "primaryCtaHref", e.target.value)} />
+              </Field>
+              <Field label="Secondary CTA Label">
+                <TextInput value={draftConfig.ourClientsPage?.hero?.secondaryCtaLabel || ""} onChange={(e) => updateOurClientsPage("hero", "secondaryCtaLabel", e.target.value)} />
+              </Field>
+              <Field label="Secondary CTA Href">
+                <TextInput value={draftConfig.ourClientsPage?.hero?.secondaryCtaHref || ""} onChange={(e) => updateOurClientsPage("hero", "secondaryCtaHref", e.target.value)} />
+              </Field>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label="Badge Eyebrow">
+                <TextInput value={draftConfig.ourClientsPage?.hero?.badgeEyebrow || ""} onChange={(e) => updateOurClientsPage("hero", "badgeEyebrow", e.target.value)} />
+              </Field>
+              <Field label="Badge Description">
+                <TextInput value={draftConfig.ourClientsPage?.hero?.badgeDescription || ""} onChange={(e) => updateOurClientsPage("hero", "badgeDescription", e.target.value)} />
+              </Field>
+            </div>
+
+            <div className="space-y-4 border border-border rounded-xl p-4 mt-8 bg-card">
+              <h3 className="font-semibold text-lg text-card-foreground">Who We Serve (Sectors)</h3>
+              <Field label="Title">
+                <TextInput value={draftConfig.ourClientsPage?.whoWeServe?.title || ""} onChange={(e) => updateOurClientsPage("whoWeServe", "title", e.target.value)} />
+              </Field>
+              <Field label="Description">
+                <TextArea rows={2} value={draftConfig.ourClientsPage?.whoWeServe?.description || ""} onChange={(e) => updateOurClientsPage("whoWeServe", "description", e.target.value)} />
+              </Field>
+              <Field label="Sectors Title">
+                <TextInput value={draftConfig.ourClientsPage?.whoWeServe?.sectorsTitle || ""} onChange={(e) => updateOurClientsPage("whoWeServe", "sectorsTitle", e.target.value)} />
+              </Field>
+              <Field label="Sectors Subtitle">
+                <TextInput value={draftConfig.ourClientsPage?.whoWeServe?.sectorsSubtitle || ""} onChange={(e) => updateOurClientsPage("whoWeServe", "sectorsSubtitle", e.target.value)} />
+              </Field>
+              <Field label="Sectors Description">
+                <TextArea rows={2} value={draftConfig.ourClientsPage?.whoWeServe?.sectorsDescription || ""} onChange={(e) => updateOurClientsPage("whoWeServe", "sectorsDescription", e.target.value)} />
+              </Field>
+              
+              <div className="space-y-3 mt-4">
+                <p className="text-sm font-semibold text-foreground">Sectors Highlights</p>
+                {(draftConfig.ourClientsPage?.whoWeServe?.sectorsHighlights || []).map((item, index) => (
+                  <div key={index} className="flex gap-2 items-end">
+                    <div className="flex-1">
+                      <Field label={`Highlight ${index + 1}`}>
+                        <TextInput
+                          value={item}
+                          onChange={(e) => {
+                            const next = [...(draftConfig.ourClientsPage?.whoWeServe?.sectorsHighlights || [])];
+                            next[index] = e.target.value;
+                            updateOurClientsPage("whoWeServe", "sectorsHighlights", next);
+                          }}
+                        />
+                      </Field>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      onClick={() => {
+                        const next = [...(draftConfig.ourClientsPage?.whoWeServe?.sectorsHighlights || [])];
+                        next.splice(index, 1);
+                        updateOurClientsPage("whoWeServe", "sectorsHighlights", next);
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full text-xs"
+                  onClick={() => {
+                    const next = [...(draftConfig.ourClientsPage?.whoWeServe?.sectorsHighlights || []), ""];
+                    updateOurClientsPage("whoWeServe", "sectorsHighlights", next);
+                  }}
+                >
+                  Add Highlight
+                </Button>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2 mt-6">
+                <Field label="Dark Block Title" className="sm:col-span-2">
+                  <TextInput value={draftConfig.ourClientsPage?.whoWeServe?.darkBlockTitle || ""} onChange={(e) => updateOurClientsPage("whoWeServe", "darkBlockTitle", e.target.value)} />
+                </Field>
+                <Field label="Dark Block Subtitle" className="sm:col-span-2">
+                  <TextInput value={draftConfig.ourClientsPage?.whoWeServe?.darkBlockSubtitle || ""} onChange={(e) => updateOurClientsPage("whoWeServe", "darkBlockSubtitle", e.target.value)} />
+                </Field>
+                <Field label="Dark Block Description" className="sm:col-span-2">
+                  <TextArea rows={2} value={draftConfig.ourClientsPage?.whoWeServe?.darkBlockDescription || ""} onChange={(e) => updateOurClientsPage("whoWeServe", "darkBlockDescription", e.target.value)} />
+                </Field>
+              </div>
+            </div>
+
+            <div className="space-y-4 border border-border rounded-xl p-4 mt-8 bg-card">
+              <h3 className="font-semibold text-lg text-card-foreground">Our Clients List</h3>
+              <Field label="Title">
+                <TextInput value={draftConfig.ourClientsPage?.clients?.title || ""} onChange={(e) => updateOurClientsPage("clients", "title", e.target.value)} />
+              </Field>
+              <Field label="Subtitle">
+                <TextInput value={draftConfig.ourClientsPage?.clients?.subtitle || ""} onChange={(e) => updateOurClientsPage("clients", "subtitle", e.target.value)} />
+              </Field>
+              
+              <div className="space-y-3 mt-4">
+                <p className="text-sm font-semibold text-foreground">Client Items</p>
+                {(draftConfig.ourClientsPage?.clients?.items || []).map((item, index) => (
+                  <div key={index} className="flex gap-2 items-end">
+                    <div className="flex-1">
+                      <Field label={`Client ${index + 1}`}>
+                        <TextInput
+                          value={item}
+                          onChange={(e) => {
+                            const next = [...(draftConfig.ourClientsPage?.clients?.items || [])];
+                            next[index] = e.target.value;
+                            updateOurClientsPage("clients", "items", next);
+                          }}
+                        />
+                      </Field>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      onClick={() => {
+                        const next = [...(draftConfig.ourClientsPage?.clients?.items || [])];
+                        next.splice(index, 1);
+                        updateOurClientsPage("clients", "items", next);
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full text-xs"
+                  onClick={() => {
+                    const next = [...(draftConfig.ourClientsPage?.clients?.items || []), ""];
+                    updateOurClientsPage("clients", "items", next);
+                  }}
+                >
+                  Add Client
+                </Button>
+              </div>
+            </div>
+          </div>
+        </SectionCard>
+
+
+        <SectionCard
           id="company-profile"
           title="Documentary / Company Profile"
           description="Edit the main documentary page content shown under Start with the section that matches your goal."
@@ -3722,82 +3918,244 @@ export default function LandingPageManager() {
           </div>
         </SectionCard>
 
+        
         <SectionCard
           id="footer-settings"
           title="Footer Settings"
-          description="Control the footer copy and social links on the public site."
+          description="Manage footer contact info, links, and partner countries."
           onSave={() => requestSave(async () => {
             setConfig((current) => ({ ...current, footer: draftConfig.footer }));
-            toast.success("Footer Settings saved!");
+            toast.success("Footer saved!");
             addNotification("Footer text and contact details have been updated.", "success", "Footer Settings Saved");
-          }, "Footer Settings")}
-          saveLabel="Update Footer Settings"
+          }, "Footer")}
+          saveLabel="Update Footer"
         >
-          <div className="grid gap-4 lg:grid-cols-2">
-            <Field
-              label="Footer text"
-              hint='Use "{year}" where the current year should appear.'
-            >
-              <TextArea
-                rows={5}
-                value={draftConfig.footer.description}
-                onChange={(e) => updateFooter("description", e.target.value)}
-              />
-            </Field>
+          <div className="space-y-6">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field label="Tagline">
+                <TextInput value={draftConfig.footer?.tagline || ""} onChange={(e) => updateFooter("tagline", e.target.value)} />
+              </Field>
+              <Field label="Sub Tagline">
+                <TextArea rows={2} value={draftConfig.footer?.subTagline || ""} onChange={(e) => updateFooter("subTagline", e.target.value)} />
+              </Field>
+            </div>
 
+            <div className="space-y-4 border border-border rounded-xl p-4 mt-8 bg-card">
+              <h3 className="font-semibold text-lg text-card-foreground">Contact Info</h3>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field label="Location">
+                  <TextInput value={draftConfig.footer?.contact?.location || ""} onChange={(e) => updateFooterNestedSection("contact", "location", e.target.value)} />
+                </Field>
+                <Field label="Phone">
+                  <TextInput value={draftConfig.footer?.contact?.phone || ""} onChange={(e) => updateFooterNestedSection("contact", "phone", e.target.value)} />
+                </Field>
+                <Field label="WhatsApp">
+                  <TextInput value={draftConfig.footer?.contact?.whatsapp || ""} onChange={(e) => updateFooterNestedSection("contact", "whatsapp", e.target.value)} />
+                </Field>
+                <Field label="Email">
+                  <TextInput value={draftConfig.footer?.contact?.email || ""} onChange={(e) => updateFooterNestedSection("contact", "email", e.target.value)} />
+                </Field>
+              </div>
+            </div>
+
+            <div className="space-y-4 border border-border rounded-xl p-4 mt-8 bg-card">
+              <h3 className="font-semibold text-lg text-card-foreground">Quick Links</h3>
+              <div className="space-y-3">
+                {(draftConfig.footer?.quickLinks || []).map((link, index) => (
+                  <div key={index} className="flex gap-2 items-end">
+                    <Field label={`Link ${index + 1} Label`} className="flex-1">
+                      <TextInput
+                        value={link.label || ""}
+                        onChange={(e) => {
+                          const next = [...(draftConfig.footer?.quickLinks || [])];
+                          next[index] = { ...next[index], label: e.target.value };
+                          updateFooter("quickLinks", next);
+                        }}
+                      />
+                    </Field>
+                    <Field label="Href" className="flex-1">
+                      <TextInput
+                        value={link.href || ""}
+                        onChange={(e) => {
+                          const next = [...(draftConfig.footer?.quickLinks || [])];
+                          next[index] = { ...next[index], href: e.target.value };
+                          updateFooter("quickLinks", next);
+                        }}
+                      />
+                    </Field>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      onClick={() => {
+                        const next = [...(draftConfig.footer?.quickLinks || [])];
+                        next.splice(index, 1);
+                        updateFooter("quickLinks", next);
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full text-xs"
+                  onClick={() => {
+                    const next = [...(draftConfig.footer?.quickLinks || []), { label: "", href: "" }];
+                    updateFooter("quickLinks", next);
+                  }}
+                >
+                  Add Quick Link
+                </Button>
+              </div>
+            </div>
+
+            <div className="space-y-4 border border-border rounded-xl p-4 mt-8 bg-card">
+              <h3 className="text-lg font-bold text-foreground">Social links</h3>
+              <p className="text-sm text-muted-foreground">
+                These links drive the social icons shown in the header and footer.
+              </p>
+              {(draftConfig.footer?.socialLinks || []).map((link, index) => (
+                <div key={`${link.label || "social"}-${index}`} className="flex gap-2 items-end">
+                  <Field label={`Link ${index + 1} label`} className="flex-1">
+                    <TextInput
+                      value={link.label || ""}
+                      onChange={(e) => updateFooterSocialLink(index, "label", e.target.value)}
+                      placeholder="X"
+                    />
+                  </Field>
+                  <Field label={`Link ${index + 1} URL`} className="flex-1">
+                    <TextInput
+                      value={link.path || ""}
+                      onChange={(e) => updateFooterSocialLink(index, "path", e.target.value)}
+                      placeholder="https://x.com/IntHouse40288"
+                    />
+                  </Field>
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() => {
+                      const next = [...(draftConfig.footer?.socialLinks || [])];
+                      next.splice(index, 1);
+                      updateFooter("socialLinks", next);
+                    }}
+                  >
+                    Remove
+                  </Button>
+                </div>
+              ))}
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full text-xs"
+                onClick={() => {
+                  const next = [...(draftConfig.footer?.socialLinks || []), { label: "", path: "" }];
+                  updateFooter("socialLinks", next);
+                }}
+              >
+                Add Social Link
+              </Button>
+            </div>
+            
             <div className="space-y-4 rounded-2xl border border-border bg-background p-4">
               <h3 className="text-lg font-bold text-foreground">OHI: Who We Are Video</h3>
               <Field label="Upload Footer Video File" hint="Upload MP4, WebM or video file directly for footer">
                 <FileInput
                   label="Choose footer video"
                   accept="video/*"
-                  value={draftConfig.footer?.videoUrl?.startsWith("data:video") || draftConfig.footer?.videoUrl?.startsWith("http") ? draftConfig.footer?.videoUrl : ""}
+                  value={draftConfig.footer?.whoWeAre?.videoUrl?.startsWith("data:video") || draftConfig.footer?.whoWeAre?.videoUrl?.startsWith("http") ? draftConfig.footer?.whoWeAre?.videoUrl : ""}
                   onChange={(e) =>
-                    handleVideoUpload(e, (value) => updateFooter("videoUrl", value))
+                    handleVideoUpload(e, (value) => updateFooterNestedSection("whoWeAre", "videoUrl", value))
                   }
                 />
               </Field>
               <Field label="OR Footer Video URL / Embed Link" hint="Paste YouTube, Vimeo or MP4 link">
                 <TextInput
                   placeholder="https://www.youtube.com/watch?v=... or https://.../video.mp4"
-                  value={draftConfig.footer?.videoUrl || ""}
-                  onChange={(e) => updateFooter("videoUrl", e.target.value)}
+                  value={draftConfig.footer?.whoWeAre?.videoUrl || ""}
+                  onChange={(e) => updateFooterNestedSection("whoWeAre", "videoUrl", e.target.value)}
                 />
               </Field>
               <ImageField
                 label="Footer Video Thumbnail / Preview"
-                value={draftConfig.footer?.videoThumb || ""}
+                value={draftConfig.footer?.whoWeAre?.videoThumb || ""}
                 onChange={(e) =>
-                  handleImageUpload(e, (value) => updateFooter("videoThumb", value))
+                  handleImageUpload(e, (value) => updateFooterNestedSection("whoWeAre", "videoThumb", value))
                 }
               />
             </div>
-          </div>
-          <div className="mt-6 space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
-            <h3 className="text-lg font-bold text-foreground">Social links</h3>
-            <p className="text-sm text-muted-foreground">
-              These links drive the social icons shown in the header and footer.
-            </p>
-            {(draftConfig.footer?.socialLinks || []).map((link, index) => (
-              <div key={`${link.label || "social"}-${index}`} className="grid gap-4 md:grid-cols-2">
-                <Field label={`Link ${index + 1} label`}>
-                  <TextInput
-                    value={link.label || ""}
-                    onChange={(e) => updateFooterSocialLink(index, "label", e.target.value)}
-                    placeholder="X"
-                  />
-                </Field>
-                <Field label={`Link ${index + 1} URL`}>
-                  <TextInput
-                    value={link.path || ""}
-                    onChange={(e) => updateFooterSocialLink(index, "path", e.target.value)}
-                    placeholder="https://x.com/IntHouse40288"
-                  />
-                </Field>
+
+            <div className="space-y-4 border border-border rounded-xl p-4 mt-8 bg-card">
+              <h3 className="font-semibold text-lg text-card-foreground">Our Partner Countries</h3>
+              <div className="space-y-3">
+                {(draftConfig.footer?.partnerCountries || []).map((country, index) => (
+                  <div key={index} className="flex gap-2 items-end">
+                    <Field label="Code" className="w-20">
+                      <TextInput
+                        value={country.code || ""}
+                        placeholder="NG"
+                        onChange={(e) => {
+                          const next = [...(draftConfig.footer?.partnerCountries || [])];
+                          next[index] = { ...next[index], code: e.target.value };
+                          updateFooter("partnerCountries", next);
+                        }}
+                      />
+                    </Field>
+                    <Field label="Name" className="flex-1">
+                      <TextInput
+                        value={country.name || ""}
+                        placeholder="Nigeria"
+                        onChange={(e) => {
+                          const next = [...(draftConfig.footer?.partnerCountries || [])];
+                          next[index] = { ...next[index], name: e.target.value };
+                          updateFooter("partnerCountries", next);
+                        }}
+                      />
+                    </Field>
+                    <Field label="Color Class" className="flex-1">
+                      <TextInput
+                        value={country.color || ""}
+                        placeholder="bg-[#0b8f3a]"
+                        onChange={(e) => {
+                          const next = [...(draftConfig.footer?.partnerCountries || [])];
+                          next[index] = { ...next[index], color: e.target.value };
+                          updateFooter("partnerCountries", next);
+                        }}
+                      />
+                    </Field>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      onClick={() => {
+                        const next = [...(draftConfig.footer?.partnerCountries || [])];
+                        next.splice(index, 1);
+                        updateFooter("partnerCountries", next);
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full text-xs"
+                  onClick={() => {
+                    const next = [...(draftConfig.footer?.partnerCountries || []), { code: "", name: "", color: "" }];
+                    updateFooter("partnerCountries", next);
+                  }}
+                >
+                  Add Partner Country
+                </Button>
               </div>
-            ))}
+            </div>
+
+            <Field label="Copyright text" hint='Use "{year}" where the current year should appear.'>
+              <TextInput value={draftConfig.footer?.copyright || ""} onChange={(e) => updateFooter("copyright", e.target.value)} />
+            </Field>
           </div>
         </SectionCard>
+
 
         {/* BACKGROUND PAGE */}
         <SectionCard id="background-page" title="Background Page" description="Edit the Background page content." onSave={() => requestSave(async () => { setConfig((current) => ({ ...current, backgroundPage: draftConfig.backgroundPage })); toast.success("Background page saved!"); addNotification("Background page content has been updated.", "success", "Background Page Saved"); }, "Background Page")} saveLabel="Update Background Page">

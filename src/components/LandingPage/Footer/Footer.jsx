@@ -11,18 +11,8 @@ import {
 } from "lucide-react";
 import Logo from "../Logo/logo.jsx";
 import { useLandingPageConfig } from "../../../context/LandingPageConfigContext";
-import { partnerCountryNames } from "../afidffData";
 import corafLogo from "../../../assets/img/logo-coraf.png";
 import footerVideoThumb from "../../../assets/images/Gallery/gallery-11.jpeg";
-
-const quickLinks = [
-  { label: "Home", href: "/" },
-  { label: "Work", href: "/portfolio" },
-  { label: "Services", href: "/services" },
-  { label: "About", href: "/about" },
-  { label: "Clients", href: "/our-partners" },
-  { label: "Contact", href: "/contact" },
-];
 
 const socialIconMap = {
   Facebook,
@@ -32,27 +22,16 @@ const socialIconMap = {
   YouTube: Youtube,
 };
 
-const partnerCountryTiles = [
-  ["NG", "bg-[#0b8f3a]"],
-  ["CM", "bg-[#0f7abf]"],
-  ["KE", "bg-[#111827]"],
-  ["GH", "bg-[#ef4444]"],
-  ["US", "bg-[#1d4ed8]"],
-  ["BI", "bg-[#d97706]"],
-  ["UG", "bg-[#ef4444]"],
-  ["RW", "bg-[#0ea5e9]"],
-];
-
 function ExternalLink({ href, children, className }) {
-  const external = href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:");
+  const external = href?.startsWith("http") || href?.startsWith("mailto:") || href?.startsWith("tel:");
 
   if (external) {
     return (
       <a
         href={href}
         className={className}
-        target={href.startsWith("http") ? "_blank" : undefined}
-        rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+        target={href?.startsWith("http") ? "_blank" : undefined}
+        rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
       >
         {children}
       </a>
@@ -60,7 +39,7 @@ function ExternalLink({ href, children, className }) {
   }
 
   return (
-    <Link to={href} className={className}>
+    <Link to={href || "/"} className={className}>
       {children}
     </Link>
   );
@@ -89,14 +68,46 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   const footerConfig = config.footer ?? {};
+  
+  const tagline = footerConfig.tagline || "Stories that move capital.";
+  const subTagline = footerConfig.subTagline || "Together, let's tell meaningful stories that build the Africa we imagine.";
+  
+  const location = footerConfig.contact?.location || "Location: Mendong MAETUR - Yaounde, Cameroon.";
+  const phone = footerConfig.contact?.phone || "(+237) 671 646 331";
+  const whatsapp = footerConfig.contact?.whatsapp || "(+237) 691 377 313";
+  const email = footerConfig.contact?.email || "contact@olympianhouseintl.com";
+
+  const quickLinks = footerConfig.quickLinks || [
+    { label: "Home", href: "/" },
+    { label: "Work", href: "/portfolio" },
+    { label: "Services", href: "/services" },
+    { label: "About", href: "/about" },
+    { label: "Clients", href: "/our-partners" },
+    { label: "Contact", href: "/contact" },
+  ];
+
   const socialLinks = (footerConfig.socialLinks ?? []).map((item) => ({
     label: item.label,
     href: item.path,
     icon: socialIconMap[item.label] ?? Twitter,
   }));
 
-  const footerVideoUrl = footerConfig.videoUrl || "/OHI-video.mp4";
-  const footerThumb = footerConfig.videoThumb || footerVideoThumb;
+  const footerVideoUrl = footerConfig.whoWeAre?.videoUrl || footerConfig.videoUrl || "/OHI-video.mp4";
+  const footerThumb = footerConfig.whoWeAre?.videoThumb || footerConfig.videoThumb || footerVideoThumb;
+
+  const partnerCountries = footerConfig.partnerCountries || [
+    { code: "NG", name: "Nigeria", color: "bg-[#0b8f3a]" },
+    { code: "CM", name: "Cameroon", color: "bg-[#0f7abf]" },
+    { code: "KE", name: "Kenya", color: "bg-[#111827]" },
+    { code: "GH", name: "Ghana", color: "bg-[#ef4444]" },
+    { code: "US", name: "United States", color: "bg-[#1d4ed8]" },
+    { code: "BI", name: "Burundi", color: "bg-[#d97706]" },
+    { code: "UG", name: "Uganda", color: "bg-[#ef4444]" },
+    { code: "RW", name: "Rwanda", color: "bg-[#0ea5e9]" },
+  ];
+
+  const copyright = footerConfig.copyright || footerConfig.description || "Copyright © {year} All Rights Reserved. Designed by OLSTECH SOLUTIONS";
+  const displayCopyright = copyright.replace("{year}", year);
 
   return (
     <footer className="bg-black text-white">
@@ -106,51 +117,49 @@ const Footer = () => {
             <Logo className="h-11 brightness-0 invert" />
 
             <div className="mt-4">
-              <p className="text-xl font-bold tracking-[-0.03em] text-white">Stories that move capital.</p>
-              <p className="mt-1 text-xs italic text-white/50">Together, let's tell meaningful stories that build the Africa we imagine.</p>
+              <p className="text-xl font-bold tracking-[-0.03em] text-white">{tagline}</p>
+              <p className="mt-1 text-xs italic text-white/50">{subTagline}</p>
             </div>
 
             <div className="mt-5 space-y-4 text-sm leading-7 text-white/84">
-              <p>
-                Location: Mendong MAETUR - Yaounde, Cameroon.
-              </p>
+              <p>{location}</p>
               <p>
                 Phone:{" "}
                 <a
-                  href="tel:+237671646331"
+                  href={`tel:${phone.replace(/[^0-9+]/g, '')}`}
                   className="font-semibold text-white transition hover:text-[#f6b14c]"
                 >
-                  (+237) 671 646 331
+                  {phone}
                 </a>
               </p>
               <p>
                 WhatsApp:{" "}
                 <a
-                  href="https://wa.me/237691377313"
+                  href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`}
                   className="font-semibold text-white transition hover:text-[#f6b14c]"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  (+237) 691 377 313
+                  {whatsapp}
                 </a>
               </p>
               <p>
                 Email:{" "}
                 <a
-                  href="mailto:contact@olympianhouseintl.com"
+                  href={`mailto:${email}`}
                   className="font-semibold text-white transition hover:text-[#f6b14c]"
                 >
-                  contact@olympianhouseintl.com
+                  {email}
                 </a>
               </p>
             </div>
 
             <div className="mt-6 flex flex-wrap items-center gap-4">
-              {socialLinks.map((item) => {
+              {socialLinks.map((item, index) => {
                 const Icon = item.icon;
                 return (
                   <ExternalLink
-                    key={item.label}
+                    key={`${item.label}-${index}`}
                     href={item.href}
                     className="inline-flex h-9 w-9 items-center justify-center rounded-full text-[#3d8de3] transition hover:text-white"
                   >
@@ -164,8 +173,8 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-bold text-white">Quick Links</h3>
             <ul className="mt-5 space-y-2 text-sm text-white/76">
-              {quickLinks.map((link) => (
-                <li key={link.label}>
+              {quickLinks.map((link, index) => (
+                <li key={index}>
                   <ExternalLink
                     href={link.href}
                     className="transition hover:text-[#f6b14c]"
@@ -230,20 +239,20 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-bold text-white">Our Partner Countries</h3>
             <div className="mt-5 grid grid-cols-4 gap-2">
-              {partnerCountryTiles.map(([code, color]) => (
+              {partnerCountries.map((country, index) => (
                 <div
-                  key={code}
-                  className={`flex h-12 items-center justify-center rounded-sm text-xs font-bold text-white ${color}`}
+                  key={index}
+                  className={`flex h-12 items-center justify-center rounded-sm text-xs font-bold text-white ${country.color || 'bg-[#111827]'}`}
                 >
-                  {code}
+                  {country.code}
                 </div>
               ))}
             </div>
 
             <div className="mt-6 grid grid-cols-2 gap-2 text-[11px] text-white/78">
-              {partnerCountryNames.slice(0, 8).map((country) => (
-                <div key={country} className="rounded-sm border border-white/10 px-2 py-1">
-                  {country}
+              {partnerCountries.map((country, index) => (
+                <div key={index} className="rounded-sm border border-white/10 px-2 py-1">
+                  {country.name}
                 </div>
               ))}
             </div>
@@ -251,7 +260,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-12 border-t border-white/10 pt-5 text-sm text-white/70">
-          <p>Copyright © {year} All Rights Reserved. Designed by OLSTECH SOLUTIONS</p>
+          <p>{displayCopyright}</p>
         </div>
       </div>
 

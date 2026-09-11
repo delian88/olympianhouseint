@@ -11,6 +11,7 @@ import {
   ShieldCheckIcon,
   SparklesIcon,
   Settings2Icon,
+  LayoutTemplate,
 } from "lucide-react";
 import { useLandingPageConfig } from "../../context/LandingPageConfigContext";
 import { Badge } from "../../components/ui/badge";
@@ -43,48 +44,64 @@ const itemVariants = {
 };
 
 const editableItems = [
+
+
   {
     title: "Home",
     description: "Hero, theme, About, gallery, video, and footer sections.",
     icon: SparklesIcon,
     route: "/dashboard/landing-page#hero-content",
   },
+
+
   {
     title: "Documentary",
     description: "Hero, difference, overview, footprint, and feature blocks.",
     icon: PenToolIcon,
     route: "/dashboard/landing-page#company-profile",
   },
+
+
   {
     title: "About",
     description: "About page hero, intro, difference, snapshot, and close.",
     icon: Layers3Icon,
     route: "/dashboard/landing-page#about-page",
   },
+
+
   {
     title: "Services",
     description: "Services hero, formats, delivery approach, and showcase.",
     icon: PaletteIcon,
     route: "/dashboard/landing-page#services-page",
   },
+
+
   {
     title: "Portfolio",
     description: "Portfolio hero, header, projects, and method.",
     icon: Settings2Icon,
     route: "/dashboard/landing-page#portfolio-page",
   },
+
+
   {
     title: "Leadership",
     description: "Leadership hero, leader bio, and highlights.",
     icon: Settings2Icon,
     route: "/dashboard/landing-page#leadership-page",
   },
+
+
   {
     title: "Background",
     description: "Background page hero, founder story, and foundation.",
     icon: Layers3Icon,
     route: "/dashboard/landing-page#background-page",
   },
+
+
   {
     title: "Who We Serve",
     description: "Who we serve hero, sectors, strengths, and clients.",
@@ -92,11 +109,25 @@ const editableItems = [
     route: "/dashboard/landing-page#who-we-serve-page",
   },
 
+
+
   {
-    title: "Theme and footer",
-    description: "Primary colors and footer text/contact details.",
+    title: "Our Clients",
+    description: "Manage client logos, sectors, and client lists",
+    icon: LayoutTemplate,
+    route: "/dashboard/landing-page#our-clients-page"
+  },
+  {
+    title: "Theme",
+    description: "Primary colors and global settings.",
     icon: BadgeCheckIcon,
     route: "/dashboard/landing-page#theme-settings",
+  },
+  {
+    title: "Footer",
+    description: "Manage footer contact info, links, and partner countries.",
+    icon: LayoutGridIcon,
+    route: "/dashboard/landing-page#footer-settings",
   },
   {
     title: "Profile settings",
@@ -124,7 +155,9 @@ export function Overview() {
       variants={containerVariants}
       className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8"
     >
-      {/* Hero Banner */}
+    
+
+  {/* Hero Banner */}
       <motion.div variants={itemVariants}>
         <Card className="relative overflow-hidden border-border/80 bg-card/95 text-card-foreground shadow-[0_24px_70px_rgba(15,23,42,0.08)] backdrop-blur dark:shadow-[0_24px_70px_rgba(0,0,0,0.35)]">
           <div className="pointer-events-none absolute inset-0">
@@ -169,7 +202,9 @@ export function Overview() {
                       Sections
                     </p>
                     <p className="mt-1 text-lg font-bold text-foreground">
-                      {editableItems.length}
+                    
+
+  {editableItems.length}
                     </p>
                   </CardContent>
                 </Card>
@@ -242,12 +277,16 @@ export function Overview() {
         </Card>
       </motion.div>
 
-      {/* Editable Items Grid */}
+    
+
+  {/* Editable Items Grid */}
       <motion.div
         variants={containerVariants}
         className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3"
       >
-        {editableItems.map((item) => (
+      
+
+  {editableItems.map((item) => (
           <motion.div variants={itemVariants} key={item.title}>
             <Card className="group border-border/80 bg-card/90 text-card-foreground shadow-[0_16px_50px_rgba(15,23,42,0.06)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_rgba(15,23,42,0.1)] dark:shadow-[0_16px_50px_rgba(0,0,0,0.3)] h-full">
               <CardContent className="p-5">
@@ -258,12 +297,16 @@ export function Overview() {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-3">
                       <h2 className="text-lg font-bold text-foreground">
-                        {item.title}
+                      
+
+  {item.title}
                       </h2>
                       <Badge variant="secondary">Editable</Badge>
                     </div>
                     <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                      {item.description}
+                    
+
+  {item.description}
                     </p>
                     <Button
                       asChild
@@ -283,7 +326,9 @@ export function Overview() {
         ))}
       </motion.div>
 
-      {/* Bottom Row */}
+    
+
+  {/* Bottom Row */}
       <motion.div
         variants={containerVariants}
         className="mt-8 grid gap-6 lg:grid-cols-[1.08fr_0.92fr]"
@@ -301,12 +346,16 @@ export function Overview() {
             </CardHeader>
             <CardContent>
               <div className="grid gap-3 sm:grid-cols-2">
-                {scopeItems.map((item) => (
+              
+
+  {scopeItems.map((item) => (
                   <div
                     key={item}
                     className="rounded-2xl border border-border bg-muted/40 px-4 py-3 text-sm leading-6 text-muted-foreground dark:bg-muted/70 dark:text-slate-200"
                   >
-                    {item}
+                  
+
+  {item}
                   </div>
                 ))}
               </div>
@@ -329,7 +378,9 @@ export function Overview() {
                     Hero
                   </p>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    {config.hero.titleLine1} {config.hero.titleLine2}
+                  
+
+  {config.hero.titleLine1} {config.hero.titleLine2}
                   </p>
                 </CardContent>
               </Card>
@@ -339,7 +390,9 @@ export function Overview() {
                     About
                   </p>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    {config.about.title}
+                  
+
+  {config.about.title}
                   </p>
                 </CardContent>
               </Card>
@@ -349,7 +402,9 @@ export function Overview() {
                     Why OHI
                   </p>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    {config.whyChoose.title}
+                  
+
+  {config.whyChoose.title}
                   </p>
                 </CardContent>
               </Card>
@@ -359,7 +414,9 @@ export function Overview() {
                     Footer
                   </p>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    {config.footer.description}
+                  
+
+  {config.footer.description}
                   </p>
                 </CardContent>
               </Card>

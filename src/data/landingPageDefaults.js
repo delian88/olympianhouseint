@@ -629,6 +629,47 @@ export const landingPageDefaults = {
       { title: "Evidence & Credibility", description: "We treat proof as a creative discipline. Every claim we visualise is one our clients can stand behind." },
     ],
   },
+  ourClientsPage: {
+    hero: {
+      title: "Our Clients",
+      description: "Institutional clients, partners, and multilateral agencies that trust Olympian House International.",
+      primaryCtaLabel: "Contact Us",
+      primaryCtaHref: "/contact",
+      secondaryCtaLabel: "Our Team",
+      secondaryCtaHref: "/our-team",
+      badgeEyebrow: "OHI profile",
+      badgeDescription: "Strategic visibility for development, investment, and impact communication.",
+    },
+    whoWeServe: {
+      title: "Who we serve",
+      description: "A 95% repeat-client rate, built on trust earned across nearly a decade of institutional work.",
+      sectorsTitle: "Sectors we serve",
+      sectorsSubtitle: "Partners at the intersection of impact, investment, and communication.",
+      sectorsDescription: "OHI works with institutions that need credible, human-centred visual narratives to demonstrate impact, attract financing, and strengthen stakeholder trust.",
+      sectorsHighlights: [
+        "Development Finance Institutions",
+        "Multilateral & UN Agencies",
+        "Bilateral Development Institutions",
+        "Governments & Implementing Partners",
+        "Foundations",
+        "Private-Sector ESG & Social-Impact Programmes",
+      ],
+      darkBlockTitle: "Great storytelling for development",
+      darkBlockSubtitle: "The difference between a programme that is completed and one that is seen, trusted, and funded again.",
+      darkBlockDescription: "It is not about beauty alone. It is about credibility, evidence, and impact at scale.",
+    },
+    clients: {
+      title: "Our clients",
+      subtitle: "Trusted by leading institutions across Africa and beyond",
+      items: [
+        "Sun King", "Olam", "Olam Food Ingredients (OFI)", "IFRC", "CRTV",
+        "Les Laboratoires Biopharma", "EU Civil Protection & Humanitarian Aid", "HOFNA",
+        "#defyhatenow", "African Wildlife Foundation", "World Food Programme", "CORAF",
+        "Cosmos Educational Press", "International Rescue Committee", "AfriYAN",
+        "Cameroon Investment Promotion Agency (API)",
+      ]
+    }
+  },
   whoWeServePage: {
     hero: {
       title: "Who We Serve",
@@ -1124,6 +1165,47 @@ export const landingPageDefaults = {
         "Use the work across reports, launch materials, stakeholder meetings, digital campaigns, and partner communications.",
     },
   },
+  ourClientsPage: {
+    hero: {
+      title: "Our Clients",
+      description: "Institutional clients, partners, and multilateral agencies that trust Olympian House International.",
+      primaryCtaLabel: "Contact Us",
+      primaryCtaHref: "/contact",
+      secondaryCtaLabel: "Our Team",
+      secondaryCtaHref: "/our-team",
+      badgeEyebrow: "OHI profile",
+      badgeDescription: "Strategic visibility for development, investment, and impact communication.",
+    },
+    whoWeServe: {
+      title: "Who we serve",
+      description: "A 95% repeat-client rate, built on trust earned across nearly a decade of institutional work.",
+      sectorsTitle: "Sectors we serve",
+      sectorsSubtitle: "Partners at the intersection of impact, investment, and communication.",
+      sectorsDescription: "OHI works with institutions that need credible, human-centred visual narratives to demonstrate impact, attract financing, and strengthen stakeholder trust.",
+      sectorsHighlights: [
+        "Development Finance Institutions",
+        "Multilateral & UN Agencies",
+        "Bilateral Development Institutions",
+        "Governments & Implementing Partners",
+        "Foundations",
+        "Private-Sector ESG & Social-Impact Programmes",
+      ],
+      darkBlockTitle: "Great storytelling for development",
+      darkBlockSubtitle: "The difference between a programme that is completed and one that is seen, trusted, and funded again.",
+      darkBlockDescription: "It is not about beauty alone. It is about credibility, evidence, and impact at scale.",
+    },
+    clients: {
+      title: "Our clients",
+      subtitle: "Trusted by leading institutions across Africa and beyond",
+      items: [
+        "Sun King", "Olam", "Olam Food Ingredients (OFI)", "IFRC", "CRTV",
+        "Les Laboratoires Biopharma", "EU Civil Protection & Humanitarian Aid", "HOFNA",
+        "#defyhatenow", "African Wildlife Foundation", "World Food Programme", "CORAF",
+        "Cosmos Educational Press", "International Rescue Committee", "AfriYAN",
+        "Cameroon Investment Promotion Agency (API)",
+      ]
+    }
+  },
   whoWeServePage: {
     hero: {
       title: "Who We Serve",
@@ -1242,29 +1324,42 @@ export const landingPageDefaults = {
     },
   },
   footer: {
-    description:
-      "Copyright {year} Olympian House International. Development storytelling and strategic visibility across Africa.",
-    socialLinks: [
-      {
-        label: "Facebook",
-        path: "https://olympianhouseintl.com",
-      },
-      {
-        label: "Email",
-        path: "mailto:contact@olympianhouseintl.com",
-      },
-      {
-        label: "Phone",
-        path: "tel:+237671646331",
-      },
-      {
-        label: "LinkedIn",
-        path: "https://www.linkedin.com",
-      },
-      {
-        label: "X",
-        path: "https://x.com/IntHouse40288",
-      },
+    tagline: "Stories that move capital.",
+    subTagline: "Together, let's tell meaningful stories that build the Africa we imagine.",
+    contact: {
+      location: "Location: Mendong MAETUR - Yaounde, Cameroon.",
+      phone: "(+237) 671 646 331",
+      whatsapp: "(+237) 691 377 313",
+      email: "contact@olympianhouseintl.com"
+    },
+    quickLinks: [
+      { label: "Home", href: "/" },
+      { label: "Work", href: "/portfolio" },
+      { label: "Services", href: "/services" },
+      { label: "About", href: "/about" },
+      { label: "Clients", href: "/our-partners" },
+      { label: "Contact", href: "/contact" },
     ],
+    whoWeAre: {
+      videoUrl: "/OHI-video.mp4",
+    },
+    partnerCountries: [
+      { code: "NG", name: "Nigeria", color: "bg-[#0b8f3a]" },
+      { code: "CM", name: "Cameroon", color: "bg-[#0f7abf]" },
+      { code: "KE", name: "Kenya", color: "bg-[#111827]" },
+      { code: "GH", name: "Ghana", color: "bg-[#ef4444]" },
+      { code: "US", name: "United States", color: "bg-[#1d4ed8]" },
+      { code: "BI", name: "Burundi", color: "bg-[#d97706]" },
+      { code: "UG", name: "Uganda", color: "bg-[#ef4444]" },
+      { code: "RW", name: "Rwanda", color: "bg-[#0ea5e9]" },
+    ],
+    socialLinks: [
+      { label: "Facebook", path: "https://olympianhouseintl.com" },
+      { label: "Email", path: "mailto:contact@olympianhouseintl.com" },
+      { label: "Phone", path: "tel:+237671646331" },
+      { label: "LinkedIn", path: "https://www.linkedin.com" },
+      { label: "X", path: "https://x.com/IntHouse40288" },
+    ],
+    copyright: "Copyright © {year} All Rights Reserved. Designed by OLSTECH SOLUTIONS",
   },
 };
