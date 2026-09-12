@@ -4228,6 +4228,18 @@ export default function LandingPageManager() {
             </div>
           </div>
         </SectionCard>
+
+        {/* THEME SETTINGS */}
+        <SectionCard id="theme-settings" title="Theme Settings" description="Edit global colors for the site." onSave={() => requestSave(async () => { setConfig((current) => ({ ...current, theme: draftConfig.theme })); toast.success("Theme settings saved!"); addNotification("Theme settings have been updated.", "success", "Theme Saved"); }, "Theme")} saveLabel="Update Theme">
+          <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
+            <h3 className="text-lg font-bold text-foreground">Colors</h3>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Field label="Primary Color"><TextInput type="color" value={draftConfig.theme?.primaryColor || "#05c1ff"} onChange={(e) => updateTheme("primaryColor", e.target.value)} className="h-10 p-1" /></Field>
+              <Field label="Accent Color"><TextInput type="color" value={draftConfig.theme?.accentColor || "#f9a11b"} onChange={(e) => updateTheme("accentColor", e.target.value)} className="h-10 p-1" /></Field>
+              <Field label="Hero Button Text Color"><TextInput type="color" value={draftConfig.theme?.heroButtonText || "#ffffff"} onChange={(e) => updateTheme("heroButtonText", e.target.value)} className="h-10 p-1" /></Field>
+            </div>
+          </div>
+        </SectionCard>
       </div>
 
       <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>

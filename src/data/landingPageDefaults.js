@@ -1165,62 +1165,6 @@ export const landingPageDefaults = {
         "Use the work across reports, launch materials, stakeholder meetings, digital campaigns, and partner communications.",
     },
   },
-  ourClientsPage: {
-    hero: {
-      title: "Our Clients",
-      description: "Institutional clients, partners, and multilateral agencies that trust Olympian House International.",
-      primaryCtaLabel: "Contact Us",
-      primaryCtaHref: "/contact",
-      secondaryCtaLabel: "Our Team",
-      secondaryCtaHref: "/our-team",
-      badgeEyebrow: "OHI profile",
-      badgeDescription: "Strategic visibility for development, investment, and impact communication.",
-    },
-    whoWeServe: {
-      title: "Who we serve",
-      description: "A 95% repeat-client rate, built on trust earned across nearly a decade of institutional work.",
-      sectorsTitle: "Sectors we serve",
-      sectorsSubtitle: "Partners at the intersection of impact, investment, and communication.",
-      sectorsDescription: "OHI works with institutions that need credible, human-centred visual narratives to demonstrate impact, attract financing, and strengthen stakeholder trust.",
-      sectorsHighlights: [
-        "Development Finance Institutions",
-        "Multilateral & UN Agencies",
-        "Bilateral Development Institutions",
-        "Governments & Implementing Partners",
-        "Foundations",
-        "Private-Sector ESG & Social-Impact Programmes",
-      ],
-      darkBlockTitle: "Great storytelling for development",
-      darkBlockSubtitle: "The difference between a programme that is completed and one that is seen, trusted, and funded again.",
-      darkBlockDescription: "It is not about beauty alone. It is about credibility, evidence, and impact at scale.",
-    },
-    clients: {
-      title: "Our clients",
-      subtitle: "Trusted by leading institutions across Africa and beyond",
-      items: [
-        "Sun King", "Olam", "Olam Food Ingredients (OFI)", "IFRC", "CRTV",
-        "Les Laboratoires Biopharma", "EU Civil Protection & Humanitarian Aid", "HOFNA",
-        "#defyhatenow", "African Wildlife Foundation", "World Food Programme", "CORAF",
-        "Cosmos Educational Press", "International Rescue Committee", "AfriYAN",
-        "Cameroon Investment Promotion Agency (API)",
-      ]
-    }
-  },
-  whoWeServePage: {
-    hero: {
-      title: "Who We Serve",
-      description:
-        "OHI creates development communication that helps institutions, partners, and communities understand the work being done, why it matters, and why it deserves attention from capital and policy actors.",
-      primaryCtaLabel: "View Portfolio",
-      primaryCtaHref: "/portfolio",
-      secondaryCtaLabel: "Contact Us",
-      secondaryCtaHref: "/contact",
-      badgeEyebrow: "OHI profile",
-      badgeDescription:
-        "Strategic visibility for development, investment, and impact communication.",
-      image: gallery11,
-    },
-  },
   voices: {
     title: "Selected Voices",
     description:
