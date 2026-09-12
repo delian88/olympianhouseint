@@ -485,11 +485,22 @@ const Header = () => {
             {publicMenuSections.map((section) => (
               <div key={section.label} className="space-y-2">
                 <div className="rounded-2xl border border-[#eee3d2] px-4 py-3">
-                  <p className="text-sm font-semibold uppercase tracking-[0.02em] text-[#2b313a]">
-                    {section.label}
-                  </p>
+                  {section.href ? (
+                    <Link
+                      to={section.href}
+                      className="block text-sm font-semibold uppercase tracking-[0.02em] text-[#2b313a] transition hover:text-[#bb7422]"
+                      onClick={() => setIsDrawerOpen(false)}
+                    >
+                      {section.label}
+                    </Link>
+                  ) : (
+                    <p className="text-sm font-semibold uppercase tracking-[0.02em] text-[#2b313a]">
+                      {section.label}
+                    </p>
+                  )}
                 </div>
-                <div className="ml-4 space-y-1 border-l border-[#eee3d2] pl-4">
+                {section.items && section.items.length > 0 && (
+                  <div className="ml-4 space-y-1 border-l border-[#eee3d2] pl-4">
                   {section.items?.map((item, index) =>
                     item.isHeader ? (
                       <div key={`${item.label}-${index}`} className="space-y-1">
@@ -519,6 +530,7 @@ const Header = () => {
                     )
                   )}
                 </div>
+                )}
               </div>
             ))}
             <Link
