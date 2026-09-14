@@ -44,8 +44,12 @@ const itemVariants = {
 };
 
 const editableItems = [
-
-
+  {
+    title: "Full Editor",
+    description: "Access the complete landing page editor.",
+    icon: LayoutTemplate,
+    route: "/dashboard/landing-page",
+  },
   {
     title: "Home",
     description: "Hero, theme, About, gallery, video, and footer sections.",
