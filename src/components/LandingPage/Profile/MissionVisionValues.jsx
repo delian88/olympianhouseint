@@ -60,10 +60,18 @@ export const MissionVisionValues = () => {
                 {profile.valuesTitle}
               </p>
               <ul className="mt-6 space-y-3">
-                {profile.values.map((value) => (
-                  <li key={value} className="flex items-start gap-3 text-textColor">
-                    <span className="mt-2 h-2 w-2 rounded-full bg-primaryColor" />
-                    <span>{value}</span>
+                {profile.values.map((value, idx) => (
+                  <li key={idx} className="flex items-start gap-3 text-textColor">
+                    <span className="mt-2 h-2 w-2 rounded-full bg-primaryColor shrink-0" />
+                    <span className="flex flex-col gap-1">
+                      {typeof value === "object" ? (
+                        <span>
+                          <span className="font-semibold text-headingColor">{value.title}</span> — {value.description}
+                        </span>
+                      ) : (
+                        <span>{value}</span>
+                      )}
+                    </span>
                   </li>
                 ))}
               </ul>
