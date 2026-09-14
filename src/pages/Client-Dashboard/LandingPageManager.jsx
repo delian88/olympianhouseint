@@ -3795,7 +3795,7 @@ export default function LandingPageManager() {
               <ImageField 
                   label="Hero Image"
                   value={draftConfig.approachPage?.hero?.image || ""} 
-                  onChange={(url) => updateApproachPage("hero", "image", url)} 
+                  onChange={(e) => handleImageUpload(e, (url) => updateApproachPage("hero", "image", url))} 
                 />
                 <Field label="Hero title">
                 <TextInput value={draftConfig.approachPage?.hero?.title || ""} onChange={(e) => updateApproachPage("hero", "title", e.target.value)} />
@@ -3829,7 +3829,7 @@ export default function LandingPageManager() {
                   <ImageField 
                     label="Section Image"
                     value={draftConfig.approachPage?.howWeWork?.image || ""} 
-                    onChange={(url) => updateApproachPage("howWeWork", "image", url)} 
+                    onChange={(e) => handleImageUpload(e, (url) => updateApproachPage("howWeWork", "image", url))} 
                   />
                   <Field label="Section title">
                   <TextInput value={draftConfig.approachPage?.howWeWork?.title || ""} onChange={(e) => updateApproachPage("howWeWork", "title", e.target.value)} />
