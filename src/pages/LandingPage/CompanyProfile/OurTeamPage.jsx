@@ -6,8 +6,10 @@ import teamImageOne from "../../../assets/images/Gallery/gallery-09.jpeg";
 import teamImageTwo from "../../../assets/images/HeroImg/hero2.jpeg";
 import teamImageThree from "../../../assets/images/Gallery/gallery-12.jpeg";
 import teamImageFour from "../../../assets/images/Gallery/gallery-11.jpeg";
-import heroImage from "../../../assets/images/profile-hero-mountain.jpg";
+import defaultHeroImage from "../../../assets/images/profile-hero-mountain.jpg";
 import { teamMembers, boardMembers } from "../../../data/teamData";
+import { useLandingPageConfig } from "../../../context/LandingPageConfigContext";
+import { landingPageDefaults } from "../../../data/landingPageDefaults";
 
 const MemberCard = ({ member, dark = false }) => (
   <div className="group flex flex-col items-center text-center">
@@ -34,22 +36,27 @@ const MemberCard = ({ member, dark = false }) => (
 );
 
 const OurTeamPage = () => {
+  const { config } = useLandingPageConfig();
+  const leadershipPage = config.leadershipPage ?? landingPageDefaults.leadershipPage;
+  const hero = leadershipPage.hero ?? landingPageDefaults.leadershipPage.hero;
+  const currentTeamMembers = leadershipPage.teamMembers ?? landingPageDefaults.leadershipPage.teamMembers ?? teamMembers;
+
   return (
     <ProfilePageShell
-      title="Our Team"
-      heroImage={heroImage}
-      heroImageAlt="Our Team"
-      description="Meet the executives and regional leads who support OHI's institutional delivery across Africa and internationally. The team brings production, communications, and programme management experience to the organization's work."
+      title={hero.title || "Our Team"}
+      heroImage={hero.image ?? defaultHeroImage}
+      heroImageAlt={hero.title || "Our Team"}
+      description={hero.description}
       descriptionClassName="text-white"
-      primaryCta={{ label: "Contact Us", href: "/contact" }}
-      secondaryCta={{ label: "Learn More", href: "/about" }}
+      primaryCta={{ label: hero.primaryCtaLabel || "Contact Us", href: hero.primaryCtaHref || "/contact" }}
+      secondaryCta={{ label: hero.secondaryCtaLabel || "Learn More", href: hero.secondaryCtaHref || "/services" }}
       heroBadge={
         <div className="space-y-1">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/80">
-            Executive Team
+            {hero.badgeEyebrow || "Executive Team"}
           </p>
           <p className="text-sm leading-6 text-white/80">
-            Leadership and operational expertise shaping OHI's direction and delivery.
+            {hero.badgeDescription || "Leadership and operational expertise shaping OHI's direction and delivery."}
           </p>
         </div>
       }
@@ -63,8 +70,8 @@ const OurTeamPage = () => {
             className="max-w-2xl"
           />
           <div className="mt-12 grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4">
-            {teamMembers.map((member) => (
-              <MemberCard key={member.slug} member={member} />
+            {currentTeamMembers.map((member, index) => (
+              <MemberCard key={member.slug || index} member={member} />
             ))}
           </div>
         </div>

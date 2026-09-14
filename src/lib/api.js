@@ -45,7 +45,16 @@ async function request(path, options = {}) {
     signal: AbortSignal.timeout(120000), // 120 second timeout for large base64 payload
   });
 
-  const data = await res.json().catch(() => ({}));
+  let data;
+  try {
+    data = await res.json();
+  } catch (e) {
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+    // If it's a 200 but not JSON, something is wrong (like a stray index.html response)
+    throw new Error('Invalid API response format.');
+  }
 
   if (!res.ok) {
     const err = new Error(data.error || `HTTP ${res.status}`);
@@ -68,9 +77,10 @@ async function login(email, password) {
     method: 'POST',
     body: JSON.stringify({ email, password }),
   });
-  if (data.token) {
-    localStorage.setItem('ohi_token', data.token);
+  if (!data.token) {
+    throw new Error(data.error || 'Login failed: No token returned.');
   }
+  localStorage.setItem('ohi_token', data.token);
   return data;
 }
 

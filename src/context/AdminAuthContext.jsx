@@ -32,13 +32,23 @@ export function AdminAuthProvider({ children }) {
             loading: false,
           });
         })
-        .catch(() => {
-          api.logout();
-          setSession({
-            isAuthenticated: false,
-            user: null,
-            loading: false,
-          });
+        .catch((err) => {
+          console.error("Session check failed:", err);
+          if (err.status === 401 || err.status === 403 || err.status === 404) {
+            api.logout();
+            setSession({
+              isAuthenticated: false,
+              user: null,
+              loading: false,
+            });
+          } else {
+            // Network error or 500. Do not aggressively log out.
+            setSession({
+              isAuthenticated: true,
+              user: null,
+              loading: false,
+            });
+          }
         });
     } else {
       setSession({

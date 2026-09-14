@@ -1067,22 +1067,16 @@ export const landingPageDefaults = {
       badgeDescription:
         "Named leadership with the credibility procurement teams expect.",
     },
-    leader: {
-      name: "Oliver Mbuya Litondo",
-      role: "President, Olympian House International",
-      description:
-        "Oliver Mbuya Litondo leads OHI with a focus on institutional credibility, regional delivery, and communication that helps partners explain complex work clearly. His role combines editorial judgment, team coordination, and client-facing oversight so projects stay aligned with strategic goals from brief to final output.",
-      credentials: [
-        "Leadership across African and international production and communication settings",
-        "Institutional storytelling for development, public-sector, and impact partners",
-        "Operational oversight of cross-border teams and regional delivery",
-      ],
-      heroImage: hero5,
-    },
-    highlights: [
-      { title: "Strategic direction", description: "Sets the tone for projects that need to satisfy institutional, donor, and partner expectations." },
-      { title: "Trust and governance", description: "Keeps delivery, reporting, and relationship management aligned with professional standards." },
-      { title: "Regional reach", description: "Works across West, Central, East, and Southern Africa with a practical understanding of local context." },
+    teamMembers: [
+      { name: "Oliver Mbuya Litondo", title: "President", image: gallery01, slug: "oliver-mbuya-litondo" },
+      { name: "Balbasie N. Mandisha", title: "Director, Co-Founder", image: gallery02, slug: "balbasie-n-mandisha" },
+      { name: "Benjamin Ubiri", title: "Regional Director, West Africa", image: gallery03, slug: "benjamin-ubiri" },
+      { name: "Carreso Cota Amyta", title: "Regional Director, Southern Africa", image: gallery04, slug: "carreso-cota-amyta" },
+      { name: "Fombako Banke N", title: "Regional Director, Central Africa", image: gallery05, slug: "fombako-banke-n" },
+      { name: "Francis Etuk", title: "Consultant (Audit/Report)", image: gallery01, slug: "francis-etuk" },
+      { name: "Aizez Oowng Faborau", title: "Director, Growth and Opportunities", image: gallery02, slug: "aizez-oowng-faborau" },
+      { name: "Kalu Onuka", title: "Accountant", image: gallery03, slug: "kalu-onuka" },
+      { name: "James Kamaaka", title: "Content Communications Officer", image: gallery04, slug: "james-kamaaka" },
     ],
   },
   backgroundPage: {

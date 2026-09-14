@@ -779,16 +779,20 @@ export default function LandingPageManager() {
   };
 
   const updateApproachPage = (section, key, value) => {
-    setDraftConfig((current) => ({
-      ...current,
-      approachPage: {
-        ...current.approachPage,
-        [section]: {
-          ...current.approachPage?.[section],
-          [key]: value,
+    setDraftConfig((current) => {
+      const approachPage = current?.approachPage || {};
+      const sectionData = approachPage[section] || {};
+      return {
+        ...current,
+        approachPage: {
+          ...approachPage,
+          [section]: {
+            ...sectionData,
+            [key]: value,
+          },
         },
-      },
-    }));
+      };
+    });
   };
 
   const updateApproachPageRoot = (key, value) => {
@@ -912,12 +916,13 @@ export default function LandingPageManager() {
   };
 
   const handleImageUpload = async (event, apply) => {
-    const file = event.target.files?.[0];
+    const target = event.target;
+    const file = target?.files?.[0];
     if (!file) return;
 
     if (file.size > 10 * 1024 * 1024) {
       toast.error("Image file size exceeds the 10MB limit for free tier.");
-      event.target.value = "";
+      if (target) target.value = "";
       return;
     }
 
@@ -936,17 +941,20 @@ export default function LandingPageManager() {
       console.error(err);
       toast.error(err.message || "Could not upload that file", { id: toastId });
     } finally {
-      event.target.value = "";
+      if (target) {
+        target.value = "";
+      }
     }
   };
 
   const handleVideoUpload = async (event, apply) => {
-    const file = event.target.files?.[0];
+    const target = event.target;
+    const file = target?.files?.[0];
     if (!file) return;
 
     if (file.size > 100 * 1024 * 1024) {
       toast.error("Video file size exceeds the 100MB limit for free tier.");
-      event.target.value = "";
+      if (target) target.value = "";
       return;
     }
 
@@ -960,12 +968,14 @@ export default function LandingPageManager() {
         }
       });
       apply(data.url);
-      toast.success("Video uploaded!", { id: toastId });
+      toast.success("Video uploaded successfully", { id: toastId });
     } catch (err) {
       console.error(err);
-      toast.error(err.message || "Could not upload that video file", { id: toastId });
+      toast.error(err.message || "Could not upload video", { id: toastId });
     } finally {
-      event.target.value = "";
+      if (target) {
+        target.value = "";
+      }
     }
   };
 
@@ -1255,7 +1265,7 @@ export default function LandingPageManager() {
             toast.success("Value Proposition saved!");
             addNotification("Why institutions choose OHI section has been updated.", "success", "Value Proposition Saved");
           }, "Why Institutions Choose OHI")}
-          saveLabel="Update Value Proposition"
+          saveLabel="Update Why Institutions Choose OHI"
         >
           <div className="space-y-5">
             <Field label="Section title">
@@ -1300,6 +1310,13 @@ export default function LandingPageManager() {
                       onChange={(e) => updateValuePropositionTier(index, "href", e.target.value)}
                     />
                   </Field>
+                  <ImageField
+                    label="Card image"
+                    value={tier.image || ""}
+                    onChange={(e) =>
+                      handleImageUpload(e, (value) => updateValuePropositionTier(index, "image", value))
+                    }
+                  />
                   <div className="space-y-2">
                     <p className="text-sm font-semibold text-foreground">Bullet points</p>
                     {(tier.features ?? []).map((feature, fi) => (
@@ -3050,61 +3067,53 @@ export default function LandingPageManager() {
                 handleImageUpload(e, (value) => updateLeadershipPage("hero", "image", value))
               }
             />
-            <div className="grid gap-4 xl:grid-cols-2">
-              <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
-                <h3 className="text-lg font-bold text-foreground">Leader</h3>
-                <Field label="Leader name">
-                  <TextInput value={draftConfig.leadershipPage?.leader?.name || ""} onChange={(e) => updateLeadershipPage("leader", "name", e.target.value)} />
-                </Field>
-                <Field label="Leader role">
-                  <TextInput value={draftConfig.leadershipPage?.leader?.role || ""} onChange={(e) => updateLeadershipPage("leader", "role", e.target.value)} />
-                </Field>
-                <Field label="Leader description">
-                  <TextArea rows={5} value={draftConfig.leadershipPage?.leader?.description || ""} onChange={(e) => updateLeadershipPage("leader", "description", e.target.value)} />
-                </Field>
-                <ImageField
-                  label="Leader portrait"
-                  value={draftConfig.leadershipPage?.leader?.heroImage || ""}
-                  onChange={(e) =>
-                    handleImageUpload(e, (value) =>
-                      updateLeadershipPage("leader", "heroImage", value)
-                    )
-                  }
-                />
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-bold text-foreground">Team Members</h3>
+                <Button variant="outline" size="sm" onClick={() => {
+                  const next = [...(draftConfig.leadershipPage?.teamMembers || [])];
+                  next.push({ name: "", title: "", image: "", slug: "" });
+                  setDraftConfig(current => ({ ...current, leadershipPage: { ...current.leadershipPage, teamMembers: next } }));
+                }}>Add Member</Button>
               </div>
-              <div className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
-                <h3 className="text-lg font-bold text-foreground">Highlights</h3>
-                {(draftConfig.leadershipPage?.highlights || []).map((item, index) => (
-                  <div key={index} className="space-y-3 rounded-2xl border border-border bg-background p-4">
-                    <Field label={`Highlight ${index + 1} title`}>
-                      <TextInput
-                        value={item.title || ""}
-                        onChange={(e) => {
-                          const next = [...(draftConfig.leadershipPage?.highlights || [])];
-                          next[index] = { ...next[index], title: e.target.value };
-                          setDraftConfig((current) => ({
-                            ...current,
-                            leadershipPage: {
-                              ...current.leadershipPage,
-                              highlights: next,
-                            },
-                          }));
-                        }}
-                      />
-                    </Field>
-                    <Field label={`Highlight ${index + 1} description`}>
-                      <TextArea rows={3} value={item.description || ""} onChange={(e) => {
-                        const next = [...(draftConfig.leadershipPage?.highlights || [])];
-                        next[index] = { ...next[index], description: e.target.value };
-                        setDraftConfig((current) => ({
-                          ...current,
-                          leadershipPage: {
-                            ...current.leadershipPage,
-                            highlights: next,
-                          },
-                        }));
+              <div className="grid gap-4 xl:grid-cols-2">
+                {(draftConfig.leadershipPage?.teamMembers || []).map((member, index) => (
+                  <div key={index} className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4 relative pt-12">
+                    <Button variant="destructive" size="sm" className="absolute top-2 right-2" onClick={() => {
+                      const next = [...(draftConfig.leadershipPage?.teamMembers || [])];
+                      next.splice(index, 1);
+                      setDraftConfig(current => ({ ...current, leadershipPage: { ...current.leadershipPage, teamMembers: next } }));
+                    }}>Remove</Button>
+                    <Field label="Name">
+                      <TextInput value={member.name || ""} onChange={(e) => {
+                        const next = [...(draftConfig.leadershipPage?.teamMembers || [])];
+                        next[index] = { ...next[index], name: e.target.value };
+                        setDraftConfig(current => ({ ...current, leadershipPage: { ...current.leadershipPage, teamMembers: next } }));
                       }} />
                     </Field>
+                    <Field label="Title">
+                      <TextInput value={member.title || ""} onChange={(e) => {
+                        const next = [...(draftConfig.leadershipPage?.teamMembers || [])];
+                        next[index] = { ...next[index], title: e.target.value };
+                        setDraftConfig(current => ({ ...current, leadershipPage: { ...current.leadershipPage, teamMembers: next } }));
+                      }} />
+                    </Field>
+                    <Field label="Profile Slug">
+                      <TextInput value={member.slug || ""} onChange={(e) => {
+                        const next = [...(draftConfig.leadershipPage?.teamMembers || [])];
+                        next[index] = { ...next[index], slug: e.target.value };
+                        setDraftConfig(current => ({ ...current, leadershipPage: { ...current.leadershipPage, teamMembers: next } }));
+                      }} />
+                    </Field>
+                    <ImageField
+                      label="Image"
+                      value={member.image || ""}
+                      onChange={(e) => handleImageUpload(e, (value) => {
+                        const next = [...(draftConfig.leadershipPage?.teamMembers || [])];
+                        next[index] = { ...next[index], image: value };
+                        setDraftConfig(current => ({ ...current, leadershipPage: { ...current.leadershipPage, teamMembers: next } }));
+                      })}
+                    />
                   </div>
                 ))}
               </div>

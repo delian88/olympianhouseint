@@ -645,12 +645,7 @@ function Home() {
           </motion.div>
 
           <div className="mt-7 flex flex-wrap justify-center gap-3">
-            <Link
-              to="/client-voices"
-              className="inline-flex h-9 items-center justify-center bg-[#05c1ff] px-6 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-[#04a0d4] rounded-full shadow-md"
-            >
-              View Client Voices (Attestations & Photos)
-            </Link>
+
             <Link
               to={homePage.storytellers.ctaHref ?? "/contact"}
               className="inline-flex h-8 items-center justify-center bg-[#c65f25] px-4 text-xs font-semibold text-white transition hover:bg-[#a94f1f]"
@@ -707,6 +702,14 @@ function Home() {
               </motion.article>
             ))}
           </motion.div>
+          <Reveal className="mt-12 flex justify-center">
+            <Link
+              to="/client-voices"
+              className="rounded-full bg-[#00c2ff] px-6 py-3 text-[11px] sm:text-xs font-bold text-white shadow-sm hover:bg-[#00a8e0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00c2ff] uppercase tracking-wider text-center transition"
+            >
+              View Client Voices (Testimonials & Photos)
+            </Link>
+          </Reveal>
         </div>
       </section>
   ),

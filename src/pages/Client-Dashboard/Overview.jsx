@@ -25,6 +25,7 @@ import {
 import { Button } from "../../components/ui/button";
 import { motion } from "framer-motion";
 import { AnimatedText } from "../../components/ui/AnimatedText";
+import LandingPageManager from "./LandingPageManager";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -55,6 +56,12 @@ const editableItems = [
     description: "Hero, theme, About, gallery, video, and footer sections.",
     icon: SparklesIcon,
     route: "/dashboard/landing-page#hero-content",
+  },
+  {
+    title: "Why Institutions Choose OHI",
+    description: "Edit the value proposition and differentiator cards.",
+    icon: ShieldCheckIcon,
+    route: "/dashboard/landing-page#value-proposition",
   },
 
 
@@ -91,8 +98,8 @@ const editableItems = [
 
 
   {
-    title: "Leadership",
-    description: "Leadership hero, leader bio, and highlights.",
+    title: "Our Team",
+    description: "Our Team hero and team members grid.",
     icon: Settings2Icon,
     route: "/dashboard/landing-page#leadership-page",
   },
@@ -427,6 +434,15 @@ export function Overview() {
             </CardContent>
           </Card>
         </motion.div>
+      </motion.div>
+
+      {/* Embed the Landing Page Manager directly in the Overview */}
+      <motion.div variants={itemVariants} className="mt-12">
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">Content Editor</h2>
+          <p className="text-muted-foreground">Manage your website's public sections seamlessly.</p>
+        </div>
+        <LandingPageManager />
       </motion.div>
     </motion.div>
   );

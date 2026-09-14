@@ -61,7 +61,7 @@ export default function ValueProposition() {
             >
               <div className="h-32 sm:h-40 shrink-0 relative">
                 <img 
-                  src={images[index % images.length]} 
+                  src={tier.image || images[index % images.length]} 
                   alt={tier.name}
                   className="w-full h-full object-cover"
                 />
@@ -79,12 +79,7 @@ export default function ValueProposition() {
         </motion.div>
 
         <Reveal className="mt-12 flex flex-col sm:flex-row justify-center items-center gap-4">
-          <a
-            href="#client-voices"
-            className="rounded-full bg-[#00c2ff] px-6 py-3 text-[11px] sm:text-xs font-bold text-white shadow-sm hover:bg-[#00a8e0] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00c2ff] uppercase tracking-wider text-center transition"
-          >
-            View Client Voices (Testimonials & Photos)
-          </a>
+
           <Link
             to="/contact"
             className="rounded-full bg-[#e97a2f] px-6 py-3 text-[11px] sm:text-xs font-bold text-white shadow-sm hover:bg-[#d4661f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e97a2f] uppercase tracking-wider text-center transition"
