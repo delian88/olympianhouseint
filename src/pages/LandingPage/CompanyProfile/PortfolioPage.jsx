@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ReactDOM from "react-dom";
 import { ArrowRight, Play, X, Film } from "lucide-react";
 import { Link } from "react-router-dom";
 import ProfilePageShell from "../../../components/LandingPage/Profile/ProfilePageShell";
@@ -304,14 +305,16 @@ const PortfolioPage = () => {
         )}
       </section>
 
-      {/* Video Modal Player */}
-      {activeVideoProject && (
+    </ProfilePageShell>
+
+      {/* Video Modal Portal — rendered on body to escape ancestor transforms */}
+      {activeVideoProject && ReactDOM.createPortal(
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm animate-in fade-in duration-200 overflow-y-auto"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
           onClick={() => setActiveVideoProject(null)}
         >
           <div
-            className="relative w-full max-w-4xl my-auto overflow-hidden rounded-3xl bg-slate-900 shadow-2xl"
+            className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-slate-900 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -361,9 +364,9 @@ const PortfolioPage = () => {
               </div>
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
-    </ProfilePageShell>
   );
 };
 
