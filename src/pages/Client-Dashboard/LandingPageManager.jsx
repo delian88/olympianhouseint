@@ -3185,6 +3185,13 @@ export default function LandingPageManager() {
                         setDraftConfig(current => ({ ...current, leadershipPage: { ...current.leadershipPage, teamMembers: next } }));
                       }} placeholder="View Profile" />
                     </Field>
+                    <Field label="Bio / Profile Content">
+                      <TextArea rows={5} value={member.bio || ""} onChange={(e) => {
+                        const next = [...(draftConfig.leadershipPage?.teamMembers || [])];
+                        next[index] = { ...next[index], bio: e.target.value };
+                        setDraftConfig(current => ({ ...current, leadershipPage: { ...current.leadershipPage, teamMembers: next } }));
+                      }} placeholder="Enter the member's full biography or profile content here..." />
+                    </Field>
                     <ImageField
                       label="Image"
                       value={member.image || ""}

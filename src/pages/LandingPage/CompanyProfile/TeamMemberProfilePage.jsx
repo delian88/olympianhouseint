@@ -1,15 +1,18 @@
 import React from "react";
 import { useParams, Navigate, Link } from "react-router-dom";
 import { allMembers } from "../../../data/teamData";
+import { useLandingPageConfig } from "../../../context/LandingPageConfigContext";
 import ProfilePageShell from "../../../components/LandingPage/Profile/ProfilePageShell";
 import SectionHeader from "../../../components/LandingPage/SectionHeader";
 import heroImage from "../../../assets/images/profile-hero-mountain.jpg";
 
 const TeamMemberProfilePage = () => {
   const { slug } = useParams();
+  const { config } = useLandingPageConfig();
   
-  // Find the team member by slug
-  const member = allMembers.find((m) => m.slug === slug);
+  // Find the team member by slug from config first, then fallback to static data
+  const configMembers = config?.leadershipPage?.teamMembers || [];
+  const member = configMembers.find((m) => m.slug === slug) || allMembers.find((m) => m.slug === slug);
 
   if (!member) {
     return <Navigate to="/our-team" replace />;
@@ -55,15 +58,21 @@ const TeamMemberProfilePage = () => {
               />
               
               <div className="mt-8 space-y-6 text-[#4e5a67]">
-                <p>
-                  This is a placeholder for <strong>{member.name}</strong>'s biography. The team member currently serves as the <strong>{member.title}</strong> at Olympian House International (OHI).
-                </p>
-                <p>
-                  With extensive experience and dedication, {member.name.split(" ")[0]} brings valuable insights to our team and helps drive our mission forward. They are committed to ensuring our production, communications, and operational leadership meet the highest standards.
-                </p>
-                <p>
-                  <em>Note: Please update the member's biography in the future to include specific details about their background, achievements, and responsibilities.</em>
-                </p>
+                {member.bio ? (
+                  <div className="whitespace-pre-wrap">{member.bio}</div>
+                ) : (
+                  <>
+                    <p>
+                      This is a placeholder for <strong>{member.name}</strong>'s biography. The team member currently serves as the <strong>{member.title}</strong> at Olympian House International (OHI).
+                    </p>
+                    <p>
+                      With extensive experience and dedication, {member.name ? member.name.split(" ")[0] : "the member"} brings valuable insights to our team and helps drive our mission forward. They are committed to ensuring our production, communications, and operational leadership meet the highest standards.
+                    </p>
+                    <p>
+                      <em>Note: Please update the member's biography in the future to include specific details about their background, achievements, and responsibilities.</em>
+                    </p>
+                  </>
+                )}
               </div>
 
               <div className="mt-10">
