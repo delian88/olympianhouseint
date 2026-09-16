@@ -485,6 +485,34 @@ export default function LandingPageManager() {
     });
   };
 
+  const addServiceCard = () => {
+    setDraftConfig((current) => {
+      const cards = [...(current.services?.cards || [])];
+      cards.push({ name: "New Service", desc: "Service description", bgColor: "#f3f4f6", textColor: "#000000" });
+      return {
+        ...current,
+        services: {
+          ...current.services,
+          cards,
+        },
+      };
+    });
+  };
+
+  const removeServiceCard = (index) => {
+    setDraftConfig((current) => {
+      const cards = [...(current.services?.cards || [])];
+      cards.splice(index, 1);
+      return {
+        ...current,
+        services: {
+          ...current.services,
+          cards,
+        },
+      };
+    });
+  };
+
   const updateGallery = (key, value) => {
     setDraftConfig((current) => ({
       ...current,
@@ -2031,27 +2059,41 @@ export default function LandingPageManager() {
             <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
               {draftConfig.services.cards.map((card, index) => (
                 <div
-                  key={card.name}
+                  key={index} // Changed to index to prevent key issues when adding/deleting duplicates
                   className="rounded-2xl border border-border bg-muted/40 p-4"
                 >
-                  <Field label={`Card ${index + 1} title`}>
-                    <TextInput
-                      value={card.name}
-                      onChange={(e) =>
-                        updateServiceCard(index, "name", e.target.value)
-                      }
-                    />
-                  </Field>
-                  <Field label={`Card ${index + 1} description`}>
-                    <TextArea
-                      rows={4}
-                      value={card.desc}
-                      onChange={(e) =>
-                        updateServiceCard(index, "desc", e.target.value)
-                      }
-                    />
-                  </Field>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="flex items-center justify-between">
+                    <Field label={`Card ${index + 1} title`} className="flex-1">
+                      <TextInput
+                        value={card.name}
+                        onChange={(e) =>
+                          updateServiceCard(index, "name", e.target.value)
+                        }
+                      />
+                    </Field>
+                    <button
+                      className="ml-2 mt-6 text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-md transition-colors"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        removeServiceCard(index);
+                      }}
+                      title="Delete this service"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                    </button>
+                  </div>
+                  <div className="mt-2">
+                    <Field label={`Card ${index + 1} description`}>
+                      <TextArea
+                        rows={4}
+                        value={card.desc}
+                        onChange={(e) =>
+                          updateServiceCard(index, "desc", e.target.value)
+                        }
+                      />
+                    </Field>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 mt-2">
                     <Field label="Bg color">
                       <Input
                         type="text"
@@ -2075,6 +2117,17 @@ export default function LandingPageManager() {
                   </div>
                 </div>
               ))}
+            </div>
+            <div className="flex justify-end mt-4">
+              <button
+                className="h-9 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                onClick={(e) => {
+                  e.preventDefault();
+                  addServiceCard();
+                }}
+              >
+                Add Service Card
+              </button>
             </div>
           </div>
         </SectionCard>
@@ -2693,7 +2746,27 @@ export default function LandingPageManager() {
             <div className="grid gap-4 xl:grid-cols-2">
               {(draftConfig.servicesPage?.showcase || []).map((item, index) => (
                 <div key={index} className="space-y-4 rounded-2xl border border-border bg-muted/40 p-4">
-                  <h3 className="text-lg font-bold text-foreground">Showcase {index + 1}</h3>
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-bold text-foreground">Showcase {index + 1}</h3>
+                    <button
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-md transition-colors"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const next = [...(draftConfig.servicesPage?.showcase || [])];
+                        next.splice(index, 1);
+                        setDraftConfig((current) => ({
+                          ...current,
+                          servicesPage: {
+                            ...current.servicesPage,
+                            showcase: next,
+                          },
+                        }));
+                      }}
+                      title="Delete this box"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                    </button>
+                  </div>
                   <Field label={`Showcase ${index + 1} title`}>
                     <TextInput
                       value={item.title || ""}
