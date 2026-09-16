@@ -307,11 +307,11 @@ const PortfolioPage = () => {
       {/* Video Modal Player */}
       {activeVideoProject && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm animate-in fade-in duration-200 overflow-y-auto"
           onClick={() => setActiveVideoProject(null)}
         >
           <div
-            className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-slate-900 shadow-2xl"
+            className="relative w-full max-w-4xl my-auto overflow-hidden rounded-3xl bg-slate-900 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -338,7 +338,7 @@ const PortfolioPage = () => {
                 <iframe
                   src={getEmbedUrl(activeVideoProject.videoUrl)}
                   title={activeVideoProject.title}
-                  className="h-full w-full"
+                  className="absolute inset-0 h-full w-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 />
