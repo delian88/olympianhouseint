@@ -309,13 +309,25 @@ const PortfolioPage = () => {
 
       {/* Video Modal Portal — rendered on body to escape ancestor transforms */}
       {activeVideoProject && ReactDOM.createPortal(
-        <div
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
-          onClick={() => setActiveVideoProject(null)}
-        >
+        <>
+          {/* Backdrop */}
           <div
-            className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-slate-900 shadow-2xl"
+            style={{ position: "fixed", inset: 0, zIndex: 9998, background: "rgba(0,0,0,0.8)", backdropFilter: "blur(4px)" }}
+            onClick={() => setActiveVideoProject(null)}
+          />
+          {/* Modal — centred via transform */}
+          <div
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 9999,
+              width: "calc(100% - 2rem)",
+              maxWidth: "56rem",
+            }}
             onClick={(e) => e.stopPropagation()}
+            className="overflow-hidden rounded-3xl bg-slate-900 shadow-2xl"
           >
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-slate-800 bg-slate-950 px-6 py-4">
@@ -341,7 +353,7 @@ const PortfolioPage = () => {
                 <iframe
                   src={getEmbedUrl(activeVideoProject.videoUrl)}
                   title={activeVideoProject.title}
-                  className="absolute inset-0 h-full w-full"
+                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 />
@@ -364,7 +376,7 @@ const PortfolioPage = () => {
               </div>
             )}
           </div>
-        </div>,
+        </>,
         document.body
       )}
   );
