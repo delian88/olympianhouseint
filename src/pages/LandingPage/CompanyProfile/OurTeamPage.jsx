@@ -30,7 +30,7 @@ const MemberCard = ({ member, dark = false }) => (
       to={`/team/${member.slug}`}
       className={`mt-2 text-xs font-medium uppercase tracking-[0.12em] transition ${dark ? "text-white/70 hover:text-white" : "text-[#4e5a67] hover:text-[#F07F1A]"}`}
     >
-      View Profile
+      {member.ctaLabel || "View Profile"}
     </Link>
   </div>
 );

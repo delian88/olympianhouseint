@@ -3178,6 +3178,13 @@ export default function LandingPageManager() {
                         setDraftConfig(current => ({ ...current, leadershipPage: { ...current.leadershipPage, teamMembers: next } }));
                       }} />
                     </Field>
+                    <Field label="CTA Label (e.g. View Profile)">
+                      <TextInput value={member.ctaLabel || ""} onChange={(e) => {
+                        const next = [...(draftConfig.leadershipPage?.teamMembers || [])];
+                        next[index] = { ...next[index], ctaLabel: e.target.value };
+                        setDraftConfig(current => ({ ...current, leadershipPage: { ...current.leadershipPage, teamMembers: next } }));
+                      }} placeholder="View Profile" />
+                    </Field>
                     <ImageField
                       label="Image"
                       value={member.image || ""}
