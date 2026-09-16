@@ -100,7 +100,7 @@ export default function Dashboard() {
 
           <button
             onClick={scrollToTop}
-            className="fixed bottom-8 left-8 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-[#0f4c81] text-white shadow-lg transition-colors hover:bg-[#118ab2] dark:bg-[#118ab2] dark:hover:bg-[#0f4c81] focus:outline-none focus:ring-2 focus:ring-[#05c1ff] focus:ring-offset-2 dark:focus:ring-offset-slate-900"
+            className="fixed bottom-8 right-8 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-[#0f4c81] text-white shadow-lg transition-colors hover:bg-[#118ab2] dark:bg-[#118ab2] dark:hover:bg-[#0f4c81] focus:outline-none focus:ring-2 focus:ring-[#05c1ff] focus:ring-offset-2 dark:focus:ring-offset-slate-900"
             aria-label="Scroll to top"
           >
             <ArrowUp className="h-5 w-5" />
